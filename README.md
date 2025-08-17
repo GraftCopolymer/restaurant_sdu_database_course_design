@@ -1,3 +1,9 @@
+# Introduction
+
+A restaurant management system based on mobile app (using Flutter) and Go powered backend.
+
+Still work in progress...
+
 # Run
 
 ## Backend
