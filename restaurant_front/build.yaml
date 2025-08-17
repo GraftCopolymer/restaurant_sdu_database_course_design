@@ -1,0 +1,18 @@
+# builders:
+#   route_generator:
+#     import: "package:restaurant_management/generators/builder.dart"
+#     builder_factories: ["routeFactory"]
+#     build_extensions: {".dart": ["{{}}.route"]}
+#     auto_apply: root_package
+#     build_to: cache
+#   route_assembler:
+#     import: 'package:restaurant_management/generators/builder.dart'
+#     builder_factories: ["routeAssemblerFactory"]
+#     build_extensions: {'.dart': [".route_table.dart"]}
+#     build_to: source
+
+# targets:
+#   $default:
+#     builders:
+#       restaurant_management|route_assembler: {}
+#       restaurant_management|route_generator: {}

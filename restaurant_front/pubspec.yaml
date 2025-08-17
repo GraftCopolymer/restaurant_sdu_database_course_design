@@ -1,0 +1,34 @@
+name: restaurant_management
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # 网络请求
+  dio: ^5.8.0+1 
+  # 状态管理
+  flutter_riverpod: ^2.6.1 
+  riverpod_annotation: ^2.6.1
+  auto_route: ^10.1.0+1
+  grpc: ^4.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  # 代码生成
+  riverpod_generator: ^2.6.5
+  build_runner: ^2.5.4
+  # 自定义语法检查
+  custom_lint: ^0.7.6
+  riverpod_lint: ^2.6.5
+  source_gen: ^2.0.0
+  auto_route_generator: ^10.1.0
+
+flutter:
+  uses-material-design: true

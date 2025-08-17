@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package restaurant;
+
+option go_package = "pb/";
+
+// 桌子类型
+enum TableShape {
+  TABLE_TYPE_UNKNOWN = 0;
+  TABLE_TYPE_SQUARE = 1; // 方桌
+  TABLE_TYPE_RECT = 2; // 长桌
+}
+
+enum RoomType {
+  ROOM_TYPE_UNKNOWN = 0;
+  ROOM_TYPE_ALL = 1; // 必须全部包下
+  ROOM_TYPE_SHARE = 2; // 可以只包该房间内的部分餐桌
+}
+
+enum SellStatus {
+  SELL_STATUS_UNKNOWN = 0;
+  SELL_STATUS_SELLING = 1; // 在售
+  SELL_STATUS_SOLD_OUT = 2; // 售罄
+  SELL_STATUS_REMOVE = 3; // 下架
+}
+
+enum DishPortion {
+  DISH_PORTION_UNKNOWN = 0;
+  DISH_PORTION_SMALL = 1; // 小份
+  DISH_PORTION_MID = 2; // 中份
+  DISH_PORTION_BIG = 3; // 大份
+}
+
+enum UintType { // 统一使用国际单位
+  UINT_TYPE_UNKNOWN = 0;
+  UINT_TYPE_VOLUME = 1; // 体积, L
+  UINT_TYPE_MASS = 2; // 质量, KG
+  UINT_TYPE_PER = 3; // 份数, 整数
+}
+
+enum OrderType {
+  ORDER_TYPE_UNKNOWN = 0;
+  ORDER_TYPE_DINING_IN = 1; // 堂食
+  ORDER_TYPE_TAKE_OUT = 2; // 外卖
+}
+
+enum CouponType {
+  COUPON_TYPE_UNKNOWN = 0;
+  COUPON_TYPE_FIXED_AMOUNT = 1; // 固定金额优惠
+  COUPON_TYPE_PERCENTAGE = 2; // 百分比折扣
+}
+
+enum CouponScope {
+  COUPON_SCOPE_UNKNOWN = 0;
+  COUPON_SCOPE_ORDER_SCOPE = 1; // 作用于整个订单
+  COUPON_SCOPE_DISH_SCOPE = 2; // 作用于特定菜品
+}
+
+enum CouponTarget {
+  COUPON_TARGET_UNKNOWN = 0;
+  COUPON_TARGET_DISH_TARGET = 1; // 针对菜品
+  COUPON_TARGET_PORTION_TARGET = 2; // 针对份量
+}
