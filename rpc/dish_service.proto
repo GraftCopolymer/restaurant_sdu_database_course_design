@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package restaurant_rpc;
+option go_package = "restaurant_rpc/";
+
+import "google/protobuf/empty.proto";
+
+message Dish {
+    uint32 dishID = 1;
+    string dishName = 2;
+}
+
+message GetAllDishesResp {
+    repeated Dish dishes = 1;
+    int32 count = 2;
+}
+
+service DishService {
+    rpc GetAllDishes(google.protobuf.Empty) returns (GetAllDishesResp) {}
+}

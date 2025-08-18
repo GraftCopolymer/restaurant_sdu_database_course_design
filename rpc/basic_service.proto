@@ -3,6 +3,11 @@ package restaurant_rpc;
 
 option go_package = "restaurant_rpc/";
 
+message RespStatus {
+    int32 code = 1;
+    string message = 2;
+}
+
 message LoginReq {
     string username = 1;
     string password = 2;
@@ -11,8 +16,22 @@ message LoginReq {
 message LoginResp {
     string accessToken = 1;
     string refreshToken = 2;
+    RespStatus status = 3;
+}
+
+message RegisterReq {
+    string username = 1;
+    string password = 2;
+    string repeatedPassword = 3;
+}
+
+message RegisterResp {
+    string accessToken = 1;
+    string refreshToken = 2;
+    RespStatus status = 3;
 }
 
 service AuthService {
     rpc Login(LoginReq) returns (LoginResp) {}
+    rpc Register(RegisterReq) returns (RegisterResp) {}
 }

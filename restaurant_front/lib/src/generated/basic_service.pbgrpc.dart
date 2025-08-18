@@ -39,12 +39,23 @@ class AuthServiceClient extends $grpc.Client {
     return $createUnaryCall(_$login, request, options: options);
   }
 
+  $grpc.ResponseFuture<$0.RegisterResp> register(
+    $0.RegisterReq request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$register, request, options: options);
+  }
+
   // method descriptors
 
   static final _$login = $grpc.ClientMethod<$0.LoginReq, $0.LoginResp>(
       '/restaurant_rpc.AuthService/Login',
       ($0.LoginReq value) => value.writeToBuffer(),
       $0.LoginResp.fromBuffer);
+  static final _$register = $grpc.ClientMethod<$0.RegisterReq, $0.RegisterResp>(
+      '/restaurant_rpc.AuthService/Register',
+      ($0.RegisterReq value) => value.writeToBuffer(),
+      $0.RegisterResp.fromBuffer);
 }
 
 @$pb.GrpcServiceName('restaurant_rpc.AuthService')
@@ -59,6 +70,13 @@ abstract class AuthServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.LoginReq.fromBuffer(value),
         ($0.LoginResp value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.RegisterReq, $0.RegisterResp>(
+        'Register',
+        register_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.RegisterReq.fromBuffer(value),
+        ($0.RegisterResp value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.LoginResp> login_Pre(
@@ -68,4 +86,12 @@ abstract class AuthServiceBase extends $grpc.Service {
 
   $async.Future<$0.LoginResp> login(
       $grpc.ServiceCall call, $0.LoginReq request);
+
+  $async.Future<$0.RegisterResp> register_Pre(
+      $grpc.ServiceCall $call, $async.Future<$0.RegisterReq> $request) async {
+    return register($call, await $request);
+  }
+
+  $async.Future<$0.RegisterResp> register(
+      $grpc.ServiceCall call, $0.RegisterReq request);
 }

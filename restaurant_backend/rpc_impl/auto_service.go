@@ -10,6 +10,7 @@ import (
 )
 
 var jwtKey = []byte("my_secret_key")
+
 type AuthServer struct {
 	restaurant_rpc.UnimplementedAuthServiceServer
 }
@@ -31,5 +32,24 @@ func (s *AuthServer) Login(ctx context.Context, req *restaurant_rpc.LoginReq) (*
 		return nil, err
 	}
 
-	return &restaurant_rpc.LoginResp{AccessToken: tokenString}, nil
+	return &restaurant_rpc.LoginResp{AccessToken: tokenString, Status: &restaurant_rpc.RespStatus{Code: 0, Message: "Login success"}}, nil
+}
+
+func (s *AuthServer) Register(ctx context.Context, req *restaurant_rpc.RegisterReq) (*restaurant_rpc.RegisterResp, error) {
+	if req.Username == "admin" && req.Password == "123456" && req.RepeatedPassword == req.Password {
+		return &restaurant_rpc.RegisterResp{
+			AccessToken: "🐮",
+			RefreshToken: "🍺",
+			Status: &restaurant_rpc.RespStatus{
+				Code: 0,
+				Message: "太厉害啦",
+			},
+		}, nil
+	}
+	return &restaurant_rpc.RegisterResp{
+		Status: &restaurant_rpc.RespStatus{
+			Code: -1,
+			Message: "注册失败",
+		},
+	}, nil
 }

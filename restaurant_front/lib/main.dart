@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
-import 'package:restaurant_management/annotations/route_page.dart';
 import 'package:restaurant_management/route/app_router.dart';
 
 // 全局路由器
