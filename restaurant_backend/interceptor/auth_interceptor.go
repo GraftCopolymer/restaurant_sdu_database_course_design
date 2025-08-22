@@ -2,13 +2,15 @@ package interceptor
 
 import (
 	"context"
+	"errors"
+	"github.com/golang-jwt/jwt/v5"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+	config2 "restaurant_backend/config"
 	"restaurant_backend/database"
 	"restaurant_backend/logger"
-	myutils "restaurant_backend/my_utils"
 	"restaurant_backend/po"
 	"strings"
 	"time"
@@ -56,20 +58,42 @@ func AuthInterceptor() grpc.UnaryServerInterceptor {
 }
 
 func validateToken(token string) bool {
-	tokenStruct, err := myutils.ParseJWT2Struct(token)
-	if err != nil {
+	parsed, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		// 检查签名算法是否正确
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("不支持的签名方法")
+		}
+		return []byte(config2.Config.Auth.JwtSecretKey), nil
+	})
+	if err != nil || !parsed.Valid {
 		return false
 	}
-	if tokenStruct.Exp >= time.Now().UTC().Unix() {
-		// token已过期
+
+	claims, ok := parsed.Claims.(jwt.MapClaims)
+	if !ok {
 		return false
 	}
-	// 验证用户是否存在
-	userID := tokenStruct.UserID
+
+	// 过期时间检查
+	expFloat, ok := claims["exp"].(float64)
+	if !ok {
+		return false
+	}
+	if int64(expFloat) < time.Now().UTC().Unix() {
+		return false
+	}
+
+	// 用户 ID 检查
+	userIDFloat, ok := claims["user_id"].(float64)
+	if !ok {
+		return false
+	}
+	userID := uint(userIDFloat)
+
 	user := &po.Employee{}
-	err = database.DB().Where("id = ?", userID).First(&user).Error
-	if err != nil {
+	if err := database.DB().Where("id = ?", userID).First(&user).Error; err != nil {
 		return false
 	}
+
 	return true
 }
