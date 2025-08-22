@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/route/app_router.gr.dart' as r;
+import 'package:restaurant_management/src/generated/basic_service.pbenum.dart';
+import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/dashboard_card.dart';
 
 /// 仪表盘页面
@@ -14,6 +16,53 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  bool _isLoadingCard = true;
+  bool _hasError = false;
+  late List<Widget> _displayCards;
+
+  /// 刷新数据
+  Future<void> _refreshData() async {
+    _hasError = false;
+    _isLoadingCard = true;
+    setState(() {});
+    try {
+      final cards = await _getCards();
+      setState(() {
+        _isLoadingCard = false;
+        _hasError = false;
+        _displayCards = cards;
+      });
+    } catch (e, stack) {
+      Utils.report(e, stack);
+      setState(() {
+        _hasError = true;
+        _isLoadingCard = false;
+      });
+    }
+  }
+
+  /// 在这里添加需要显示的卡片builder
+  late final List<WidgetBuilder> cardBuilders = [
+    (context) {
+      // 成本管理
+      return DashboardCard(
+        child: _buildCardContent("成本管理", Icons.money),
+        onTap: () {
+          router.push(r.CostManagementRoute());
+        },
+      );
+    },
+    (context) {
+      // 菜品管理
+      return DashboardCard(
+        child: _buildCardContent("菜品管理", Icons.dining_outlined),
+        onTap: () {
+          router.push(r.DishManagementRoute());
+        },
+      );
+    },
+  ];
+
   Widget _buildCardContent(String title, IconData icon) {
     return Center(
       child: Column(
@@ -25,8 +74,103 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
+  Future<List<Widget>> _getEmployeeCards() async {
+    if (!await Utils.isLogin()) {
+      return [];
+    }
+    final employeeCards = [
+      DashboardCard(
+        child: _buildCardContent("成本管理", Icons.money),
+        onTap: () {
+          router.push(r.CostManagementRoute());
+        },
+      ),
+      DashboardCard(
+        child: _buildCardContent("菜品管理", Icons.dining_outlined),
+        onTap: () {
+          router.push(r.DishManagementRoute());
+        },
+      ),
+    ];
+    return employeeCards;
+  }
+
+  Future<List<Widget>> _getCustomersCards() async {
+    if (!await Utils.isLogin()) {
+      return [];
+    }
+    final customerCards = [
+      DashboardCard(
+        child: _buildCardContent("点餐", Icons.dining_outlined),
+        onTap: () {
+          router.push(r.SalesDataRoute());
+        },
+      ),
+    ];
+    return customerCards;
+  }
+
+  Future<List<Widget>> _getCards() async {
+    if (!await Utils.isLogin()) {
+      return [];
+    }
+    final loginRole = await Utils.getLoginRole();
+    if (loginRole == null || loginRole == LoginRole.LOGIN_ROLE_UNKNOWN)
+      return [];
+    if (loginRole == LoginRole.LOGIN_ROLE_CUSTOMER) {
+      return _getCustomersCards();
+    } else if (loginRole == LoginRole.LOGIN_ROLE_EMPLOYEE) {
+      return _getEmployeeCards();
+    } else {
+      return [];
+    }
+  }
+
+  Widget _buildErrorView() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.warning_amber_rounded, color: Colors.red, size: 64),
+            Text("获取数据失败"),
+            TextButton(
+              onPressed: () {
+                _refreshData();
+              },
+              child: Text("重试"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingView() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [CircularProgressIndicator(), Text("加载中...")],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_hasError) {
+      return _buildErrorView();
+    }
+    if (_isLoadingCard) {
+      return _buildLoadingView();
+    }
     // 根据屏幕旋转状态决定列数
     late int columnCount;
     final orientation = MediaQuery.of(context).orientation;
@@ -38,29 +182,29 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.count(
-          crossAxisCount: columnCount,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-          children: [
-            DashboardCard(
-              child: _buildCardContent("成本管理", Icons.money),
-              onTap: () {
-                router.push(r.CostManagementRoute());
-              },
-            ),
-            DashboardCard(
-              child: _buildCardContent("菜品管理", Icons.dining_outlined),
-              onTap: () {
-                router.push(r.DishManagementRoute());
-              },
-            ),
-          ],
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: columnCount,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+          ),
+          itemCount: cardBuilders.length,
+          itemBuilder: (context, index) {
+            return cardBuilders[index](context);
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          router.push(r.LoginRoute());
+        onPressed: () {
+          router.push(
+            r.LoginRoute(
+              onLoginResult: (p0) {
+                // 登录成功后返回
+                if (p0) router.back();
+              },
+            ),
+          );
+          // router.push(r.PermissionDeniedRoute());
         },
         child: Icon(Icons.login),
       ),

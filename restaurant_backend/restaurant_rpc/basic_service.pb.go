@@ -9,6 +9,7 @@ package restaurant_rpc
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -20,6 +21,104 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+type LoginRole int32
+
+const (
+	LoginRole_LOGIN_ROLE_UNKNOWN  LoginRole = 0 // 未知登录角色
+	LoginRole_LOGIN_ROLE_CUSTOMER LoginRole = 1 // 顾客角色
+	LoginRole_LOGIN_ROLE_EMPLOYEE LoginRole = 2 // 雇员角色
+)
+
+// Enum value maps for LoginRole.
+var (
+	LoginRole_name = map[int32]string{
+		0: "LOGIN_ROLE_UNKNOWN",
+		1: "LOGIN_ROLE_CUSTOMER",
+		2: "LOGIN_ROLE_EMPLOYEE",
+	}
+	LoginRole_value = map[string]int32{
+		"LOGIN_ROLE_UNKNOWN":  0,
+		"LOGIN_ROLE_CUSTOMER": 1,
+		"LOGIN_ROLE_EMPLOYEE": 2,
+	}
+)
+
+func (x LoginRole) Enum() *LoginRole {
+	p := new(LoginRole)
+	*p = x
+	return p
+}
+
+func (x LoginRole) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LoginRole) Descriptor() protoreflect.EnumDescriptor {
+	return file_basic_service_proto_enumTypes[0].Descriptor()
+}
+
+func (LoginRole) Type() protoreflect.EnumType {
+	return &file_basic_service_proto_enumTypes[0]
+}
+
+func (x LoginRole) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LoginRole.Descriptor instead.
+func (LoginRole) EnumDescriptor() ([]byte, []int) {
+	return file_basic_service_proto_rawDescGZIP(), []int{0}
+}
+
+type EmployeeRole int32
+
+const (
+	EmployeeRole_ROLE_UNKNOWN EmployeeRole = 0
+	EmployeeRole_ROLE_ADMIN   EmployeeRole = 1
+	EmployeeRole_ROLE_MANAGER EmployeeRole = 2
+)
+
+// Enum value maps for EmployeeRole.
+var (
+	EmployeeRole_name = map[int32]string{
+		0: "ROLE_UNKNOWN",
+		1: "ROLE_ADMIN",
+		2: "ROLE_MANAGER",
+	}
+	EmployeeRole_value = map[string]int32{
+		"ROLE_UNKNOWN": 0,
+		"ROLE_ADMIN":   1,
+		"ROLE_MANAGER": 2,
+	}
+)
+
+func (x EmployeeRole) Enum() *EmployeeRole {
+	p := new(EmployeeRole)
+	*p = x
+	return p
+}
+
+func (x EmployeeRole) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (EmployeeRole) Descriptor() protoreflect.EnumDescriptor {
+	return file_basic_service_proto_enumTypes[1].Descriptor()
+}
+
+func (EmployeeRole) Type() protoreflect.EnumType {
+	return &file_basic_service_proto_enumTypes[1]
+}
+
+func (x EmployeeRole) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use EmployeeRole.Descriptor instead.
+func (EmployeeRole) EnumDescriptor() ([]byte, []int) {
+	return file_basic_service_proto_rawDescGZIP(), []int{1}
+}
 
 type RespStatus struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -74,11 +173,12 @@ func (x *RespStatus) GetMessage() string {
 }
 
 type LoginReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
-	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	UsernameOrPhone string                 `protobuf:"bytes,1,opt,name=usernameOrPhone,proto3" json:"usernameOrPhone,omitempty"`
+	Password        string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Role            LoginRole              `protobuf:"varint,3,opt,name=role,proto3,enum=restaurant_rpc.LoginRole" json:"role,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *LoginReq) Reset() {
@@ -111,9 +211,9 @@ func (*LoginReq) Descriptor() ([]byte, []int) {
 	return file_basic_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *LoginReq) GetUsername() string {
+func (x *LoginReq) GetUsernameOrPhone() string {
 	if x != nil {
-		return x.Username
+		return x.UsernameOrPhone
 	}
 	return ""
 }
@@ -125,11 +225,21 @@ func (x *LoginReq) GetPassword() string {
 	return ""
 }
 
+func (x *LoginReq) GetRole() LoginRole {
+	if x != nil {
+		return x.Role
+	}
+	return LoginRole_LOGIN_ROLE_UNKNOWN
+}
+
 type LoginResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AccessToken   string                 `protobuf:"bytes,1,opt,name=accessToken,proto3" json:"accessToken,omitempty"`
 	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refreshToken,proto3" json:"refreshToken,omitempty"`
 	Status        *RespStatus            `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	UserID        uint32                 `protobuf:"varint,4,opt,name=userID,proto3" json:"userID,omitempty"`
+	Role          LoginRole              `protobuf:"varint,5,opt,name=role,proto3,enum=restaurant_rpc.LoginRole" json:"role,omitempty"`
+	EmployeeRole  EmployeeRole           `protobuf:"varint,6,opt,name=employeeRole,proto3,enum=restaurant_rpc.EmployeeRole" json:"employeeRole,omitempty"` // 仅雇员时该字段有值
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -185,11 +295,33 @@ func (x *LoginResp) GetStatus() *RespStatus {
 	return nil
 }
 
+func (x *LoginResp) GetUserID() uint32 {
+	if x != nil {
+		return x.UserID
+	}
+	return 0
+}
+
+func (x *LoginResp) GetRole() LoginRole {
+	if x != nil {
+		return x.Role
+	}
+	return LoginRole_LOGIN_ROLE_UNKNOWN
+}
+
+func (x *LoginResp) GetEmployeeRole() EmployeeRole {
+	if x != nil {
+		return x.EmployeeRole
+	}
+	return EmployeeRole_ROLE_UNKNOWN
+}
+
 type RegisterReq struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Username         string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	Password         string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	RepeatedPassword string                 `protobuf:"bytes,3,opt,name=repeatedPassword,proto3" json:"repeatedPassword,omitempty"`
+	Phone            string                 `protobuf:"bytes,4,opt,name=phone,proto3" json:"phone,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -245,11 +377,20 @@ func (x *RegisterReq) GetRepeatedPassword() string {
 	return ""
 }
 
+func (x *RegisterReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
 type RegisterResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AccessToken   string                 `protobuf:"bytes,1,opt,name=accessToken,proto3" json:"accessToken,omitempty"`
 	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refreshToken,proto3" json:"refreshToken,omitempty"`
 	Status        *RespStatus            `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	UserID        uint32                 `protobuf:"varint,4,opt,name=userID,proto3" json:"userID,omitempty"`
+	Role          LoginRole              `protobuf:"varint,5,opt,name=role,proto3,enum=restaurant_rpc.LoginRole" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -305,33 +446,341 @@ func (x *RegisterResp) GetStatus() *RespStatus {
 	return nil
 }
 
+func (x *RegisterResp) GetUserID() uint32 {
+	if x != nil {
+		return x.UserID
+	}
+	return 0
+}
+
+func (x *RegisterResp) GetRole() LoginRole {
+	if x != nil {
+		return x.Role
+	}
+	return LoginRole_LOGIN_ROLE_UNKNOWN
+}
+
+type RefreshTokenReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refreshToken,proto3" json:"refreshToken,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefreshTokenReq) Reset() {
+	*x = RefreshTokenReq{}
+	mi := &file_basic_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefreshTokenReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefreshTokenReq) ProtoMessage() {}
+
+func (x *RefreshTokenReq) ProtoReflect() protoreflect.Message {
+	mi := &file_basic_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefreshTokenReq.ProtoReflect.Descriptor instead.
+func (*RefreshTokenReq) Descriptor() ([]byte, []int) {
+	return file_basic_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *RefreshTokenReq) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
+	}
+	return ""
+}
+
+type RefreshTokenResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccessToken   string                 `protobuf:"bytes,1,opt,name=accessToken,proto3" json:"accessToken,omitempty"`
+	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refreshToken,proto3" json:"refreshToken,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefreshTokenResp) Reset() {
+	*x = RefreshTokenResp{}
+	mi := &file_basic_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefreshTokenResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefreshTokenResp) ProtoMessage() {}
+
+func (x *RefreshTokenResp) ProtoReflect() protoreflect.Message {
+	mi := &file_basic_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefreshTokenResp.ProtoReflect.Descriptor instead.
+func (*RefreshTokenResp) Descriptor() ([]byte, []int) {
+	return file_basic_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RefreshTokenResp) GetAccessToken() string {
+	if x != nil {
+		return x.AccessToken
+	}
+	return ""
+}
+
+func (x *RefreshTokenResp) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
+	}
+	return ""
+}
+
+type CanRegisterAdminResp struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	CanRegisterAdmin bool                   `protobuf:"varint,1,opt,name=canRegisterAdmin,proto3" json:"canRegisterAdmin,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *CanRegisterAdminResp) Reset() {
+	*x = CanRegisterAdminResp{}
+	mi := &file_basic_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CanRegisterAdminResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CanRegisterAdminResp) ProtoMessage() {}
+
+func (x *CanRegisterAdminResp) ProtoReflect() protoreflect.Message {
+	mi := &file_basic_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CanRegisterAdminResp.ProtoReflect.Descriptor instead.
+func (*CanRegisterAdminResp) Descriptor() ([]byte, []int) {
+	return file_basic_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CanRegisterAdminResp) GetCanRegisterAdmin() bool {
+	if x != nil {
+		return x.CanRegisterAdmin
+	}
+	return false
+}
+
+type RegisterAdminReq struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Phone            string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	Password         string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	RepeatedPassword string                 `protobuf:"bytes,3,opt,name=repeatedPassword,proto3" json:"repeatedPassword,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *RegisterAdminReq) Reset() {
+	*x = RegisterAdminReq{}
+	mi := &file_basic_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterAdminReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterAdminReq) ProtoMessage() {}
+
+func (x *RegisterAdminReq) ProtoReflect() protoreflect.Message {
+	mi := &file_basic_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterAdminReq.ProtoReflect.Descriptor instead.
+func (*RegisterAdminReq) Descriptor() ([]byte, []int) {
+	return file_basic_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *RegisterAdminReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *RegisterAdminReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *RegisterAdminReq) GetRepeatedPassword() string {
+	if x != nil {
+		return x.RepeatedPassword
+	}
+	return ""
+}
+
+type RegisterAdminResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccessToken   string                 `protobuf:"bytes,1,opt,name=accessToken,proto3" json:"accessToken,omitempty"`
+	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refreshToken,proto3" json:"refreshToken,omitempty"`
+	UserID        uint32                 `protobuf:"varint,3,opt,name=userID,proto3" json:"userID,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterAdminResp) Reset() {
+	*x = RegisterAdminResp{}
+	mi := &file_basic_service_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterAdminResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterAdminResp) ProtoMessage() {}
+
+func (x *RegisterAdminResp) ProtoReflect() protoreflect.Message {
+	mi := &file_basic_service_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterAdminResp.ProtoReflect.Descriptor instead.
+func (*RegisterAdminResp) Descriptor() ([]byte, []int) {
+	return file_basic_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *RegisterAdminResp) GetAccessToken() string {
+	if x != nil {
+		return x.AccessToken
+	}
+	return ""
+}
+
+func (x *RegisterAdminResp) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
+	}
+	return ""
+}
+
+func (x *RegisterAdminResp) GetUserID() uint32 {
+	if x != nil {
+		return x.UserID
+	}
+	return 0
+}
+
 var File_basic_service_proto protoreflect.FileDescriptor
 
 const file_basic_service_proto_rawDesc = "" +
 	"\n" +
-	"\x13basic_service.proto\x12\x0erestaurant_rpc\":\n" +
+	"\x13basic_service.proto\x12\x0erestaurant_rpc\x1a\x1bgoogle/protobuf/empty.proto\":\n" +
 	"\n" +
 	"RespStatus\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"B\n" +
-	"\bLoginReq\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x85\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\x7f\n" +
+	"\bLoginReq\x12(\n" +
+	"\x0fusernameOrPhone\x18\x01 \x01(\tR\x0fusernameOrPhone\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12-\n" +
+	"\x04role\x18\x03 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\"\x8e\x02\n" +
 	"\tLoginResp\x12 \n" +
 	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\x12\"\n" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\x122\n" +
-	"\x06status\x18\x03 \x01(\v2\x1a.restaurant_rpc.RespStatusR\x06status\"q\n" +
+	"\x06status\x18\x03 \x01(\v2\x1a.restaurant_rpc.RespStatusR\x06status\x12\x16\n" +
+	"\x06userID\x18\x04 \x01(\rR\x06userID\x12-\n" +
+	"\x04role\x18\x05 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\x12@\n" +
+	"\femployeeRole\x18\x06 \x01(\x0e2\x1c.restaurant_rpc.EmployeeRoleR\femployeeRole\"\x87\x01\n" +
 	"\vRegisterReq\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12*\n" +
-	"\x10repeatedPassword\x18\x03 \x01(\tR\x10repeatedPassword\"\x88\x01\n" +
+	"\x10repeatedPassword\x18\x03 \x01(\tR\x10repeatedPassword\x12\x14\n" +
+	"\x05phone\x18\x04 \x01(\tR\x05phone\"\xcf\x01\n" +
 	"\fRegisterResp\x12 \n" +
 	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\x12\"\n" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\x122\n" +
-	"\x06status\x18\x03 \x01(\v2\x1a.restaurant_rpc.RespStatusR\x06status2\x96\x01\n" +
+	"\x06status\x18\x03 \x01(\v2\x1a.restaurant_rpc.RespStatusR\x06status\x12\x16\n" +
+	"\x06userID\x18\x04 \x01(\rR\x06userID\x12-\n" +
+	"\x04role\x18\x05 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\"5\n" +
+	"\x0fRefreshTokenReq\x12\"\n" +
+	"\frefreshToken\x18\x01 \x01(\tR\frefreshToken\"X\n" +
+	"\x10RefreshTokenResp\x12 \n" +
+	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\x12\"\n" +
+	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\"B\n" +
+	"\x14CanRegisterAdminResp\x12*\n" +
+	"\x10canRegisterAdmin\x18\x01 \x01(\bR\x10canRegisterAdmin\"p\n" +
+	"\x10RegisterAdminReq\x12\x14\n" +
+	"\x05phone\x18\x01 \x01(\tR\x05phone\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12*\n" +
+	"\x10repeatedPassword\x18\x03 \x01(\tR\x10repeatedPassword\"q\n" +
+	"\x11RegisterAdminResp\x12 \n" +
+	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\x12\"\n" +
+	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\x12\x16\n" +
+	"\x06userID\x18\x03 \x01(\rR\x06userID*U\n" +
+	"\tLoginRole\x12\x16\n" +
+	"\x12LOGIN_ROLE_UNKNOWN\x10\x00\x12\x17\n" +
+	"\x13LOGIN_ROLE_CUSTOMER\x10\x01\x12\x17\n" +
+	"\x13LOGIN_ROLE_EMPLOYEE\x10\x02*B\n" +
+	"\fEmployeeRole\x12\x10\n" +
+	"\fROLE_UNKNOWN\x10\x00\x12\x0e\n" +
+	"\n" +
+	"ROLE_ADMIN\x10\x01\x12\x10\n" +
+	"\fROLE_MANAGER\x10\x022\x97\x03\n" +
 	"\vAuthService\x12>\n" +
 	"\x05Login\x12\x18.restaurant_rpc.LoginReq\x1a\x19.restaurant_rpc.LoginResp\"\x00\x12G\n" +
-	"\bRegister\x12\x1b.restaurant_rpc.RegisterReq\x1a\x1c.restaurant_rpc.RegisterResp\"\x00B\x11Z\x0frestaurant_rpc/b\x06proto3"
+	"\bRegister\x12\x1b.restaurant_rpc.RegisterReq\x1a\x1c.restaurant_rpc.RegisterResp\"\x00\x12S\n" +
+	"\fRefreshToken\x12\x1f.restaurant_rpc.RefreshTokenReq\x1a .restaurant_rpc.RefreshTokenResp\"\x00\x12R\n" +
+	"\x10CanRegisterAdmin\x12\x16.google.protobuf.Empty\x1a$.restaurant_rpc.CanRegisterAdminResp\"\x00\x12V\n" +
+	"\rRegisterAdmin\x12 .restaurant_rpc.RegisterAdminReq\x1a!.restaurant_rpc.RegisterAdminResp\"\x00B\x11Z\x0frestaurant_rpc/b\x06proto3"
 
 var (
 	file_basic_service_proto_rawDescOnce sync.Once
@@ -345,26 +794,45 @@ func file_basic_service_proto_rawDescGZIP() []byte {
 	return file_basic_service_proto_rawDescData
 }
 
-var file_basic_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_basic_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_basic_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_basic_service_proto_goTypes = []any{
-	(*RespStatus)(nil),   // 0: restaurant_rpc.RespStatus
-	(*LoginReq)(nil),     // 1: restaurant_rpc.LoginReq
-	(*LoginResp)(nil),    // 2: restaurant_rpc.LoginResp
-	(*RegisterReq)(nil),  // 3: restaurant_rpc.RegisterReq
-	(*RegisterResp)(nil), // 4: restaurant_rpc.RegisterResp
+	(LoginRole)(0),               // 0: restaurant_rpc.LoginRole
+	(EmployeeRole)(0),            // 1: restaurant_rpc.EmployeeRole
+	(*RespStatus)(nil),           // 2: restaurant_rpc.RespStatus
+	(*LoginReq)(nil),             // 3: restaurant_rpc.LoginReq
+	(*LoginResp)(nil),            // 4: restaurant_rpc.LoginResp
+	(*RegisterReq)(nil),          // 5: restaurant_rpc.RegisterReq
+	(*RegisterResp)(nil),         // 6: restaurant_rpc.RegisterResp
+	(*RefreshTokenReq)(nil),      // 7: restaurant_rpc.RefreshTokenReq
+	(*RefreshTokenResp)(nil),     // 8: restaurant_rpc.RefreshTokenResp
+	(*CanRegisterAdminResp)(nil), // 9: restaurant_rpc.CanRegisterAdminResp
+	(*RegisterAdminReq)(nil),     // 10: restaurant_rpc.RegisterAdminReq
+	(*RegisterAdminResp)(nil),    // 11: restaurant_rpc.RegisterAdminResp
+	(*emptypb.Empty)(nil),        // 12: google.protobuf.Empty
 }
 var file_basic_service_proto_depIdxs = []int32{
-	0, // 0: restaurant_rpc.LoginResp.status:type_name -> restaurant_rpc.RespStatus
-	0, // 1: restaurant_rpc.RegisterResp.status:type_name -> restaurant_rpc.RespStatus
-	1, // 2: restaurant_rpc.AuthService.Login:input_type -> restaurant_rpc.LoginReq
-	3, // 3: restaurant_rpc.AuthService.Register:input_type -> restaurant_rpc.RegisterReq
-	2, // 4: restaurant_rpc.AuthService.Login:output_type -> restaurant_rpc.LoginResp
-	4, // 5: restaurant_rpc.AuthService.Register:output_type -> restaurant_rpc.RegisterResp
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0,  // 0: restaurant_rpc.LoginReq.role:type_name -> restaurant_rpc.LoginRole
+	2,  // 1: restaurant_rpc.LoginResp.status:type_name -> restaurant_rpc.RespStatus
+	0,  // 2: restaurant_rpc.LoginResp.role:type_name -> restaurant_rpc.LoginRole
+	1,  // 3: restaurant_rpc.LoginResp.employeeRole:type_name -> restaurant_rpc.EmployeeRole
+	2,  // 4: restaurant_rpc.RegisterResp.status:type_name -> restaurant_rpc.RespStatus
+	0,  // 5: restaurant_rpc.RegisterResp.role:type_name -> restaurant_rpc.LoginRole
+	3,  // 6: restaurant_rpc.AuthService.Login:input_type -> restaurant_rpc.LoginReq
+	5,  // 7: restaurant_rpc.AuthService.Register:input_type -> restaurant_rpc.RegisterReq
+	7,  // 8: restaurant_rpc.AuthService.RefreshToken:input_type -> restaurant_rpc.RefreshTokenReq
+	12, // 9: restaurant_rpc.AuthService.CanRegisterAdmin:input_type -> google.protobuf.Empty
+	10, // 10: restaurant_rpc.AuthService.RegisterAdmin:input_type -> restaurant_rpc.RegisterAdminReq
+	4,  // 11: restaurant_rpc.AuthService.Login:output_type -> restaurant_rpc.LoginResp
+	6,  // 12: restaurant_rpc.AuthService.Register:output_type -> restaurant_rpc.RegisterResp
+	8,  // 13: restaurant_rpc.AuthService.RefreshToken:output_type -> restaurant_rpc.RefreshTokenResp
+	9,  // 14: restaurant_rpc.AuthService.CanRegisterAdmin:output_type -> restaurant_rpc.CanRegisterAdminResp
+	11, // 15: restaurant_rpc.AuthService.RegisterAdmin:output_type -> restaurant_rpc.RegisterAdminResp
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_basic_service_proto_init() }
@@ -377,13 +845,14 @@ func file_basic_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_basic_service_proto_rawDesc), len(file_basic_service_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   5,
+			NumEnums:      2,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_basic_service_proto_goTypes,
 		DependencyIndexes: file_basic_service_proto_depIdxs,
+		EnumInfos:         file_basic_service_proto_enumTypes,
 		MessageInfos:      file_basic_service_proto_msgTypes,
 	}.Build()
 	File_basic_service_proto = out.File

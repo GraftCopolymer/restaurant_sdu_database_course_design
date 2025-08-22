@@ -1,12 +1,28 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:grpc/grpc.dart';
+import 'package:restaurant_management/main.dart';
+import 'package:restaurant_management/network/auth_service.dart';
+import 'package:restaurant_management/route/app_router.gr.dart';
+import 'package:restaurant_management/src/generated/basic_service.pbgrpc.dart';
+import 'package:restaurant_management/utils/secure_storage_utils.dart';
+import 'package:restaurant_management/utils/sp.dart';
+import 'package:restaurant_management/utils/store_keys.dart';
+import 'package:restaurant_management/utils/utils.dart';
+import 'package:restaurant_management/widgets/global_dialog.dart';
 
 /// 登录页面表单类型
 enum LoginFormType { login, register }
 
 @RoutePage()
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, this.onLoginResult, this.onRegisterResult});
+
+  final void Function(bool success)? onLoginResult;
+  final void Function(bool success)? onRegisterResult;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -16,9 +32,20 @@ class _LoginPageState extends State<LoginPage> {
   bool _agree = false;
 
   LoginFormType _formType = LoginFormType.login; // 表单类型
+  LoginRole _loginRole = LoginRole.LOGIN_ROLE_CUSTOMER;
+
+  /// 登录表单使用的Controller
+  TextEditingController _lUsernamePhone = TextEditingController();
+  TextEditingController _lPassword = TextEditingController();
+
+  /// 注册表单使用的Controller
+  TextEditingController _rUsername = TextEditingController();
+  TextEditingController _rPhone = TextEditingController();
+  TextEditingController _rPassword = TextEditingController();
+  TextEditingController _rRepeatedPassword = TextEditingController();
 
   Widget _buildTitleBar() {
-    late final titleBar;
+    late final Widget titleBar;
     switch (_formType) {
       case LoginFormType.login:
         titleBar = Row(
@@ -84,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           width: width * 0.7,
           child: TextField(
+            controller: _lUsernamePhone,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("用户名/手机号"),
@@ -94,12 +122,46 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           width: width * 0.7,
           child: TextField(
+            controller: _lPassword,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("密码"),
             ),
           ),
         ),
+        SizedBox(
+          width: width * 0.7,
+          child: Row(
+            children: [
+              Checkbox(value: _loginRole == LoginRole.LOGIN_ROLE_EMPLOYEE, onChanged: (value) {
+                if (value ?? false) {
+                  setState(() {
+                    _loginRole = LoginRole.LOGIN_ROLE_EMPLOYEE;
+                  });
+                } else {
+                  setState(() {
+                    _loginRole = LoginRole.LOGIN_ROLE_CUSTOMER;
+                  });
+                }
+              }),
+              GestureDetector(
+                onTap: () {
+                  if (_loginRole == LoginRole.LOGIN_ROLE_EMPLOYEE) {
+                    setState(() {
+                      _loginRole = LoginRole.LOGIN_ROLE_CUSTOMER;
+                    });
+                  }
+                  else {
+                    setState(() {
+                      _loginRole = LoginRole.LOGIN_ROLE_EMPLOYEE;
+                    });
+                  }
+                },
+                child: Text("我是员工")
+              )
+            ],
+          ),
+        )
       ],
     );
   }
@@ -114,6 +176,7 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           width: width * 0.7,
           child: TextField(
+            controller: _rUsername,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("用户名"),
@@ -124,6 +187,7 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           width: width * 0.7,
           child: TextField(
+            controller: _rPhone,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("手机号"),
@@ -134,6 +198,7 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           width: width * 0.7,
           child: TextField(
+            controller: _rPassword,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("密码"),
@@ -144,6 +209,7 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           width: width * 0.7,
           child: TextField(
+            controller: _rRepeatedPassword,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("再次输入密码"),
@@ -155,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildForm() {
-    late final formWidget;
+    late final Widget formWidget;
     switch (_formType) {
       case LoginFormType.login:
         formWidget = _buildLoginForm(key: ValueKey(_formType));
@@ -177,7 +243,10 @@ class _LoginPageState extends State<LoginPage> {
         );
         final scaleTween = Tween(begin: 0.5, end: 1.0);
         final offsetAnim = offsetTween.animate(curvedAnim);
-        final scaleAnim = CurvedAnimation(parent: scaleTween.animate(anim), curve: Curves.easeInOut);
+        final scaleAnim = CurvedAnimation(
+          parent: scaleTween.animate(anim),
+          curve: Curves.easeInOut,
+        );
         return SlideTransition(
           position: offsetAnim,
           child: SizeTransition(
@@ -204,6 +273,107 @@ class _LoginPageState extends State<LoginPage> {
       spacing: 20,
       iconSize: 70,
     );
+  }
+
+  Future<void> _onLogin() async {
+    if (_lUsernamePhone.text.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入用户名或手机号");
+      return;
+    }
+    if (_lPassword.text.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入密码");
+      return;
+    }
+    final controller = GlobalDialog.showLoading();
+    if (_loginRole == LoginRole.LOGIN_ROLE_UNKNOWN) {
+      Fluttertoast.showToast(msg: "发生未知错误");
+      return;
+    }
+    try {
+      final req = LoginReq(
+        usernameOrPhone: _lUsernamePhone.text,
+        password: _lPassword.text,
+        role: _loginRole
+      );
+      final resp = await AuthService.client.login(req);
+      controller?.dismiss();
+      if (resp.status.code != 0) {
+        await GlobalDialog.show(title: "提示", content: resp.status.message);
+        widget.onLoginResult?.call(false);
+        return;
+      }
+      // 储存用户token
+      await SecureStorage.put(StoreKeys.accessToken, resp.accessToken);
+      await SecureStorage.put(StoreKeys.refreshToken, resp.refreshToken);
+      final userIDStoreSuccess = await SP.pref.setInt(StoreKeys.userID, Utils.getUserID(resp.accessToken));
+      final userRoleStoreSuccess = await SP.pref.setInt(StoreKeys.role, resp.role.value);
+      // 储存雇员角色类型
+      if (resp.role == LoginRole.LOGIN_ROLE_EMPLOYEE) {
+        await SP.pref.setInt(StoreKeys.employeeRole, resp.employeeRole.value);
+      }
+      if (!userIDStoreSuccess || !userRoleStoreSuccess) {
+        Fluttertoast.showToast(msg: "登录失败");
+        return;
+      }
+      Fluttertoast.showToast(msg: "登录成功");
+      widget.onLoginResult?.call(true);
+      debugPrint("用户token: ${resp.accessToken}");
+      debugPrint("用户refresh token: ${resp.refreshToken}");
+    } on GrpcError catch (e) {
+      controller?.dismiss();
+      debugPrint("返回值: ${await controller?.getResult()}");
+      await GlobalDialog.show(title: "提示", content: "登录失败: ${e.message}");
+      widget.onLoginResult?.call(false);
+    }
+  }
+
+  Future<void> _onRegister() async {
+    // 数据校验
+    if (_rUsername.text.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入用户名");
+      widget.onRegisterResult?.call(false);
+      return;
+    }
+    if (_rPhone.text.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入电话号码");
+      widget.onRegisterResult?.call(false);
+      return;
+    }
+    if (_rPassword.text.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入密码");
+      widget.onRegisterResult?.call(false);
+      return;
+    }
+    if (_rRepeatedPassword.text.isEmpty) {
+      Fluttertoast.showToast(msg: "请再次输入密码");
+      widget.onRegisterResult?.call(false);
+      return;
+    }
+    if (_rPassword.text != _rRepeatedPassword.text) {
+      Fluttertoast.showToast(msg: "两次密码输入不一致");
+      widget.onRegisterResult?.call(false);
+      return;
+    }
+    try {
+      final registerReq = RegisterReq(
+        username: _rUsername.text,
+        password: _rPassword.text,
+        phone: _rPhone.text,
+        repeatedPassword: _rRepeatedPassword.text,
+      );
+      final resp = await AuthService.client.register(registerReq);
+      if (resp.status.code != 0) {
+        Fluttertoast.showToast(msg: "注册失败: ${resp.status.message}");
+        widget.onRegisterResult?.call(false);
+        return;
+      }
+      Fluttertoast.showToast(msg: "注册成功, accessToken为: ${resp.accessToken}");
+      widget.onRegisterResult?.call(true);
+    } on GrpcError catch (e) {
+      // 显示后端的错误信息
+      GlobalDialog.show(title: "提示", content: "登录失败: ${e.message}");
+      widget.onRegisterResult?.call(false);
+    }
   }
 
   @override
@@ -308,9 +478,21 @@ class _LoginPageState extends State<LoginPage> {
                             ScaffoldMessenger.of(
                               context,
                             ).showSnackBar(SnackBar(content: Text("请同意用户协议")));
+                            return;
+                          }
+                          if (_formType == LoginFormType.login) {
+                            _onLogin();
+                          } else if (_formType == LoginFormType.register) {
+                            _onRegister();
+                          } else {
+                            throw StateError(
+                              "Unreachable Code, please check if you have edited LoginFormType enum",
+                            );
                           }
                         },
-                        child: Text("登录"),
+                        child: Text(
+                          _formType == LoginFormType.login ? "登录" : "注册",
+                        ),
                       ),
                     );
                   },
@@ -329,7 +511,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-/// 图标阵列小组件
+/// 图标阵列小组件, 在没有注册管理员用户的基础时, 可以快速点击10次以进入管理员创建页面a
 class IconsArrayWidget extends StatefulWidget {
   const IconsArrayWidget({
     super.key,
@@ -348,6 +530,8 @@ class IconsArrayWidget extends StatefulWidget {
 
 class _IconsArrayWidgetState extends State<IconsArrayWidget>
     with WidgetsBindingObserver {
+  int _clickTimes = 0;
+  Timer? timer;
   double _keyboardHeight = 0;
   List<Widget> _processIcons(List<Widget> iconList, double scale) {
     List<Widget> result = [];
@@ -402,13 +586,37 @@ class _IconsArrayWidgetState extends State<IconsArrayWidget>
     final scale = _keyboardHeight > 0
         ? (1 - (_keyboardHeight / screenHeight) * 2.0).clamp(0.0, 1.0)
         : 1.0;
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: _processIcons(widget.icons, scale),
+    return GestureDetector(
+      onTap: () {
+        _clickTimes++;
+        if (_clickTimes >= 10) { // 连续点击10次进入管理员注册页面
+          // 清除计时器
+          timer?.cancel();
+          // 清零点击次数
+          _clickTimes = 0;
+          // 跳转到管理员注册页面
+          router.push(AdminRegisterRoute());
+          // 防止创建另一个计时器
+          return;
+        }
+        // 取消上一个timer
+        timer?.cancel();
+        timer = Timer(Duration(seconds: 1), () {
+          // 时间到后清0
+          _clickTimes = 0;
+        });
+      },
+      child: Container(
+        color: Colors.transparent, // 设置透明色防止连续点击不生效
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: _processIcons(widget.icons, scale),
+          ),
+        ),
       ),
     );
   }

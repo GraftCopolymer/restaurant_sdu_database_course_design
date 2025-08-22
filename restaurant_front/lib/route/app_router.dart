@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:restaurant_management/route/admin_register_guard.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
+import 'package:restaurant_management/route/auth_guard.dart';
+import 'package:restaurant_management/route/permission_guard.dart';
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
@@ -12,9 +15,11 @@ class AppRouter extends RootStackRouter {
       AutoRoute(page: DashboardRoute.page, initial: true),
       AutoRoute(path: "mine", page: MineRoute.page),
     ]),
-    AutoRoute(page: CostManagementRoute.page),
+    AutoRoute(page: CostManagementRoute.page, guards: [AuthGuard(), PermissionGuard()]),
     AutoRoute(page: SalesDataRoute.page),
-    AutoRoute(page: DishManagementRoute.page),
+    AutoRoute(page: DishManagementRoute.page, guards: [AuthGuard(), PermissionGuard()]),
     AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: PermissionDeniedRoute.page),
+    AutoRoute(page: AdminRegisterRoute.page, guards: [AdminRegisterGuard()])
   ];
 }

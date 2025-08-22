@@ -3,35 +3,85 @@ package restaurant_rpc;
 
 option go_package = "restaurant_rpc/";
 
+import "google/protobuf/empty.proto";
+
 message RespStatus {
     int32 code = 1;
     string message = 2;
 }
 
 message LoginReq {
-    string username = 1;
+    string usernameOrPhone = 1;
     string password = 2;
+    LoginRole role = 3;
 }
 
 message LoginResp {
     string accessToken = 1;
     string refreshToken = 2;
     RespStatus status = 3;
+    uint32 userID = 4;
+    LoginRole role = 5;
+    EmployeeRole employeeRole = 6; // 仅雇员时该字段有值
+}
+
+enum LoginRole {
+    LOGIN_ROLE_UNKNOWN = 0; // 未知登录角色
+    LOGIN_ROLE_CUSTOMER = 1; // 顾客角色
+    LOGIN_ROLE_EMPLOYEE = 2; // 雇员角色
+}
+
+enum EmployeeRole {
+    ROLE_UNKNOWN = 0;
+    ROLE_ADMIN = 1;
+    ROLE_MANAGER = 2;
 }
 
 message RegisterReq {
     string username = 1;
     string password = 2;
     string repeatedPassword = 3;
+    string phone = 4;
 }
 
 message RegisterResp {
     string accessToken = 1;
     string refreshToken = 2;
     RespStatus status = 3;
+    uint32 userID = 4;
+    LoginRole role = 5;
+}
+
+message RefreshTokenReq {
+    string refreshToken = 1;
+}
+
+message RefreshTokenResp {
+    string accessToken = 1;
+    string refreshToken = 2;
+}
+
+message CanRegisterAdminResp {
+    bool canRegisterAdmin = 1;
+}
+
+message RegisterAdminReq {
+    string phone = 1;
+    string password = 2;
+    string repeatedPassword = 3;
+}
+
+message RegisterAdminResp {
+    string accessToken = 1;
+    string refreshToken = 2;
+    uint32 userID = 3;
 }
 
 service AuthService {
     rpc Login(LoginReq) returns (LoginResp) {}
+    // 注册只支持顾客, 员工需要管理员添加账户
     rpc Register(RegisterReq) returns (RegisterResp) {}
+    rpc RefreshToken(RefreshTokenReq) returns (RefreshTokenResp) {}
+    rpc CanRegisterAdmin(google.protobuf.Empty) returns (CanRegisterAdminResp) {}
+    rpc RegisterAdmin(RegisterAdminReq) returns (RegisterAdminResp) {}
 }

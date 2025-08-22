@@ -12,7 +12,7 @@ import (
 const ConfigPath = "./config.yaml"
 var Config ConfigModel = LoadConfig()
 
-func InitDatabase() {
+func InitDatabase() *gorm.DB {
 	dsn := "host=127.0.0.1 user=graftcopolymer password=0613 dbname=restaurant port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -38,6 +38,7 @@ func InitDatabase() {
 	if err != nil {
 		log.Fatal("failed to migrate database:", err)
 	}
+	return db
 }
 
 func LoadConfig() ConfigModel {

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 import 'package:restaurant_management/route/app_router.dart';
+import 'package:restaurant_management/utils/sp.dart';
 
 // 全局路由器
 final router = AppRouter();
+// 全局路由key
+final navigatorKey = router.navigatorKey;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SP.init();
   runApp(ProviderScope(child: const RestaurantApp(),));
 }
 

@@ -9,4 +9,7 @@ type ConfigModel struct {
 		Region string `yaml:"region"`
 		UrlExpiredTime int64 `yaml:"urlExpiredTime"`
 	} `yaml:"pic_bed"`
+	Auth struct{
+		JwtSecretKey string `yaml:"jwtSecretKey"`
+	} `yaml:"auth"`
 }
