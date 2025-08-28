@@ -49,7 +49,7 @@ func AuthInterceptor() grpc.UnaryServerInterceptor {
 		if len(authHeaders) == 0 {
 			return nil, status.Error(codes.Unauthenticated, "Missing authorization header")
 		}
-		token := strings.TrimPrefix(authHeaders[0], "Bearer")
+		token := strings.TrimPrefix(authHeaders[0], "Bearer ")
 		if !validateToken(token) {
 			return nil, status.Error(codes.Unauthenticated, "invalid token")
 		}
@@ -57,6 +57,7 @@ func AuthInterceptor() grpc.UnaryServerInterceptor {
 	}
 }
 
+// 验证token是否有效
 func validateToken(token string) bool {
 	parsed, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		// 检查签名算法是否正确

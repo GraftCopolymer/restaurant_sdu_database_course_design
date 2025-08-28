@@ -41,28 +41,6 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  /// 在这里添加需要显示的卡片builder
-  late final List<WidgetBuilder> cardBuilders = [
-    (context) {
-      // 成本管理
-      return DashboardCard(
-        child: _buildCardContent("成本管理", Icons.money),
-        onTap: () {
-          router.push(r.CostManagementRoute());
-        },
-      );
-    },
-    (context) {
-      // 菜品管理
-      return DashboardCard(
-        child: _buildCardContent("菜品管理", Icons.dining_outlined),
-        onTap: () {
-          router.push(r.DishManagementRoute());
-        },
-      );
-    },
-  ];
-
   Widget _buildCardContent(String title, IconData icon) {
     return Center(
       child: Column(
@@ -92,6 +70,21 @@ class _DashboardPageState extends State<DashboardPage> {
         },
       ),
     ];
+    final loginRole = await Utils.getLoginRole();
+    final employeeRole = await Utils.getEmployeeRole();
+    // 管理员和经理添加人员管理选项
+    if (loginRole == LoginRole.LOGIN_ROLE_EMPLOYEE &&
+        (employeeRole == EmployeeRole.ROLE_ADMIN ||
+            employeeRole == EmployeeRole.ROLE_MANAGER)) {
+              employeeCards.add(
+                DashboardCard(
+        child: _buildCardContent("人员管理", Icons.supervisor_account_sharp),
+        onTap: () {
+          router.push(r.EmployeeManagementRoute());
+        },
+      ),
+              );
+            }
     return employeeCards;
   }
 
@@ -182,16 +175,21 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: columnCount,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-          ),
-          itemCount: cardBuilders.length,
-          itemBuilder: (context, index) {
-            return cardBuilders[index](context);
+        child: RefreshIndicator(
+          onRefresh: () {
+            return _refreshData();
           },
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: columnCount,
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 8.0,
+            ),
+            itemCount: _displayCards.length,
+            itemBuilder: (context, index) {
+              return _displayCards[index];
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

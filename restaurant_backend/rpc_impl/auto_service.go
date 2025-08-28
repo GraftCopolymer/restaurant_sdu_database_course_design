@@ -10,7 +10,7 @@ import (
 	"restaurant_backend/database"
 	myutils "restaurant_backend/my_utils"
 	"restaurant_backend/po"
-	"restaurant_backend/restaurant_rpc"
+	"restaurant_backend/restaurant_backend/rpc"
 )
 
 type AuthServer struct {

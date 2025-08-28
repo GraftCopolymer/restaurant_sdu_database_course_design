@@ -7,6 +7,7 @@ protoc \
   -I=./ \
   --dart_out=grpc:lib/src/generated \
   rpc/*.proto \
-  google/protobuf/empty.proto
+  google/protobuf/empty.proto\
+  rpc/restaurantV2/*.proto # 来自后端的类型定义
 
 echo 'rpc gen finish'

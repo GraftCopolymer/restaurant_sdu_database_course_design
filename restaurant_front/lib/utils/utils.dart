@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:restaurant_management/src/generated/basic_service.pb.dart';
+import 'package:restaurant_management/src/generated/dish_service.pb.dart' as pb;
+import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart' as en;
 import 'package:restaurant_management/utils/secure_storage_utils.dart';
 import 'package:restaurant_management/utils/sp.dart';
 import 'package:restaurant_management/utils/store_keys.dart';
@@ -97,5 +99,49 @@ class Utils {
     final role = SP.pref.getInt(StoreKeys.employeeRole);
     if (role == null) return null;
     return EmployeeRole.valueOf(role);
+  }
+
+  /// 判断当前是否是管理员
+  static Future<bool> isAdmin() async {
+    final role = await getEmployeeRole();
+    return role == EmployeeRole.ROLE_ADMIN;
+  }
+
+  static String getPortionTypeTagName(en.DishPortion type) {
+    switch (type) {
+      case en.DishPortion.DISH_PORTION_SMALL:
+        return "小";
+      case en.DishPortion.DISH_PORTION_MID:
+        return "中";
+      case en.DishPortion.DISH_PORTION_BIG:
+        return "大";
+      default:
+        return "未知";
+    }
+  }
+
+  /// TODO: 压缩图片至指定质量
+  // static Future<File?> compressImage(File imageFile) async {
+  //   if (!imageFile.existsSync()) { // 文件不存在
+  //     return null;
+  //   }
+
+  // }
+
+  static String getMaterialUnitTextByMaterial(pb.Material material) {
+    return getMaterialUnitText(material.unitType);
+  }
+
+  static String getMaterialUnitText(en.UnitType unitType) {
+    switch (unitType) {
+      case en.UnitType.UINT_TYPE_MASS:
+        return "kg";
+      case en.UnitType.UINT_TYPE_PER:
+        return "份";
+      case en.UnitType.UINT_TYPE_VOLUME:
+        return "L";
+      default:
+        return "份";
+    }
   }
 }

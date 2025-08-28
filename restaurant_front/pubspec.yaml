@@ -14,12 +14,24 @@ dependencies:
   # 状态管理
   flutter_riverpod: ^2.6.1 
   riverpod_annotation: ^2.6.1
+  # 路由管理
   auto_route: ^10.1.0+1
+  # proto 和 gRPC
   grpc: ^4.1.0
   protobuf: ^4.2.0
+  # 方便的 toast 提示
   fluttertoast: ^8.2.12
+  # 本地存储
   flutter_secure_storage: ^9.2.4
   shared_preferences: ^2.5.3
+  # uuid 生成
+  uuid: ^4.5.1
+  # 图片选择
+  image_picker: ^1.2.0
+  # 图片压缩
+  flutter_image_compress: ^2.4.0
+  # 高精度计算
+  decimal: ^3.2.4
 
 dev_dependencies:
   flutter_test:

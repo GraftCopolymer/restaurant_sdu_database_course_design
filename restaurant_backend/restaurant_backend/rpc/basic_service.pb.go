@@ -780,7 +780,7 @@ const file_basic_service_proto_rawDesc = "" +
 	"\bRegister\x12\x1b.restaurant_rpc.RegisterReq\x1a\x1c.restaurant_rpc.RegisterResp\"\x00\x12S\n" +
 	"\fRefreshToken\x12\x1f.restaurant_rpc.RefreshTokenReq\x1a .restaurant_rpc.RefreshTokenResp\"\x00\x12R\n" +
 	"\x10CanRegisterAdmin\x12\x16.google.protobuf.Empty\x1a$.restaurant_rpc.CanRegisterAdminResp\"\x00\x12V\n" +
-	"\rRegisterAdmin\x12 .restaurant_rpc.RegisterAdminReq\x1a!.restaurant_rpc.RegisterAdminResp\"\x00B\x11Z\x0frestaurant_rpc/b\x06proto3"
+	"\rRegisterAdmin\x12 .restaurant_rpc.RegisterAdminReq\x1a!.restaurant_rpc.RegisterAdminResp\"\x00B'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
 
 var (
 	file_basic_service_proto_rawDescOnce sync.Once

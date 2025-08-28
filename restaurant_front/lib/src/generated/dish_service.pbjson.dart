@@ -18,19 +18,161 @@ import 'dart:typed_data' as $typed_data;
 const Dish$json = {
   '1': 'Dish',
   '2': [
-    {'1': 'dishID', '3': 1, '4': 1, '5': 13, '10': 'dishID'},
-    {'1': 'dishName', '3': 2, '4': 1, '5': 9, '10': 'dishName'},
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    {'1': 'imageUrl', '3': 3, '4': 1, '5': 9, '10': 'imageUrl'},
+    {
+      '1': 'dishType',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.DishType',
+      '10': 'dishType'
+    },
+    {
+      '1': 'portions',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.DishPortion',
+      '10': 'portions'
+    },
   ],
 };
 
 /// Descriptor for `Dish`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List dishDescriptor = $convert.base64Decode(
-    'CgREaXNoEhYKBmRpc2hJRBgBIAEoDVIGZGlzaElEEhoKCGRpc2hOYW1lGAIgASgJUghkaXNoTm'
-    'FtZQ==');
+    'CgREaXNoEg4KAmlkGAEgASgNUgJpZBISCgRuYW1lGAIgASgJUgRuYW1lEhoKCGltYWdlVXJsGA'
+    'MgASgJUghpbWFnZVVybBI0CghkaXNoVHlwZRgEIAEoCzIYLnJlc3RhdXJhbnRfcnBjLkRpc2hU'
+    'eXBlUghkaXNoVHlwZRI3Cghwb3J0aW9ucxgFIAMoCzIbLnJlc3RhdXJhbnRfcnBjLkRpc2hQb3'
+    'J0aW9uUghwb3J0aW9ucw==');
 
-@$core.Deprecated('Use getAllDishesRespDescriptor instead')
-const GetAllDishesResp$json = {
-  '1': 'GetAllDishesResp',
+@$core.Deprecated('Use dishPortionDescriptor instead')
+const DishPortion$json = {
+  '1': 'DishPortion',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    {'1': 'price', '3': 3, '4': 1, '5': 9, '10': 'price'},
+    {
+      '1': 'portionType',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.restaurant.DishPortion',
+      '10': 'portionType'
+    },
+    {
+      '1': 'recipe',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Recipe',
+      '10': 'recipe'
+    },
+  ],
+};
+
+/// Descriptor for `DishPortion`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishPortionDescriptor = $convert.base64Decode(
+    'CgtEaXNoUG9ydGlvbhIOCgJpZBgBIAEoDVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZRIUCgVwcm'
+    'ljZRgDIAEoCVIFcHJpY2USOQoLcG9ydGlvblR5cGUYBCABKA4yFy5yZXN0YXVyYW50LkRpc2hQ'
+    'b3J0aW9uUgtwb3J0aW9uVHlwZRIuCgZyZWNpcGUYBSABKAsyFi5yZXN0YXVyYW50X3JwYy5SZW'
+    'NpcGVSBnJlY2lwZQ==');
+
+@$core.Deprecated('Use recipeDescriptor instead')
+const Recipe$json = {
+  '1': 'Recipe',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {
+      '1': 'materials',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.RecipeMaterial',
+      '10': 'materials'
+    },
+  ],
+};
+
+/// Descriptor for `Recipe`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List recipeDescriptor = $convert.base64Decode(
+    'CgZSZWNpcGUSDgoCaWQYASABKA1SAmlkEjwKCW1hdGVyaWFscxgCIAMoCzIeLnJlc3RhdXJhbn'
+    'RfcnBjLlJlY2lwZU1hdGVyaWFsUgltYXRlcmlhbHM=');
+
+@$core.Deprecated('Use recipeMaterialDescriptor instead')
+const RecipeMaterial$json = {
+  '1': 'RecipeMaterial',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {
+      '1': 'material',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Material',
+      '10': 'material'
+    },
+    {'1': 'quantity', '3': 3, '4': 1, '5': 9, '10': 'quantity'},
+  ],
+};
+
+/// Descriptor for `RecipeMaterial`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List recipeMaterialDescriptor = $convert.base64Decode(
+    'Cg5SZWNpcGVNYXRlcmlhbBIOCgJpZBgBIAEoDVICaWQSNAoIbWF0ZXJpYWwYAiABKAsyGC5yZX'
+    'N0YXVyYW50X3JwYy5NYXRlcmlhbFIIbWF0ZXJpYWwSGgoIcXVhbnRpdHkYAyABKAlSCHF1YW50'
+    'aXR5');
+
+@$core.Deprecated('Use materialDescriptor instead')
+const Material$json = {
+  '1': 'Material',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    {'1': 'price', '3': 3, '4': 1, '5': 9, '10': 'price'},
+    {
+      '1': 'unitType',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.restaurant.UnitType',
+      '10': 'unitType'
+    },
+    {'1': 'amount', '3': 5, '4': 1, '5': 9, '10': 'amount'},
+  ],
+};
+
+/// Descriptor for `Material`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List materialDescriptor = $convert.base64Decode(
+    'CghNYXRlcmlhbBIOCgJpZBgBIAEoDVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZRIUCgVwcmljZR'
+    'gDIAEoCVIFcHJpY2USMAoIdW5pdFR5cGUYBCABKA4yFC5yZXN0YXVyYW50LlVuaXRUeXBlUgh1'
+    'bml0VHlwZRIWCgZhbW91bnQYBSABKAlSBmFtb3VudA==');
+
+@$core.Deprecated('Use getDishesReqDescriptor instead')
+const GetDishesReq$json = {
+  '1': 'GetDishesReq',
+  '2': [
+    {
+      '1': 'pageInfo',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.PageInfo',
+      '10': 'pageInfo'
+    },
+    {'1': 'keywords', '3': 2, '4': 1, '5': 9, '10': 'keywords'},
+  ],
+};
+
+/// Descriptor for `GetDishesReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getDishesReqDescriptor = $convert.base64Decode(
+    'CgxHZXREaXNoZXNSZXESNAoIcGFnZUluZm8YASABKAsyGC5yZXN0YXVyYW50X3JwYy5QYWdlSW'
+    '5mb1IIcGFnZUluZm8SGgoIa2V5d29yZHMYAiABKAlSCGtleXdvcmRz');
+
+@$core.Deprecated('Use getDishesRespDescriptor instead')
+const GetDishesResp$json = {
+  '1': 'GetDishesResp',
   '2': [
     {
       '1': 'dishes',
@@ -40,11 +182,184 @@ const GetAllDishesResp$json = {
       '6': '.restaurant_rpc.Dish',
       '10': 'dishes'
     },
-    {'1': 'count', '3': 2, '4': 1, '5': 5, '10': 'count'},
+    {
+      '1': 'pageInfo',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.PageInfo',
+      '10': 'pageInfo'
+    },
   ],
 };
 
-/// Descriptor for `GetAllDishesResp`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getAllDishesRespDescriptor = $convert.base64Decode(
-    'ChBHZXRBbGxEaXNoZXNSZXNwEiwKBmRpc2hlcxgBIAMoCzIULnJlc3RhdXJhbnRfcnBjLkRpc2'
-    'hSBmRpc2hlcxIUCgVjb3VudBgCIAEoBVIFY291bnQ=');
+/// Descriptor for `GetDishesResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getDishesRespDescriptor = $convert.base64Decode(
+    'Cg1HZXREaXNoZXNSZXNwEiwKBmRpc2hlcxgBIAMoCzIULnJlc3RhdXJhbnRfcnBjLkRpc2hSBm'
+    'Rpc2hlcxI0CghwYWdlSW5mbxgCIAEoCzIYLnJlc3RhdXJhbnRfcnBjLlBhZ2VJbmZvUghwYWdl'
+    'SW5mbw==');
+
+@$core.Deprecated('Use dishTypeDescriptor instead')
+const DishType$json = {
+  '1': 'DishType',
+  '2': [
+    {'1': 'dishTypeID', '3': 1, '4': 1, '5': 13, '10': 'dishTypeID'},
+    {'1': 'Name', '3': 2, '4': 1, '5': 9, '10': 'Name'},
+  ],
+};
+
+/// Descriptor for `DishType`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishTypeDescriptor = $convert.base64Decode(
+    'CghEaXNoVHlwZRIeCgpkaXNoVHlwZUlEGAEgASgNUgpkaXNoVHlwZUlEEhIKBE5hbWUYAiABKA'
+    'lSBE5hbWU=');
+
+@$core.Deprecated('Use getDishTypeRespDescriptor instead')
+const GetDishTypeResp$json = {
+  '1': 'GetDishTypeResp',
+  '2': [
+    {
+      '1': 'dishTypes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.DishType',
+      '10': 'dishTypes'
+    },
+  ],
+};
+
+/// Descriptor for `GetDishTypeResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getDishTypeRespDescriptor = $convert.base64Decode(
+    'Cg9HZXREaXNoVHlwZVJlc3ASNgoJZGlzaFR5cGVzGAEgAygLMhgucmVzdGF1cmFudF9ycGMuRG'
+    'lzaFR5cGVSCWRpc2hUeXBlcw==');
+
+@$core.Deprecated('Use addDishTypeReqDescriptor instead')
+const AddDishTypeReq$json = {
+  '1': 'AddDishTypeReq',
+  '2': [
+    {'1': 'typeName', '3': 1, '4': 1, '5': 9, '10': 'typeName'},
+  ],
+};
+
+/// Descriptor for `AddDishTypeReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List addDishTypeReqDescriptor = $convert.base64Decode(
+    'Cg5BZGREaXNoVHlwZVJlcRIaCgh0eXBlTmFtZRgBIAEoCVIIdHlwZU5hbWU=');
+
+@$core.Deprecated('Use addDishTypeRespDescriptor instead')
+const AddDishTypeResp$json = {
+  '1': 'AddDishTypeResp',
+  '2': [
+    {'1': 'dishTypeID', '3': 1, '4': 1, '5': 13, '10': 'dishTypeID'},
+    {'1': 'typeName', '3': 2, '4': 1, '5': 9, '10': 'typeName'},
+  ],
+};
+
+/// Descriptor for `AddDishTypeResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List addDishTypeRespDescriptor = $convert.base64Decode(
+    'Cg9BZGREaXNoVHlwZVJlc3ASHgoKZGlzaFR5cGVJRBgBIAEoDVIKZGlzaFR5cGVJRBIaCgh0eX'
+    'BlTmFtZRgCIAEoCVIIdHlwZU5hbWU=');
+
+@$core.Deprecated('Use getMaterialsReqDescriptor instead')
+const GetMaterialsReq$json = {
+  '1': 'GetMaterialsReq',
+  '2': [
+    {
+      '1': 'pageInfo',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.PageInfo',
+      '10': 'pageInfo'
+    },
+    {'1': 'keywords', '3': 2, '4': 1, '5': 9, '10': 'keywords'},
+  ],
+};
+
+/// Descriptor for `GetMaterialsReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getMaterialsReqDescriptor = $convert.base64Decode(
+    'Cg9HZXRNYXRlcmlhbHNSZXESNAoIcGFnZUluZm8YASABKAsyGC5yZXN0YXVyYW50X3JwYy5QYW'
+    'dlSW5mb1IIcGFnZUluZm8SGgoIa2V5d29yZHMYAiABKAlSCGtleXdvcmRz');
+
+@$core.Deprecated('Use getMaterialsRespDescriptor instead')
+const GetMaterialsResp$json = {
+  '1': 'GetMaterialsResp',
+  '2': [
+    {
+      '1': 'materialList',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.Material',
+      '10': 'materialList'
+    },
+    {
+      '1': 'pageInfo',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.PageInfo',
+      '10': 'pageInfo'
+    },
+  ],
+};
+
+/// Descriptor for `GetMaterialsResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getMaterialsRespDescriptor = $convert.base64Decode(
+    'ChBHZXRNYXRlcmlhbHNSZXNwEjwKDG1hdGVyaWFsTGlzdBgBIAMoCzIYLnJlc3RhdXJhbnRfcn'
+    'BjLk1hdGVyaWFsUgxtYXRlcmlhbExpc3QSNAoIcGFnZUluZm8YAiABKAsyGC5yZXN0YXVyYW50'
+    'X3JwYy5QYWdlSW5mb1IIcGFnZUluZm8=');
+
+@$core.Deprecated('Use createOrEditMaterialReqDescriptor instead')
+const CreateOrEditMaterialReq$json = {
+  '1': 'CreateOrEditMaterialReq',
+  '2': [
+    {
+      '1': 'material',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Material',
+      '10': 'material'
+    },
+  ],
+};
+
+/// Descriptor for `CreateOrEditMaterialReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createOrEditMaterialReqDescriptor =
+    $convert.base64Decode(
+        'ChdDcmVhdGVPckVkaXRNYXRlcmlhbFJlcRI0CghtYXRlcmlhbBgBIAEoCzIYLnJlc3RhdXJhbn'
+        'RfcnBjLk1hdGVyaWFsUghtYXRlcmlhbA==');
+
+@$core.Deprecated('Use createOrEditMaterialRespDescriptor instead')
+const CreateOrEditMaterialResp$json = {
+  '1': 'CreateOrEditMaterialResp',
+  '2': [
+    {'1': 'materialId', '3': 1, '4': 1, '5': 13, '10': 'materialId'},
+  ],
+};
+
+/// Descriptor for `CreateOrEditMaterialResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createOrEditMaterialRespDescriptor =
+    $convert.base64Decode(
+        'ChhDcmVhdGVPckVkaXRNYXRlcmlhbFJlc3ASHgoKbWF0ZXJpYWxJZBgBIAEoDVIKbWF0ZXJpYW'
+        'xJZA==');
+
+@$core.Deprecated('Use createOrEditDishReqDescriptor instead')
+const CreateOrEditDishReq$json = {
+  '1': 'CreateOrEditDishReq',
+  '2': [
+    {
+      '1': 'dish',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Dish',
+      '10': 'dish'
+    },
+  ],
+};
+
+/// Descriptor for `CreateOrEditDishReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createOrEditDishReqDescriptor = $convert.base64Decode(
+    'ChNDcmVhdGVPckVkaXREaXNoUmVxEigKBGRpc2gYASABKAsyFC5yZXN0YXVyYW50X3JwYy5EaX'
+    'NoUgRkaXNo');

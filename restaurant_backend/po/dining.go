@@ -2,7 +2,7 @@ package po
 
 import (
 	"gorm.io/gorm"
-	"restaurant_backend/po/pb"
+	"restaurant_backend/restaurant_backend/types"
 )
 
 type RoomPosition struct {
@@ -25,7 +25,7 @@ type PrivateRoom struct {
 	PositionID uint
 	Position RoomPosition `gorm:"foreignKey:PositionID"`
 	// 包间类型
-	Type pb.RoomType
+	Type types.RoomType
 	// 桌子
 	Tables []DiningTable `gorm:"foreignKey:RoomID"`
 }
@@ -33,7 +33,7 @@ type PrivateRoom struct {
 type DiningTable struct {
 	gorm.Model
 	Number uint `gorm:"unique"`
-	TableShape pb.TableShape
+	TableShape types.TableShape
 	RoomID uint // 属于哪个包间
 	Seats []Seat `gorm:"foreignKey:TableID"`
 

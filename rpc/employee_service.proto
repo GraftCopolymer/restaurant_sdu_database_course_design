@@ -1,0 +1,44 @@
+syntax = "proto3";
+package restaurant_rpc;
+
+option go_package = "restaurant_backend/rpc;restaurant_rpc";
+
+import "basic_service.proto";
+import "common.proto";
+
+message EmployeeListReq {
+    PageInfo pageInfo = 1;
+    string keywords = 2; // 搜索关键词: 员工姓名、手机号
+}
+
+message EmployeeInfo {
+    uint32 id = 1;
+    string name = 2;
+    string phone = 3;
+    EmployeeRole role = 4;
+    string salary = 5; // 工资以字符串的形式传递, 防止精度丢失
+    string createdAt = 6; // unix时间戳
+    string updatedAt = 7; // unix时间戳
+}
+
+message EmployeeListResp {
+    repeated EmployeeInfo employeeList = 1;
+    PageInfo pageInfo = 2;
+}
+
+message AddEmployeeReq {
+    string employeeName = 1;
+    string phone = 2;
+    string password = 3;
+    EmployeeRole role = 4;
+}
+
+message AddEmployeeResp {
+    int32 code = 1; // 0: 成功, 其余均为失败
+    string message = 2;
+}
+
+service EmployeeService {
+    rpc GetEmployeeList(EmployeeListReq) returns (EmployeeListResp);
+    rpc AddEmployee(AddEmployeeReq) returns (AddEmployeeResp);
+}

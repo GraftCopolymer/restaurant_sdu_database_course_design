@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package restaurant_rpc;
+option go_package = "restaurant_backend/rpc;restaurant_rpc";
+
+message PageInfo {
+  uint32 page = 1;
+  uint32 pageSize = 2;
+  uint64 total = 3;
+}

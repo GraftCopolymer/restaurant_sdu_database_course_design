@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package restaurant;
 
-option go_package = "pb/";
+option go_package = "restaurant_backend/restaurant_backend/types";
 
 // 桌子类型
 enum TableShape {
@@ -31,7 +31,7 @@ enum DishPortion {
   DISH_PORTION_BIG = 3; // 大份
 }
 
-enum UintType { // 统一使用国际单位
+enum UnitType { // 统一使用国际单位
   UINT_TYPE_UNKNOWN = 0;
   UINT_TYPE_VOLUME = 1; // 体积, L
   UINT_TYPE_MASS = 2; // 质量, KG

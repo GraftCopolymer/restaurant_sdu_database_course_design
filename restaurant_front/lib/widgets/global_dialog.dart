@@ -49,18 +49,18 @@ class GlobalDialog {
     return result ?? DialogResult.empty;
   }
 
-  static DialogController? showCustom({
+  static DialogController<T?>? showCustom<T>({
     bool? canClose,
-    required Widget Function(BuildContext context, DialogController controller) builder,
+    required Widget Function(BuildContext context, DialogController<T?> controller) builder,
   }) {
     final context = navigatorKey.currentContext;
     if (context == null) return null;
 
     final _canClose = canClose ?? true;
 
-    final controller = DialogController(context, null);
+    final controller = DialogController<T?>(context, null);
 
-    final resultFuture = showDialog<DialogResult?>(
+    final resultFuture = showDialog<T?>(
       context: context,
       barrierDismissible: _canClose,
       builder: (_) {
@@ -111,11 +111,11 @@ class GlobalDialog {
 }
 
 /// 用于控制对话框
-class DialogController {
+class DialogController<T> {
   BuildContext _context;
-  Future<DialogResult?> Function()? _onReturn;
+  Future<T?> Function()? _onReturn;
   bool _dismissed = false;
-  DialogResult? _returnValue;
+  T? _returnValue;
 
   DialogController(this._context, this._onReturn);
 
@@ -129,11 +129,11 @@ class DialogController {
     Navigator.of(_context).pop(_returnValue);
   }
 
-  void setResult(DialogResult? result) {
+  void setResult(T? result) {
     _returnValue = result;
   }
 
-  Future<DialogResult?> getResult() async {
+  Future<T?> getResult() async {
     if (_onReturn == null) return null;
     return _onReturn!();
   }

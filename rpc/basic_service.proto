@@ -1,7 +1,7 @@
 syntax = "proto3";
 package restaurant_rpc;
 
-option go_package = "restaurant_rpc/";
+option go_package = "restaurant_backend/rpc;restaurant_rpc";
 
 import "google/protobuf/empty.proto";
 

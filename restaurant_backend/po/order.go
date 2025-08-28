@@ -3,7 +3,7 @@ package po
 import (
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
-	"restaurant_backend/po/pb"
+	"restaurant_backend/restaurant_backend/types"
 	"time"
 )
 
@@ -18,9 +18,9 @@ type Coupon struct {
 	UsedCount   int             // 已使用次数
 	SpendRequirement decimal.Decimal `gorm:"type:decimal(10,2)"` // 优惠券门槛
 	Discount    decimal.Decimal `gorm:"type:decimal(10,2)"` // 优惠金额或折扣率
-	Type        pb.CouponType   // 优惠类型: 固定金额/百分比折扣/满减
-	Scope       pb.CouponScope  // 作用范围: 订单级/菜品级
-	TargetType  pb.CouponTarget // 目标类型: 菜品/份量
+	Type        types.CouponType   // 优惠类型: 固定金额/百分比折扣/满减
+	Scope       types.CouponScope  // 作用范围: 订单级/菜品级
+	TargetType  types.CouponTarget // 目标类型: 菜品/份量
 
 	// 关联关系
 	ApplicableDishes  []Dish    `gorm:"many2many:coupon_dishes"` // 适用菜品
@@ -43,7 +43,7 @@ type CouponUsage struct {
 type Order struct {
 	gorm.Model
 	Address *string
-	OrderType pb.OrderType
+	OrderType types.OrderType
 
 	TableID *uint
 	SeatID *uint // 为nil时被视为整桌菜单

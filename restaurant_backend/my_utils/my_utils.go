@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	config2 "restaurant_backend/config"
 	"restaurant_backend/constants"
-	"restaurant_backend/restaurant_rpc"
+	"restaurant_backend/restaurant_backend/rpc"
 	"strings"
 	"time"
 )
@@ -135,4 +135,32 @@ func IsJwtExpired(token string) (bool, error) {
 
 	now := time.Now().UTC().Unix()
 	return now >= exp, nil
+}
+
+// ExtractAndProcessPagination 提取分页数据中的页码和每页数量
+func ExtractAndProcessPagination(pageInfo *restaurant_rpc.PageInfo) (int, int, error) {
+	if pageInfo == nil {
+		return 0, 0, errors.New("pageInfo is nil")
+	}
+	page, pageSize := int(pageInfo.Page), int(pageInfo.PageSize)
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 10
+	} else if pageSize > 100 {
+		pageSize = 100
+	}
+	return page, pageSize, nil
+}
+
+// Filter 遍历切片并返回满足条件的元素
+func Filter[T any](list []T, predicate func(T) bool) []T {
+	var result []T
+	for _, v := range list {
+		if predicate(v) {
+			result = append(result, v)
+		}
+	}
+	return result
 }

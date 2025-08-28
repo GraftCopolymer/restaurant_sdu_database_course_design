@@ -20,6 +20,13 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: DishManagementRoute.page, guards: [AuthGuard(), PermissionGuard()]),
     AutoRoute(page: LoginRoute.page),
     AutoRoute(page: PermissionDeniedRoute.page),
-    AutoRoute(page: AdminRegisterRoute.page, guards: [AdminRegisterGuard()])
+    AutoRoute(page: AdminRegisterRoute.page, guards: [AdminRegisterGuard()]),
+    AutoRoute(page: NotFoundRoute.page),
+    AutoRoute(page: EmployeeManagementRoute.page, guards: [AuthGuard(), PermissionGuard()]),
+    AutoRoute(page: EmployeeAddRoute.page, guards: [AuthGuard(), PermissionGuard()]),
+    AutoRoute(page: DishAddRoute.page, guards: [AuthGuard(), PermissionGuard()]),
+    AutoRoute(page: RecipeEditRoute.page, guards: [AuthGuard(), PermissionGuard()]),
+    AutoRoute(page: MaterialListRoute.page, guards: [AuthGuard(), PermissionGuard()]),
+    AutoRoute(page: MaterialEditRoute.page, guards: [AuthGuard(), PermissionGuard()]),
   ];
 }

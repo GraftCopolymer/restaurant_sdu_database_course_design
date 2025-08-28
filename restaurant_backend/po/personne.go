@@ -3,7 +3,7 @@ package po
 import (
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
-	"restaurant_backend/restaurant_rpc"
+	restaurantrpc "restaurant_backend/restaurant_backend/rpc"
 )
 
 type RoleType struct {
@@ -13,13 +13,13 @@ type RoleType struct {
 
 type Employee struct {
 	gorm.Model
-	Name string
-	Phone string
-	Password string
-	Salary decimal.Decimal `gorm:"type:decimal(10,2)"`
-	RoleType restaurant_rpc.EmployeeRole // 员工角色
+	Name      string
+	Phone     string
+	Password  string
+	Salary    decimal.Decimal            `gorm:"type:decimal(10,2)"`
+	RoleType  restaurantrpc.EmployeeRole // 员工角色
 	ManagerID *uint
-	Group []Employee `gorm:"foreignKey:ManagerID"` // 角色Manager该字段才可能不为空
+	Group     []Employee `gorm:"foreignKey:ManagerID"` // 角色Manager该字段才可能不为空
 }
 
 type Customer struct {

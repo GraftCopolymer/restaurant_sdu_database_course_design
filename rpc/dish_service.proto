@@ -1,20 +1,102 @@
 syntax = "proto3";
 
 package restaurant_rpc;
-option go_package = "restaurant_rpc/";
+option go_package = "restaurant_backend/rpc;restaurant_rpc";
 
 import "google/protobuf/empty.proto";
+import "common.proto";
+import "restaurantV2/types.proto";
 
 message Dish {
-    uint32 dishID = 1;
-    string dishName = 2;
+    uint32 id = 1;
+    string name = 2;
+    string imageUrl = 3;
+    DishType dishType = 4;
+    repeated DishPortion portions = 5;
 }
 
-message GetAllDishesResp {
+message DishPortion {
+    uint32 id = 1;
+    string name = 2;
+    string price = 3; // 价格, 以字符串传输避免精度丢失
+    restaurant.DishPortion portionType = 4; // 份量
+    Recipe recipe = 5;
+}
+
+message Recipe {
+    uint32 id = 1;
+    repeated RecipeMaterial materials = 2;
+}
+
+message RecipeMaterial {
+    uint32 id = 1;
+    Material material = 2;
+    string quantity = 3;
+}
+
+message Material {
+    uint32 id = 1;
+    string name = 2;
+    string price = 3; // 配料单价
+    restaurant.UnitType unitType = 4; // 配料单位
+    string amount = 5; // 总量
+}
+
+message GetDishesReq {
+    PageInfo pageInfo = 1;
+    string keywords = 2;
+}
+
+message GetDishesResp {
     repeated Dish dishes = 1;
-    int32 count = 2;
+    PageInfo pageInfo = 2;
+}
+
+message DishType {
+    uint32 dishTypeID = 1;
+    string Name = 2;
+}
+
+message GetDishTypeResp {
+    repeated DishType dishTypes = 1;
+}
+
+message AddDishTypeReq {
+    string typeName = 1;
+}
+
+message AddDishTypeResp {
+    uint32 dishTypeID = 1;
+    string typeName = 2;
+}
+
+message GetMaterialsReq {
+    PageInfo pageInfo = 1;
+    string keywords = 2;
+}
+
+message GetMaterialsResp {
+    repeated Material materialList = 1;
+    PageInfo pageInfo = 2;
+}
+
+message CreateOrEditMaterialReq{
+    Material material = 1;
+}
+
+message CreateOrEditMaterialResp {
+    uint32 materialId = 1;
+}
+
+message CreateOrEditDishReq {
+    Dish dish = 1;
 }
 
 service DishService {
-    rpc GetAllDishes(google.protobuf.Empty) returns (GetAllDishesResp) {}
+    rpc GetDishes(GetDishesReq) returns (GetDishesResp);
+    rpc GetDishType(google.protobuf.Empty) returns (GetDishTypeResp);
+    rpc AddDishType(AddDishTypeReq) returns (AddDishTypeResp);
+    rpc GetMaterials(GetMaterialsReq) returns (GetMaterialsResp);
+    rpc CreateOrEditMaterial(CreateOrEditMaterialReq) returns (CreateOrEditMaterialResp);
+    rpc CreateOrEditDish(CreateOrEditDishReq) returns (google.protobuf.Empty);
 }
