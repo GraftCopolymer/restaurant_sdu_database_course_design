@@ -69,6 +69,12 @@ class _DashboardPageState extends State<DashboardPage> {
           router.push(r.DishManagementRoute());
         },
       ),
+      DashboardCard(
+        child: _buildCardContent("原材料管理", Icons.cookie_outlined),
+        onTap: () {
+          router.push(r.MaterialListRoute());
+        },
+      ),
     ];
     final loginRole = await Utils.getLoginRole();
     final employeeRole = await Utils.getEmployeeRole();

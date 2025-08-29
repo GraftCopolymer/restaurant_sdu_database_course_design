@@ -18,11 +18,11 @@ import 'package:restaurant_management/widgets/global_dialog.dart';
 class MaterialListPage extends ConsumerStatefulWidget {
   const MaterialListPage({
     super.key,
-    this.title = '配料选择',
+    this.title = '配料管理',
     this.onTapMaterialItem,
   });
 
-  /// 标题, 不设置默认为 '配料选择'
+  /// 标题, 不设置默认为 '配料管理'
   final String title;
 
   /// 点击配料item后的回调, 默认行为是打开配料信息编辑页面, 传入该函数后将覆盖默认行为

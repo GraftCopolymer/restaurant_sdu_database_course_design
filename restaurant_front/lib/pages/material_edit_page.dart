@@ -12,6 +12,7 @@ import 'package:restaurant_management/src/generated/dish_service.pb.dart' as pb;
 import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart';
 import 'package:restaurant_management/utils/text_formatter.dart';
 import 'package:restaurant_management/utils/utils.dart';
+import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/form_section.dart';
 
 @RoutePage()
@@ -124,120 +125,122 @@ class _MaterialEditPageState extends ConsumerState<MaterialEditPage> {
   Widget build(BuildContext context) {
     debugPrint("当前选择的单位类型: $_currentUnitType");
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(title: Text(_getTitleText())),
-      body: Center(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SizedBox(
-              width: constraints.maxWidth,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            TextField(
-                              controller: _nameController,
-                              style: TextStyle(
-                                fontSize: Theme.of(
-                                  context,
-                                ).textTheme.titleLarge!.fontSize,
+    return BackScope(
+      child: Scaffold(
+        appBar: AppBar(title: Text(_getTitleText()), leading: BackButton(),),
+        body: Center(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SizedBox(
+                width: constraints.maxWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: _nameController,
+                                style: TextStyle(
+                                  fontSize: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.fontSize,
+                                ),
+                                decoration: InputDecoration(hintText: "请输入配料名称"),
                               ),
-                              decoration: InputDecoration(hintText: "请输入配料名称"),
-                            ),
-                            SizedBox(height: 20),
-                            FormSection(
-                              title: Text("计量单位"),
-                              content: DropdownMenu(
-                                initialSelection: _currentUnitType,
-                                dropdownMenuEntries:
-                                    _buildUnitTypeDropdownMenuEntries(),
-                                onSelected: (value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      _currentUnitType = value;
-                                    });
-                                  }
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            if (_currentUnitType != UnitType.UINT_TYPE_UNKNOWN)
+                              SizedBox(height: 20),
                               FormSection(
-                                title: Text("配料单价"),
-                                content: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: SizedBox(
-                                    width: width * 0.7,
-                                    child: TextField(
-                                      controller: _priceController,
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                            decimal: true,
-                                          ),
-                                      inputFormatters: [
-                                        DecimalTextInputFormatter()
-                                      ],
-                                      decoration: InputDecoration(
-                                        hintText: "输入单价",
-                                        suffix: Text(_getPriceSuffixText()),
+                                title: Text("计量单位"),
+                                content: DropdownMenu(
+                                  initialSelection: _currentUnitType,
+                                  dropdownMenuEntries:
+                                      _buildUnitTypeDropdownMenuEntries(),
+                                  onSelected: (value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        _currentUnitType = value;
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              if (_currentUnitType != UnitType.UINT_TYPE_UNKNOWN)
+                                FormSection(
+                                  title: Text("配料单价"),
+                                  content: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: SizedBox(
+                                      width: width * 0.7,
+                                      child: TextField(
+                                        controller: _priceController,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                        inputFormatters: [
+                                          DecimalTextInputFormatter()
+                                        ],
+                                        decoration: InputDecoration(
+                                          hintText: "输入单价",
+                                          suffix: Text(_getPriceSuffixText()),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            if (_currentUnitType != UnitType.UINT_TYPE_UNKNOWN)
-                              FormSection(
-                                title: Text("总量"),
-                                content: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: SizedBox(
-                                    width: width * 0.7,
-                                    child: TextField(
-                                      controller: _amountController,
-                                      keyboardType:
-                                          _currentUnitType ==
-                                              UnitType.UINT_TYPE_PER
-                                          ? TextInputType.number
-                                          : TextInputType.numberWithOptions(
-                                              decimal: true,
+                              if (_currentUnitType != UnitType.UINT_TYPE_UNKNOWN)
+                                FormSection(
+                                  title: Text("总量"),
+                                  content: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: SizedBox(
+                                      width: width * 0.7,
+                                      child: TextField(
+                                        controller: _amountController,
+                                        keyboardType:
+                                            _currentUnitType ==
+                                                UnitType.UINT_TYPE_PER
+                                            ? TextInputType.number
+                                            : TextInputType.numberWithOptions(
+                                                decimal: true,
+                                              ),
+                                        inputFormatters: [
+                                          // 选择份数时只允许输入整数
+                                          if (_currentUnitType ==
+                                              UnitType.UINT_TYPE_PER)
+                                            FilteringTextInputFormatter
+                                                .digitsOnly, // 只允许输入 0-9
+                                        ],
+                                        decoration: InputDecoration(
+                                          hintText: "请输入总量, 不填默认为0",
+                                          suffix: Text(
+                                            Utils.getMaterialUnitText(
+                                              _currentUnitType,
                                             ),
-                                      inputFormatters: [
-                                        // 选择份数时只允许输入整数
-                                        if (_currentUnitType ==
-                                            UnitType.UINT_TYPE_PER)
-                                          FilteringTextInputFormatter
-                                              .digitsOnly, // 只允许输入 0-9
-                                      ],
-                                      decoration: InputDecoration(
-                                        hintText: "请输入总量, 不填默认为0",
-                                        suffix: Text(
-                                          Utils.getMaterialUnitText(
-                                            _currentUnitType,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            SizedBox(height: 10,),
-                            FilledButton(onPressed: (){
-                              _submitMaterial();
-                            }, child: Text("提交"))
-                          ],
+                              SizedBox(height: 10,),
+                              FilledButton(onPressed: (){
+                                _submitMaterial();
+                              }, child: Text("提交"))
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

@@ -46,6 +46,7 @@ class _RecipeEditPageState extends ConsumerState<RecipeEditPage> {
         debugPrint("路由栈RecipeEditRoute(添加配料): ${router.stack.map((e) => e.name).toList()}");
         router.push(
           MaterialListRoute(
+            title: "配料选择",
             onTapMaterialItem: (material, usage) {
               // 检查配料是否已经添加
               for (final ma in _recipe.materials) {
