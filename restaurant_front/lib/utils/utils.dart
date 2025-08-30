@@ -86,7 +86,7 @@ class Utils {
 
   /// 获取登录角色
   static Future<LoginRole?> getLoginRole() async { 
-    final role = SP.pref.getInt(StoreKeys.role);
+    final role = SP.pref.getInt(StoreKeys.loginRole);
     if (role == null) return null;
     return LoginRole.valueOf(role);
   }

@@ -176,6 +176,10 @@ class LoginResp extends $pb.GeneratedMessage {
     $core.int? userID,
     LoginRole? role,
     EmployeeRole? employeeRole,
+    $core.int? managerId,
+    $core.String? phone,
+    $core.String? salary,
+    $core.String? username,
   }) {
     final result = create();
     if (accessToken != null) result.accessToken = accessToken;
@@ -184,6 +188,10 @@ class LoginResp extends $pb.GeneratedMessage {
     if (userID != null) result.userID = userID;
     if (role != null) result.role = role;
     if (employeeRole != null) result.employeeRole = employeeRole;
+    if (managerId != null) result.managerId = managerId;
+    if (phone != null) result.phone = phone;
+    if (salary != null) result.salary = salary;
+    if (username != null) result.username = username;
     return result;
   }
 
@@ -216,6 +224,11 @@ class LoginResp extends $pb.GeneratedMessage {
         defaultOrMaker: EmployeeRole.ROLE_UNKNOWN,
         valueOf: EmployeeRole.valueOf,
         enumValues: EmployeeRole.values)
+    ..a<$core.int>(7, _omitFieldNames ? '' : 'managerId', $pb.PbFieldType.OU3,
+        protoName: 'managerId')
+    ..aOS(8, _omitFieldNames ? '' : 'phone')
+    ..aOS(9, _omitFieldNames ? '' : 'salary')
+    ..aOS(10, _omitFieldNames ? '' : 'username')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -292,6 +305,42 @@ class LoginResp extends $pb.GeneratedMessage {
   $core.bool hasEmployeeRole() => $_has(5);
   @$pb.TagNumber(6)
   void clearEmployeeRole() => $_clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.int get managerId => $_getIZ(6);
+  @$pb.TagNumber(7)
+  set managerId($core.int value) => $_setUnsignedInt32(6, value);
+  @$pb.TagNumber(7)
+  $core.bool hasManagerId() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearManagerId() => $_clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get phone => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set phone($core.String value) => $_setString(7, value);
+  @$pb.TagNumber(8)
+  $core.bool hasPhone() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearPhone() => $_clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get salary => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set salary($core.String value) => $_setString(8, value);
+  @$pb.TagNumber(9)
+  $core.bool hasSalary() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearSalary() => $_clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get username => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set username($core.String value) => $_setString(9, value);
+  @$pb.TagNumber(10)
+  $core.bool hasUsername() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearUsername() => $_clearField(10);
 }
 
 class RegisterReq extends $pb.GeneratedMessage {
@@ -393,6 +442,8 @@ class RegisterResp extends $pb.GeneratedMessage {
     RespStatus? status,
     $core.int? userID,
     LoginRole? role,
+    $core.String? username,
+    $core.String? phone,
   }) {
     final result = create();
     if (accessToken != null) result.accessToken = accessToken;
@@ -400,6 +451,8 @@ class RegisterResp extends $pb.GeneratedMessage {
     if (status != null) result.status = status;
     if (userID != null) result.userID = userID;
     if (role != null) result.role = role;
+    if (username != null) result.username = username;
+    if (phone != null) result.phone = phone;
     return result;
   }
 
@@ -426,6 +479,8 @@ class RegisterResp extends $pb.GeneratedMessage {
         defaultOrMaker: LoginRole.LOGIN_ROLE_UNKNOWN,
         valueOf: LoginRole.valueOf,
         enumValues: LoginRole.values)
+    ..aOS(6, _omitFieldNames ? '' : 'username')
+    ..aOS(7, _omitFieldNames ? '' : 'phone')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -495,6 +550,24 @@ class RegisterResp extends $pb.GeneratedMessage {
   $core.bool hasRole() => $_has(4);
   @$pb.TagNumber(5)
   void clearRole() => $_clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get username => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set username($core.String value) => $_setString(5, value);
+  @$pb.TagNumber(6)
+  $core.bool hasUsername() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearUsername() => $_clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get phone => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set phone($core.String value) => $_setString(6, value);
+  @$pb.TagNumber(7)
+  $core.bool hasPhone() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearPhone() => $_clearField(7);
 }
 
 class RefreshTokenReq extends $pb.GeneratedMessage {
@@ -765,11 +838,19 @@ class RegisterAdminResp extends $pb.GeneratedMessage {
     $core.String? accessToken,
     $core.String? refreshToken,
     $core.int? userID,
+    LoginRole? loginRole,
+    EmployeeRole? employeeRole,
+    $core.String? phone,
+    $core.String? username,
   }) {
     final result = create();
     if (accessToken != null) result.accessToken = accessToken;
     if (refreshToken != null) result.refreshToken = refreshToken;
     if (userID != null) result.userID = userID;
+    if (loginRole != null) result.loginRole = loginRole;
+    if (employeeRole != null) result.employeeRole = employeeRole;
+    if (phone != null) result.phone = phone;
+    if (username != null) result.username = username;
     return result;
   }
 
@@ -790,6 +871,19 @@ class RegisterAdminResp extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'refreshToken', protoName: 'refreshToken')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'userID', $pb.PbFieldType.OU3,
         protoName: 'userID')
+    ..e<LoginRole>(4, _omitFieldNames ? '' : 'loginRole', $pb.PbFieldType.OE,
+        protoName: 'loginRole',
+        defaultOrMaker: LoginRole.LOGIN_ROLE_UNKNOWN,
+        valueOf: LoginRole.valueOf,
+        enumValues: LoginRole.values)
+    ..e<EmployeeRole>(
+        5, _omitFieldNames ? '' : 'employeeRole', $pb.PbFieldType.OE,
+        protoName: 'employeeRole',
+        defaultOrMaker: EmployeeRole.ROLE_UNKNOWN,
+        valueOf: EmployeeRole.valueOf,
+        enumValues: EmployeeRole.values)
+    ..aOS(6, _omitFieldNames ? '' : 'phone')
+    ..aOS(7, _omitFieldNames ? '' : 'username')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -839,6 +933,42 @@ class RegisterAdminResp extends $pb.GeneratedMessage {
   $core.bool hasUserID() => $_has(2);
   @$pb.TagNumber(3)
   void clearUserID() => $_clearField(3);
+
+  @$pb.TagNumber(4)
+  LoginRole get loginRole => $_getN(3);
+  @$pb.TagNumber(4)
+  set loginRole(LoginRole value) => $_setField(4, value);
+  @$pb.TagNumber(4)
+  $core.bool hasLoginRole() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearLoginRole() => $_clearField(4);
+
+  @$pb.TagNumber(5)
+  EmployeeRole get employeeRole => $_getN(4);
+  @$pb.TagNumber(5)
+  set employeeRole(EmployeeRole value) => $_setField(5, value);
+  @$pb.TagNumber(5)
+  $core.bool hasEmployeeRole() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearEmployeeRole() => $_clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get phone => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set phone($core.String value) => $_setString(5, value);
+  @$pb.TagNumber(6)
+  $core.bool hasPhone() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearPhone() => $_clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get username => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set username($core.String value) => $_setString(6, value);
+  @$pb.TagNumber(7)
+  $core.bool hasUsername() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearUsername() => $_clearField(7);
 }
 
 const $core.bool _omitFieldNames =

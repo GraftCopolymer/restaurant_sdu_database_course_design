@@ -7,6 +7,7 @@ import 'package:restaurant_management/network/employee_service.dart';
 import 'package:restaurant_management/src/generated/basic_service.pbenum.dart';
 import 'package:restaurant_management/src/generated/employee_service.pbgrpc.dart';
 import 'package:restaurant_management/utils/utils.dart';
+import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/global_dialog.dart';
 
 /// 添加新员工页面
@@ -74,79 +75,81 @@ class _EmployeeAddPageState extends State<EmployeeAddPage> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(title: Text("添加员工")),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  width: width * 0.7,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 20),
-                      TextField(
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          label: Text("员工姓名"),
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      TextField(
-                        controller: _phoneController,
-                        decoration: InputDecoration(
-                          label: Text("员工电话"),
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      TextField(
-                        controller: _passwordController,
-                        obscureText: !_checkPassword,
-                        decoration: InputDecoration(
-                          label: Text("初始密码"),
-                          border: OutlineInputBorder(),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _checkPassword = !_checkPassword;
-                              _eyeIconKey++;
-                              setState(() {});
-                            },
-                            icon: AnimatedSwitcher(
-                              duration: Duration(milliseconds: 200),
-                              child: _checkPassword
-                                ? Icon(Icons.visibility_off_outlined, key: ValueKey(_eyeIconKey))
-                                : Icon(Icons.visibility_outlined, key: ValueKey(_eyeIconKey),),
-                            )
+    return BackScope(
+      child: Scaffold(
+        appBar: AppBar(title: Text("添加员工"),leading: BackButton(),),
+        body: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    width: width * 0.7,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 20),
+                        TextField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            label: Text("员工姓名"),
+                            border: OutlineInputBorder(),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        width: width * 0.7,
-                        child: DropdownMenu<EmployeeRole>(
-                          width: width * 0.7,
-                          initialSelection: _role,
-                          onSelected:(value) {
-                            _role = value!;
-                            debugPrint("选中: $value");
-                          },
-                          dropdownMenuEntries: _buildEmployeeRoleSelectionDropdownMenuItem()
+                        SizedBox(height: 20),
+                        TextField(
+                          controller: _phoneController,
+                          decoration: InputDecoration(
+                            label: Text("员工电话"),
+                            border: OutlineInputBorder(),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      FilledButton(onPressed: (){
-                        _addEmployee();
-                      }, child: Text("添加员工"))
-                    ],
+                        SizedBox(height: 20),
+                        TextField(
+                          controller: _passwordController,
+                          obscureText: !_checkPassword,
+                          decoration: InputDecoration(
+                            label: Text("初始密码"),
+                            border: OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                _checkPassword = !_checkPassword;
+                                _eyeIconKey++;
+                                setState(() {});
+                              },
+                              icon: AnimatedSwitcher(
+                                duration: Duration(milliseconds: 200),
+                                child: _checkPassword
+                                  ? Icon(Icons.visibility_off_outlined, key: ValueKey(_eyeIconKey))
+                                  : Icon(Icons.visibility_outlined, key: ValueKey(_eyeIconKey),),
+                              )
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          width: width * 0.7,
+                          child: DropdownMenu<EmployeeRole>(
+                            width: width * 0.7,
+                            initialSelection: _role,
+                            onSelected:(value) {
+                              _role = value!;
+                              debugPrint("选中: $value");
+                            },
+                            dropdownMenuEntries: _buildEmployeeRoleSelectionDropdownMenuItem()
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        FilledButton(onPressed: (){
+                          _addEmployee();
+                        }, child: Text("添加员工"))
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

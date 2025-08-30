@@ -164,3 +164,16 @@ func Filter[T any](list []T, predicate func(T) bool) []T {
 	}
 	return result
 }
+
+func SafePageInfo(page uint32, pageSize uint32) (int, int) {
+	sPage, sPageSize := page, pageSize
+	if sPage <= 0 {
+		sPage = 1
+	}
+	if sPageSize <= 0 {
+		sPageSize = 10
+	} else if sPageSize > 100 {
+		sPageSize = 100
+	}
+	return int(sPage), int(sPageSize)
+}

@@ -1,34 +1,39 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grpc/grpc.dart';
 import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/network/auth_service.dart';
+import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/basic_service.pbgrpc.dart';
 import 'package:restaurant_management/utils/secure_storage_utils.dart';
 import 'package:restaurant_management/utils/sp.dart';
 import 'package:restaurant_management/utils/store_keys.dart';
+import 'package:restaurant_management/utils/store_utils.dart';
 import 'package:restaurant_management/utils/utils.dart';
+import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/global_dialog.dart';
 
 /// 登录页面表单类型
 enum LoginFormType { login, register }
 
 @RoutePage()
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key, this.onLoginResult, this.onRegisterResult});
 
   final void Function(bool success)? onLoginResult;
   final void Function(bool success)? onRegisterResult;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   bool _agree = false;
 
   LoginFormType _formType = LoginFormType.login; // 表单类型
@@ -302,19 +307,26 @@ class _LoginPageState extends State<LoginPage> {
         widget.onLoginResult?.call(false);
         return;
       }
-      // 储存用户token
-      await SecureStorage.put(StoreKeys.accessToken, resp.accessToken);
-      await SecureStorage.put(StoreKeys.refreshToken, resp.refreshToken);
-      final userIDStoreSuccess = await SP.pref.setInt(StoreKeys.userID, Utils.getUserID(resp.accessToken));
-      final userRoleStoreSuccess = await SP.pref.setInt(StoreKeys.role, resp.role.value);
-      // 储存雇员角色类型
-      if (resp.role == LoginRole.LOGIN_ROLE_EMPLOYEE) {
-        await SP.pref.setInt(StoreKeys.employeeRole, resp.employeeRole.value);
+      Decimal? salary;
+      try {
+        salary = Decimal.parse(resp.salary);
+      } catch (e, s) {
+        Utils.report(e, s);
       }
-      if (!userIDStoreSuccess || !userRoleStoreSuccess) {
-        Fluttertoast.showToast(msg: "登录失败");
-        return;
-      }
+      // 储存用户信息
+      final userInfo = UserInfo(
+        accessToken: resp.accessToken,
+        refreshToken: resp.refreshToken,
+        userId: Utils.getUserID(resp.accessToken),
+        loginRole: resp.role,
+        employeeRole: resp.employeeRole,
+        username: resp.username,
+        phone: resp.phone,
+        managerId: resp.managerId,
+        salary: salary,
+      );
+      StoreUtils.storeUserInfo(userInfo);
+      ref.read(userInfoModelProvider.notifier).setUserInfo(userInfo);
       Fluttertoast.showToast(msg: "登录成功");
       widget.onLoginResult?.call(true);
       debugPrint("用户token: ${resp.accessToken}");
@@ -367,7 +379,18 @@ class _LoginPageState extends State<LoginPage> {
         widget.onRegisterResult?.call(false);
         return;
       }
-      Fluttertoast.showToast(msg: "注册成功, accessToken为: ${resp.accessToken}");
+      // 保存用户信息
+      final userInfo = UserInfo(
+        accessToken: resp.accessToken,
+        refreshToken: resp.refreshToken,
+        username: resp.username,
+        userId: resp.userID,
+        phone: resp.phone,
+        loginRole: LoginRole.LOGIN_ROLE_CUSTOMER,
+      );
+      // 更新用户信息
+      ref.read(userInfoModelProvider.notifier).setUserInfo(userInfo);
+      Fluttertoast.showToast(msg: "注册成功");
       widget.onRegisterResult?.call(true);
     } on GrpcError catch (e) {
       // 显示后端的错误信息
@@ -384,121 +407,123 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: kToolbarHeight),
-                      _buildTitleBar(),
-                      SizedBox(height: 20),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _buildIconArray(),
-                          Align(
-                            child: Text(
-                              "GraftCopolymer's RMS",
-                              style: Theme.of(context).textTheme.titleSmall
-                                  ?.copyWith(
-                                    color: Theme.of(context).disabledColor,
-                                  ),
+    return BackScope(
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: kToolbarHeight),
+                        _buildTitleBar(),
+                        SizedBox(height: 20),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            _buildIconArray(),
+                            Align(
+                              child: Text(
+                                "GraftCopolymer's RMS",
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(
+                                      color: Theme.of(context).disabledColor,
+                                    ),
+                              ),
                             ),
-                          ),
-                          _buildForm(),
-                          SizedBox(
-                            width: width * 0.7,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Checkbox(
-                                        value: _agree,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _agree = value!;
-                                          });
-                                        },
-                                      ),
-                                      GestureDetector(
-                                        child: Text("同意用户协议"),
-                                        onTap: () {
-                                          setState(() {
-                                            _agree = !_agree;
-                                          });
-                                        },
-                                      ),
-                                    ],
+                            _buildForm(),
+                            SizedBox(
+                              width: width * 0.7,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Checkbox(
+                                          value: _agree,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _agree = value!;
+                                            });
+                                          },
+                                        ),
+                                        GestureDetector(
+                                          child: Text("同意用户协议"),
+                                          onTap: () {
+                                            setState(() {
+                                              _agree = !_agree;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                if (_formType == LoginFormType.login)
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _formType = LoginFormType.register;
-                                      });
-                                    },
-                                    child: Text("注册"),
-                                  )
-                                else if (_formType == LoginFormType.register)
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _formType = LoginFormType.login;
-                                      });
-                                    },
-                                    child: Text("已有账号? 去登录"),
-                                  ),
-                              ],
+                                  if (_formType == LoginFormType.login)
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _formType = LoginFormType.register;
+                                        });
+                                      },
+                                      child: Text("注册"),
+                                    )
+                                  else if (_formType == LoginFormType.register)
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _formType = LoginFormType.login;
+                                        });
+                                      },
+                                      child: Text("已有账号? 去登录"),
+                                    ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: width * 0.8,
-                child: Builder(
-                  builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: FilledButton(
-                        onPressed: () {
-                          if (!_agree) {
-                            ScaffoldMessenger.of(
-                              context,
-                            ).showSnackBar(SnackBar(content: Text("请同意用户协议")));
-                            return;
-                          }
-                          if (_formType == LoginFormType.login) {
-                            _onLogin();
-                          } else if (_formType == LoginFormType.register) {
-                            _onRegister();
-                          } else {
-                            throw StateError(
-                              "Unreachable Code, please check if you have edited LoginFormType enum",
-                            );
-                          }
-                        },
-                        child: Text(
-                          _formType == LoginFormType.login ? "登录" : "注册",
+                SizedBox(
+                  width: width * 0.8,
+                  child: Builder(
+                    builder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: FilledButton(
+                          onPressed: () {
+                            if (!_agree) {
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text("请同意用户协议")));
+                              return;
+                            }
+                            if (_formType == LoginFormType.login) {
+                              _onLogin();
+                            } else if (_formType == LoginFormType.register) {
+                              _onRegister();
+                            } else {
+                              throw StateError(
+                                "Unreachable Code, please check if you have edited LoginFormType enum",
+                              );
+                            }
+                          },
+                          child: Text(
+                            _formType == LoginFormType.login ? "登录" : "注册",
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

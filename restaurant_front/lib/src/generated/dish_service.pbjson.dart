@@ -363,3 +363,70 @@ const CreateOrEditDishReq$json = {
 final $typed_data.Uint8List createOrEditDishReqDescriptor = $convert.base64Decode(
     'ChNDcmVhdGVPckVkaXREaXNoUmVxEigKBGRpc2gYASABKAsyFC5yZXN0YXVyYW50X3JwYy5EaX'
     'NoUgRkaXNo');
+
+@$core.Deprecated('Use getDishesWithCategoryReqDescriptor instead')
+const GetDishesWithCategoryReq$json = {
+  '1': 'GetDishesWithCategoryReq',
+  '2': [
+    {
+      '1': 'pageInfo',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.PageInfo',
+      '10': 'pageInfo'
+    },
+    {
+      '1': 'category',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.DishType',
+      '10': 'category'
+    },
+  ],
+};
+
+/// Descriptor for `GetDishesWithCategoryReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getDishesWithCategoryReqDescriptor = $convert.base64Decode(
+    'ChhHZXREaXNoZXNXaXRoQ2F0ZWdvcnlSZXESNAoIcGFnZUluZm8YASABKAsyGC5yZXN0YXVyYW'
+    '50X3JwYy5QYWdlSW5mb1IIcGFnZUluZm8SNAoIY2F0ZWdvcnkYAiABKAsyGC5yZXN0YXVyYW50'
+    'X3JwYy5EaXNoVHlwZVIIY2F0ZWdvcnk=');
+
+@$core.Deprecated('Use getDishesWithCategoryRespDescriptor instead')
+const GetDishesWithCategoryResp$json = {
+  '1': 'GetDishesWithCategoryResp',
+  '2': [
+    {
+      '1': 'dishes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.Dish',
+      '10': 'dishes'
+    },
+    {
+      '1': 'pageInfo',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.PageInfo',
+      '10': 'pageInfo'
+    },
+    {
+      '1': 'category',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.DishType',
+      '10': 'category'
+    },
+  ],
+};
+
+/// Descriptor for `GetDishesWithCategoryResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getDishesWithCategoryRespDescriptor = $convert.base64Decode(
+    'ChlHZXREaXNoZXNXaXRoQ2F0ZWdvcnlSZXNwEiwKBmRpc2hlcxgBIAMoCzIULnJlc3RhdXJhbn'
+    'RfcnBjLkRpc2hSBmRpc2hlcxI0CghwYWdlSW5mbxgCIAEoCzIYLnJlc3RhdXJhbnRfcnBjLlBh'
+    'Z2VJbmZvUghwYWdlSW5mbxI0CghjYXRlZ29yeRgDIAEoCzIYLnJlc3RhdXJhbnRfcnBjLkRpc2'
+    'hUeXBlUghjYXRlZ29yeQ==');

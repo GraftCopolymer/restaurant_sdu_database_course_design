@@ -20,12 +20,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DishService_GetDishes_FullMethodName            = "/restaurant_rpc.DishService/GetDishes"
-	DishService_GetDishType_FullMethodName          = "/restaurant_rpc.DishService/GetDishType"
-	DishService_AddDishType_FullMethodName          = "/restaurant_rpc.DishService/AddDishType"
-	DishService_GetMaterials_FullMethodName         = "/restaurant_rpc.DishService/GetMaterials"
-	DishService_CreateOrEditMaterial_FullMethodName = "/restaurant_rpc.DishService/CreateOrEditMaterial"
-	DishService_CreateOrEditDish_FullMethodName     = "/restaurant_rpc.DishService/CreateOrEditDish"
+	DishService_GetDishes_FullMethodName             = "/restaurant_rpc.DishService/GetDishes"
+	DishService_GetDishType_FullMethodName           = "/restaurant_rpc.DishService/GetDishType"
+	DishService_AddDishType_FullMethodName           = "/restaurant_rpc.DishService/AddDishType"
+	DishService_GetMaterials_FullMethodName          = "/restaurant_rpc.DishService/GetMaterials"
+	DishService_CreateOrEditMaterial_FullMethodName  = "/restaurant_rpc.DishService/CreateOrEditMaterial"
+	DishService_CreateOrEditDish_FullMethodName      = "/restaurant_rpc.DishService/CreateOrEditDish"
+	DishService_GetDishesWithCategory_FullMethodName = "/restaurant_rpc.DishService/GetDishesWithCategory"
 )
 
 // DishServiceClient is the client API for DishService service.
@@ -38,6 +39,7 @@ type DishServiceClient interface {
 	GetMaterials(ctx context.Context, in *GetMaterialsReq, opts ...grpc.CallOption) (*GetMaterialsResp, error)
 	CreateOrEditMaterial(ctx context.Context, in *CreateOrEditMaterialReq, opts ...grpc.CallOption) (*CreateOrEditMaterialResp, error)
 	CreateOrEditDish(ctx context.Context, in *CreateOrEditDishReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetDishesWithCategory(ctx context.Context, in *GetDishesWithCategoryReq, opts ...grpc.CallOption) (*GetDishesWithCategoryResp, error)
 }
 
 type dishServiceClient struct {
@@ -108,6 +110,16 @@ func (c *dishServiceClient) CreateOrEditDish(ctx context.Context, in *CreateOrEd
 	return out, nil
 }
 
+func (c *dishServiceClient) GetDishesWithCategory(ctx context.Context, in *GetDishesWithCategoryReq, opts ...grpc.CallOption) (*GetDishesWithCategoryResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDishesWithCategoryResp)
+	err := c.cc.Invoke(ctx, DishService_GetDishesWithCategory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DishServiceServer is the server API for DishService service.
 // All implementations must embed UnimplementedDishServiceServer
 // for forward compatibility.
@@ -118,6 +130,7 @@ type DishServiceServer interface {
 	GetMaterials(context.Context, *GetMaterialsReq) (*GetMaterialsResp, error)
 	CreateOrEditMaterial(context.Context, *CreateOrEditMaterialReq) (*CreateOrEditMaterialResp, error)
 	CreateOrEditDish(context.Context, *CreateOrEditDishReq) (*emptypb.Empty, error)
+	GetDishesWithCategory(context.Context, *GetDishesWithCategoryReq) (*GetDishesWithCategoryResp, error)
 	mustEmbedUnimplementedDishServiceServer()
 }
 
@@ -145,6 +158,9 @@ func (UnimplementedDishServiceServer) CreateOrEditMaterial(context.Context, *Cre
 }
 func (UnimplementedDishServiceServer) CreateOrEditDish(context.Context, *CreateOrEditDishReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrEditDish not implemented")
+}
+func (UnimplementedDishServiceServer) GetDishesWithCategory(context.Context, *GetDishesWithCategoryReq) (*GetDishesWithCategoryResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDishesWithCategory not implemented")
 }
 func (UnimplementedDishServiceServer) mustEmbedUnimplementedDishServiceServer() {}
 func (UnimplementedDishServiceServer) testEmbeddedByValue()                     {}
@@ -275,6 +291,24 @@ func _DishService_CreateOrEditDish_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DishService_GetDishesWithCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDishesWithCategoryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DishServiceServer).GetDishesWithCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DishService_GetDishesWithCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DishServiceServer).GetDishesWithCategory(ctx, req.(*GetDishesWithCategoryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DishService_ServiceDesc is the grpc.ServiceDesc for DishService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -305,6 +339,10 @@ var DishService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateOrEditDish",
 			Handler:    _DishService_CreateOrEditDish_Handler,
+		},
+		{
+			MethodName: "GetDishesWithCategory",
+			Handler:    _DishService_GetDishesWithCategory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

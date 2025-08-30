@@ -75,6 +75,13 @@ class DishServiceClient extends $grpc.Client {
     return $createUnaryCall(_$createOrEditDish, request, options: options);
   }
 
+  $grpc.ResponseFuture<$0.GetDishesWithCategoryResp> getDishesWithCategory(
+    $0.GetDishesWithCategoryReq request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$getDishesWithCategory, request, options: options);
+  }
+
   // method descriptors
 
   static final _$getDishes =
@@ -106,6 +113,11 @@ class DishServiceClient extends $grpc.Client {
           '/restaurant_rpc.DishService/CreateOrEditDish',
           ($0.CreateOrEditDishReq value) => value.writeToBuffer(),
           $1.Empty.fromBuffer);
+  static final _$getDishesWithCategory = $grpc.ClientMethod<
+          $0.GetDishesWithCategoryReq, $0.GetDishesWithCategoryResp>(
+      '/restaurant_rpc.DishService/GetDishesWithCategory',
+      ($0.GetDishesWithCategoryReq value) => value.writeToBuffer(),
+      $0.GetDishesWithCategoryResp.fromBuffer);
 }
 
 @$pb.GrpcServiceName('restaurant_rpc.DishService')
@@ -158,6 +170,15 @@ abstract class DishServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.CreateOrEditDishReq.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetDishesWithCategoryReq,
+            $0.GetDishesWithCategoryResp>(
+        'GetDishesWithCategory',
+        getDishesWithCategory_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.GetDishesWithCategoryReq.fromBuffer(value),
+        ($0.GetDishesWithCategoryResp value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetDishesResp> getDishes_Pre(
@@ -208,4 +229,13 @@ abstract class DishServiceBase extends $grpc.Service {
 
   $async.Future<$1.Empty> createOrEditDish(
       $grpc.ServiceCall call, $0.CreateOrEditDishReq request);
+
+  $async.Future<$0.GetDishesWithCategoryResp> getDishesWithCategory_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.GetDishesWithCategoryReq> $request) async {
+    return getDishesWithCategory($call, await $request);
+  }
+
+  $async.Future<$0.GetDishesWithCategoryResp> getDishesWithCategory(
+      $grpc.ServiceCall call, $0.GetDishesWithCategoryReq request);
 }

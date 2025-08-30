@@ -23,6 +23,10 @@ message LoginResp {
     uint32 userID = 4;
     LoginRole role = 5;
     EmployeeRole employeeRole = 6; // 仅雇员时该字段有值
+    uint32 managerId = 7;
+    string phone = 8;
+    string salary = 9;
+    string username = 10;
 }
 
 enum LoginRole {
@@ -50,6 +54,8 @@ message RegisterResp {
     RespStatus status = 3;
     uint32 userID = 4;
     LoginRole role = 5;
+    string username = 6;
+    string phone = 7;
 }
 
 message RefreshTokenReq {
@@ -75,6 +81,10 @@ message RegisterAdminResp {
     string accessToken = 1;
     string refreshToken = 2;
     uint32 userID = 3;
+    LoginRole loginRole = 4;
+    EmployeeRole employeeRole = 5;
+    string phone = 6;
+    string username = 7;
 }
 
 service AuthService {

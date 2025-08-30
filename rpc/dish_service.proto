@@ -92,6 +92,17 @@ message CreateOrEditDishReq {
     Dish dish = 1;
 }
 
+message GetDishesWithCategoryReq {
+    PageInfo pageInfo = 1;
+    DishType category = 2;
+}
+
+message GetDishesWithCategoryResp {
+    repeated Dish dishes = 1;
+    PageInfo pageInfo = 2;
+    DishType category = 3;
+}
+
 service DishService {
     rpc GetDishes(GetDishesReq) returns (GetDishesResp);
     rpc GetDishType(google.protobuf.Empty) returns (GetDishTypeResp);
@@ -99,4 +110,5 @@ service DishService {
     rpc GetMaterials(GetMaterialsReq) returns (GetMaterialsResp);
     rpc CreateOrEditMaterial(CreateOrEditMaterialReq) returns (CreateOrEditMaterialResp);
     rpc CreateOrEditDish(CreateOrEditDishReq) returns (google.protobuf.Empty);
+    rpc GetDishesWithCategory(GetDishesWithCategoryReq) returns (GetDishesWithCategoryResp);
 }

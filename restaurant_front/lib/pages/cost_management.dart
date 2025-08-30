@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management/widgets/back_scope.dart';
 
 @RoutePage()
 class CostManagementPage extends StatefulWidget {
@@ -18,13 +19,16 @@ class _CostManagementPageState extends State<CostManagementPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("成本管理"),
+    return BackScope(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("成本管理"),
+          leading: BackButton(),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(),
+        )
       ),
-      body: Center(
-        child: CircularProgressIndicator(),
-      )
     );
   }
 }

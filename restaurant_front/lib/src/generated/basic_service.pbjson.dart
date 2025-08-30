@@ -112,6 +112,10 @@ const LoginResp$json = {
       '6': '.restaurant_rpc.EmployeeRole',
       '10': 'employeeRole'
     },
+    {'1': 'managerId', '3': 7, '4': 1, '5': 13, '10': 'managerId'},
+    {'1': 'phone', '3': 8, '4': 1, '5': 9, '10': 'phone'},
+    {'1': 'salary', '3': 9, '4': 1, '5': 9, '10': 'salary'},
+    {'1': 'username', '3': 10, '4': 1, '5': 9, '10': 'username'},
   ],
 };
 
@@ -121,7 +125,9 @@ final $typed_data.Uint8List loginRespDescriptor = $convert.base64Decode(
     'hUb2tlbhgCIAEoCVIMcmVmcmVzaFRva2VuEjIKBnN0YXR1cxgDIAEoCzIaLnJlc3RhdXJhbnRf'
     'cnBjLlJlc3BTdGF0dXNSBnN0YXR1cxIWCgZ1c2VySUQYBCABKA1SBnVzZXJJRBItCgRyb2xlGA'
     'UgASgOMhkucmVzdGF1cmFudF9ycGMuTG9naW5Sb2xlUgRyb2xlEkAKDGVtcGxveWVlUm9sZRgG'
-    'IAEoDjIcLnJlc3RhdXJhbnRfcnBjLkVtcGxveWVlUm9sZVIMZW1wbG95ZWVSb2xl');
+    'IAEoDjIcLnJlc3RhdXJhbnRfcnBjLkVtcGxveWVlUm9sZVIMZW1wbG95ZWVSb2xlEhwKCW1hbm'
+    'FnZXJJZBgHIAEoDVIJbWFuYWdlcklkEhQKBXBob25lGAggASgJUgVwaG9uZRIWCgZzYWxhcnkY'
+    'CSABKAlSBnNhbGFyeRIaCgh1c2VybmFtZRgKIAEoCVIIdXNlcm5hbWU=');
 
 @$core.Deprecated('Use registerReqDescriptor instead')
 const RegisterReq$json = {
@@ -163,6 +169,8 @@ const RegisterResp$json = {
       '6': '.restaurant_rpc.LoginRole',
       '10': 'role'
     },
+    {'1': 'username', '3': 6, '4': 1, '5': 9, '10': 'username'},
+    {'1': 'phone', '3': 7, '4': 1, '5': 9, '10': 'phone'},
   ],
 };
 
@@ -171,7 +179,8 @@ final $typed_data.Uint8List registerRespDescriptor = $convert.base64Decode(
     'CgxSZWdpc3RlclJlc3ASIAoLYWNjZXNzVG9rZW4YASABKAlSC2FjY2Vzc1Rva2VuEiIKDHJlZn'
     'Jlc2hUb2tlbhgCIAEoCVIMcmVmcmVzaFRva2VuEjIKBnN0YXR1cxgDIAEoCzIaLnJlc3RhdXJh'
     'bnRfcnBjLlJlc3BTdGF0dXNSBnN0YXR1cxIWCgZ1c2VySUQYBCABKA1SBnVzZXJJRBItCgRyb2'
-    'xlGAUgASgOMhkucmVzdGF1cmFudF9ycGMuTG9naW5Sb2xlUgRyb2xl');
+    'xlGAUgASgOMhkucmVzdGF1cmFudF9ycGMuTG9naW5Sb2xlUgRyb2xlEhoKCHVzZXJuYW1lGAYg'
+    'ASgJUgh1c2VybmFtZRIUCgVwaG9uZRgHIAEoCVIFcGhvbmU=');
 
 @$core.Deprecated('Use refreshTokenReqDescriptor instead')
 const RefreshTokenReq$json = {
@@ -235,6 +244,24 @@ const RegisterAdminResp$json = {
     {'1': 'accessToken', '3': 1, '4': 1, '5': 9, '10': 'accessToken'},
     {'1': 'refreshToken', '3': 2, '4': 1, '5': 9, '10': 'refreshToken'},
     {'1': 'userID', '3': 3, '4': 1, '5': 13, '10': 'userID'},
+    {
+      '1': 'loginRole',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.restaurant_rpc.LoginRole',
+      '10': 'loginRole'
+    },
+    {
+      '1': 'employeeRole',
+      '3': 5,
+      '4': 1,
+      '5': 14,
+      '6': '.restaurant_rpc.EmployeeRole',
+      '10': 'employeeRole'
+    },
+    {'1': 'phone', '3': 6, '4': 1, '5': 9, '10': 'phone'},
+    {'1': 'username', '3': 7, '4': 1, '5': 9, '10': 'username'},
   ],
 };
 
@@ -242,4 +269,7 @@ const RegisterAdminResp$json = {
 final $typed_data.Uint8List registerAdminRespDescriptor = $convert.base64Decode(
     'ChFSZWdpc3RlckFkbWluUmVzcBIgCgthY2Nlc3NUb2tlbhgBIAEoCVILYWNjZXNzVG9rZW4SIg'
     'oMcmVmcmVzaFRva2VuGAIgASgJUgxyZWZyZXNoVG9rZW4SFgoGdXNlcklEGAMgASgNUgZ1c2Vy'
-    'SUQ=');
+    'SUQSNwoJbG9naW5Sb2xlGAQgASgOMhkucmVzdGF1cmFudF9ycGMuTG9naW5Sb2xlUglsb2dpbl'
+    'JvbGUSQAoMZW1wbG95ZWVSb2xlGAUgASgOMhwucmVzdGF1cmFudF9ycGMuRW1wbG95ZWVSb2xl'
+    'UgxlbXBsb3llZVJvbGUSFAoFcGhvbmUYBiABKAlSBXBob25lEhoKCHVzZXJuYW1lGAcgASgJUg'
+    'h1c2VybmFtZQ==');

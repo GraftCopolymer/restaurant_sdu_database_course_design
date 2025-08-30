@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"restaurant_backend/database"
+	myutils "restaurant_backend/my_utils"
 	"restaurant_backend/po"
 	"restaurant_backend/restaurant_backend/rpc"
 	"restaurant_backend/restaurant_backend/types"
@@ -608,4 +609,60 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 		}
 		return &emptypb.Empty{}, nil
 	}
+}
+
+func (s *DishServer) GetDishesWithCategory(ctx context.Context, req *restaurant_rpc.GetDishesWithCategoryReq) (*restaurant_rpc.GetDishesWithCategoryResp, error) {
+	categoryId := req.Category.DishTypeID
+	// 检查category是否存在
+	var exist bool
+	err := database.DB().Model(&po.DishType{}).Where("id = ?", categoryId).Select("1").Scan(&exist).Error
+	if err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	if !exist {
+		return nil, errors.New("该种类不存在")
+	}
+
+	// 查询总数
+	var total int64
+	err = database.DB().Model(&po.Dish{}).Where("dish_type_id = ?", categoryId).Count(&total).Error
+	if err != nil {
+		return nil, errors.New("服务器错误")
+	}
+
+	// 分页查询
+	page, pageSize := myutils.SafePageInfo(req.PageInfo.Page, req.PageInfo.PageSize)
+	var poDishes []po.Dish
+	err = database.DB().Model(&po.Dish{}).
+		Where("dish_type_id = ?", categoryId).
+		Scopes(database.Paginate(page, pageSize)).
+		Preload("Portions").
+		Preload("DishType").
+		Find(&poDishes).Error
+	if err != nil {
+		return nil, errors.New("服务器错误")
+	}
+
+	category := &restaurant_rpc.DishType{
+		DishTypeID: categoryId,
+		Name: req.Category.Name,
+	}
+
+	var pbDishes []*restaurant_rpc.Dish
+	for _, poDish := range poDishes {
+		pbDishes = append(pbDishes, database.PODish2PBDish(poDish))
+	}
+
+	pageInfo := &restaurant_rpc.PageInfo{
+		Page:     uint32(page),
+		PageSize: uint32(pageSize),
+		Total: uint64(total),
+	}
+
+	resp := &restaurant_rpc.GetDishesWithCategoryResp{
+		Dishes: pbDishes,
+		Category: category,
+		PageInfo: pageInfo,
+	}
+	return resp, nil
 }

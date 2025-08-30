@@ -325,7 +325,7 @@ class MaterialEditRouteArgs {
 class MaterialListRoute extends _i17.PageRouteInfo<MaterialListRouteArgs> {
   MaterialListRoute({
     _i18.Key? key,
-    String title = '配料选择',
+    String title = '配料管理',
     void Function(_i20.Material, String)? onTapMaterialItem,
     List<_i17.PageRouteInfo>? children,
   }) : super(
@@ -358,7 +358,7 @@ class MaterialListRoute extends _i17.PageRouteInfo<MaterialListRouteArgs> {
 class MaterialListRouteArgs {
   const MaterialListRouteArgs({
     this.key,
-    this.title = '配料选择',
+    this.title = '配料管理',
     this.onTapMaterialItem,
   });
 

@@ -9,7 +9,7 @@ class PermissionGuard extends AutoRouteGuard {
   @override
   Future<void> onNavigation(NavigationResolver resolver, StackRouter router) async {
     // 检查用户角色
-    final role = SP.pref.getInt(StoreKeys.role) ?? -1;
+    final role = SP.pref.getInt(StoreKeys.loginRole) ?? -1;
     if (role != LoginRole.LOGIN_ROLE_EMPLOYEE.value) {
       debugPrint("权限不足! 当前角色: ${LoginRole.valueOf(role)}");
       resolver.redirectUntil(PermissionDeniedRoute());

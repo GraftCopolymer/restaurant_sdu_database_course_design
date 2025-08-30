@@ -5,6 +5,10 @@ class StoreKeys {
 
   /* SharedPreferences Keys */
   static const userID = "userID";
-  static const role = "role";
+  static const username = "username";
+  static const phone = "phone";
+  static const loginRole = "loginRole";
   static const employeeRole = "employeeRole";
+  static const salary = "salary";
+  static const managerId = "managerId";
 }

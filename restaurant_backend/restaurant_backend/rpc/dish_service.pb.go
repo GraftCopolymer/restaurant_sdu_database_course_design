@@ -895,6 +895,118 @@ func (x *CreateOrEditDishReq) GetDish() *Dish {
 	return nil
 }
 
+type GetDishesWithCategoryReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PageInfo      *PageInfo              `protobuf:"bytes,1,opt,name=pageInfo,proto3" json:"pageInfo,omitempty"`
+	Category      *DishType              `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDishesWithCategoryReq) Reset() {
+	*x = GetDishesWithCategoryReq{}
+	mi := &file_dish_service_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDishesWithCategoryReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDishesWithCategoryReq) ProtoMessage() {}
+
+func (x *GetDishesWithCategoryReq) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDishesWithCategoryReq.ProtoReflect.Descriptor instead.
+func (*GetDishesWithCategoryReq) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetDishesWithCategoryReq) GetPageInfo() *PageInfo {
+	if x != nil {
+		return x.PageInfo
+	}
+	return nil
+}
+
+func (x *GetDishesWithCategoryReq) GetCategory() *DishType {
+	if x != nil {
+		return x.Category
+	}
+	return nil
+}
+
+type GetDishesWithCategoryResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Dishes        []*Dish                `protobuf:"bytes,1,rep,name=dishes,proto3" json:"dishes,omitempty"`
+	PageInfo      *PageInfo              `protobuf:"bytes,2,opt,name=pageInfo,proto3" json:"pageInfo,omitempty"`
+	Category      *DishType              `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDishesWithCategoryResp) Reset() {
+	*x = GetDishesWithCategoryResp{}
+	mi := &file_dish_service_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDishesWithCategoryResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDishesWithCategoryResp) ProtoMessage() {}
+
+func (x *GetDishesWithCategoryResp) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDishesWithCategoryResp.ProtoReflect.Descriptor instead.
+func (*GetDishesWithCategoryResp) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetDishesWithCategoryResp) GetDishes() []*Dish {
+	if x != nil {
+		return x.Dishes
+	}
+	return nil
+}
+
+func (x *GetDishesWithCategoryResp) GetPageInfo() *PageInfo {
+	if x != nil {
+		return x.PageInfo
+	}
+	return nil
+}
+
+func (x *GetDishesWithCategoryResp) GetCategory() *DishType {
+	if x != nil {
+		return x.Category
+	}
+	return nil
+}
+
 var File_dish_service_proto protoreflect.FileDescriptor
 
 const file_dish_service_proto_rawDesc = "" +
@@ -958,14 +1070,22 @@ const file_dish_service_proto_rawDesc = "" +
 	"materialId\x18\x01 \x01(\rR\n" +
 	"materialId\"?\n" +
 	"\x13CreateOrEditDishReq\x12(\n" +
-	"\x04dish\x18\x01 \x01(\v2\x14.restaurant_rpc.DishR\x04dish2\xfe\x03\n" +
+	"\x04dish\x18\x01 \x01(\v2\x14.restaurant_rpc.DishR\x04dish\"\x86\x01\n" +
+	"\x18GetDishesWithCategoryReq\x124\n" +
+	"\bpageInfo\x18\x01 \x01(\v2\x18.restaurant_rpc.PageInfoR\bpageInfo\x124\n" +
+	"\bcategory\x18\x02 \x01(\v2\x18.restaurant_rpc.DishTypeR\bcategory\"\xb5\x01\n" +
+	"\x19GetDishesWithCategoryResp\x12,\n" +
+	"\x06dishes\x18\x01 \x03(\v2\x14.restaurant_rpc.DishR\x06dishes\x124\n" +
+	"\bpageInfo\x18\x02 \x01(\v2\x18.restaurant_rpc.PageInfoR\bpageInfo\x124\n" +
+	"\bcategory\x18\x03 \x01(\v2\x18.restaurant_rpc.DishTypeR\bcategory2\xec\x04\n" +
 	"\vDishService\x12H\n" +
 	"\tGetDishes\x12\x1c.restaurant_rpc.GetDishesReq\x1a\x1d.restaurant_rpc.GetDishesResp\x12F\n" +
 	"\vGetDishType\x12\x16.google.protobuf.Empty\x1a\x1f.restaurant_rpc.GetDishTypeResp\x12N\n" +
 	"\vAddDishType\x12\x1e.restaurant_rpc.AddDishTypeReq\x1a\x1f.restaurant_rpc.AddDishTypeResp\x12Q\n" +
 	"\fGetMaterials\x12\x1f.restaurant_rpc.GetMaterialsReq\x1a .restaurant_rpc.GetMaterialsResp\x12i\n" +
 	"\x14CreateOrEditMaterial\x12'.restaurant_rpc.CreateOrEditMaterialReq\x1a(.restaurant_rpc.CreateOrEditMaterialResp\x12O\n" +
-	"\x10CreateOrEditDish\x12#.restaurant_rpc.CreateOrEditDishReq\x1a\x16.google.protobuf.EmptyB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
+	"\x10CreateOrEditDish\x12#.restaurant_rpc.CreateOrEditDishReq\x1a\x16.google.protobuf.Empty\x12l\n" +
+	"\x15GetDishesWithCategory\x12(.restaurant_rpc.GetDishesWithCategoryReq\x1a).restaurant_rpc.GetDishesWithCategoryRespB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
 
 var (
 	file_dish_service_proto_rawDescOnce sync.Once
@@ -979,63 +1099,72 @@ func file_dish_service_proto_rawDescGZIP() []byte {
 	return file_dish_service_proto_rawDescData
 }
 
-var file_dish_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_dish_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_dish_service_proto_goTypes = []any{
-	(*Dish)(nil),                     // 0: restaurant_rpc.Dish
-	(*DishPortion)(nil),              // 1: restaurant_rpc.DishPortion
-	(*Recipe)(nil),                   // 2: restaurant_rpc.Recipe
-	(*RecipeMaterial)(nil),           // 3: restaurant_rpc.RecipeMaterial
-	(*Material)(nil),                 // 4: restaurant_rpc.Material
-	(*GetDishesReq)(nil),             // 5: restaurant_rpc.GetDishesReq
-	(*GetDishesResp)(nil),            // 6: restaurant_rpc.GetDishesResp
-	(*DishType)(nil),                 // 7: restaurant_rpc.DishType
-	(*GetDishTypeResp)(nil),          // 8: restaurant_rpc.GetDishTypeResp
-	(*AddDishTypeReq)(nil),           // 9: restaurant_rpc.AddDishTypeReq
-	(*AddDishTypeResp)(nil),          // 10: restaurant_rpc.AddDishTypeResp
-	(*GetMaterialsReq)(nil),          // 11: restaurant_rpc.GetMaterialsReq
-	(*GetMaterialsResp)(nil),         // 12: restaurant_rpc.GetMaterialsResp
-	(*CreateOrEditMaterialReq)(nil),  // 13: restaurant_rpc.CreateOrEditMaterialReq
-	(*CreateOrEditMaterialResp)(nil), // 14: restaurant_rpc.CreateOrEditMaterialResp
-	(*CreateOrEditDishReq)(nil),      // 15: restaurant_rpc.CreateOrEditDishReq
-	(types.DishPortion)(0),           // 16: restaurant.DishPortion
-	(types.UnitType)(0),              // 17: restaurant.UnitType
-	(*PageInfo)(nil),                 // 18: restaurant_rpc.PageInfo
-	(*emptypb.Empty)(nil),            // 19: google.protobuf.Empty
+	(*Dish)(nil),                      // 0: restaurant_rpc.Dish
+	(*DishPortion)(nil),               // 1: restaurant_rpc.DishPortion
+	(*Recipe)(nil),                    // 2: restaurant_rpc.Recipe
+	(*RecipeMaterial)(nil),            // 3: restaurant_rpc.RecipeMaterial
+	(*Material)(nil),                  // 4: restaurant_rpc.Material
+	(*GetDishesReq)(nil),              // 5: restaurant_rpc.GetDishesReq
+	(*GetDishesResp)(nil),             // 6: restaurant_rpc.GetDishesResp
+	(*DishType)(nil),                  // 7: restaurant_rpc.DishType
+	(*GetDishTypeResp)(nil),           // 8: restaurant_rpc.GetDishTypeResp
+	(*AddDishTypeReq)(nil),            // 9: restaurant_rpc.AddDishTypeReq
+	(*AddDishTypeResp)(nil),           // 10: restaurant_rpc.AddDishTypeResp
+	(*GetMaterialsReq)(nil),           // 11: restaurant_rpc.GetMaterialsReq
+	(*GetMaterialsResp)(nil),          // 12: restaurant_rpc.GetMaterialsResp
+	(*CreateOrEditMaterialReq)(nil),   // 13: restaurant_rpc.CreateOrEditMaterialReq
+	(*CreateOrEditMaterialResp)(nil),  // 14: restaurant_rpc.CreateOrEditMaterialResp
+	(*CreateOrEditDishReq)(nil),       // 15: restaurant_rpc.CreateOrEditDishReq
+	(*GetDishesWithCategoryReq)(nil),  // 16: restaurant_rpc.GetDishesWithCategoryReq
+	(*GetDishesWithCategoryResp)(nil), // 17: restaurant_rpc.GetDishesWithCategoryResp
+	(types.DishPortion)(0),            // 18: restaurant.DishPortion
+	(types.UnitType)(0),               // 19: restaurant.UnitType
+	(*PageInfo)(nil),                  // 20: restaurant_rpc.PageInfo
+	(*emptypb.Empty)(nil),             // 21: google.protobuf.Empty
 }
 var file_dish_service_proto_depIdxs = []int32{
 	7,  // 0: restaurant_rpc.Dish.dishType:type_name -> restaurant_rpc.DishType
 	1,  // 1: restaurant_rpc.Dish.portions:type_name -> restaurant_rpc.DishPortion
-	16, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant.DishPortion
+	18, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant.DishPortion
 	2,  // 3: restaurant_rpc.DishPortion.recipe:type_name -> restaurant_rpc.Recipe
 	3,  // 4: restaurant_rpc.Recipe.materials:type_name -> restaurant_rpc.RecipeMaterial
 	4,  // 5: restaurant_rpc.RecipeMaterial.material:type_name -> restaurant_rpc.Material
-	17, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant.UnitType
-	18, // 7: restaurant_rpc.GetDishesReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	19, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant.UnitType
+	20, // 7: restaurant_rpc.GetDishesReq.pageInfo:type_name -> restaurant_rpc.PageInfo
 	0,  // 8: restaurant_rpc.GetDishesResp.dishes:type_name -> restaurant_rpc.Dish
-	18, // 9: restaurant_rpc.GetDishesResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	20, // 9: restaurant_rpc.GetDishesResp.pageInfo:type_name -> restaurant_rpc.PageInfo
 	7,  // 10: restaurant_rpc.GetDishTypeResp.dishTypes:type_name -> restaurant_rpc.DishType
-	18, // 11: restaurant_rpc.GetMaterialsReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	20, // 11: restaurant_rpc.GetMaterialsReq.pageInfo:type_name -> restaurant_rpc.PageInfo
 	4,  // 12: restaurant_rpc.GetMaterialsResp.materialList:type_name -> restaurant_rpc.Material
-	18, // 13: restaurant_rpc.GetMaterialsResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	20, // 13: restaurant_rpc.GetMaterialsResp.pageInfo:type_name -> restaurant_rpc.PageInfo
 	4,  // 14: restaurant_rpc.CreateOrEditMaterialReq.material:type_name -> restaurant_rpc.Material
 	0,  // 15: restaurant_rpc.CreateOrEditDishReq.dish:type_name -> restaurant_rpc.Dish
-	5,  // 16: restaurant_rpc.DishService.GetDishes:input_type -> restaurant_rpc.GetDishesReq
-	19, // 17: restaurant_rpc.DishService.GetDishType:input_type -> google.protobuf.Empty
-	9,  // 18: restaurant_rpc.DishService.AddDishType:input_type -> restaurant_rpc.AddDishTypeReq
-	11, // 19: restaurant_rpc.DishService.GetMaterials:input_type -> restaurant_rpc.GetMaterialsReq
-	13, // 20: restaurant_rpc.DishService.CreateOrEditMaterial:input_type -> restaurant_rpc.CreateOrEditMaterialReq
-	15, // 21: restaurant_rpc.DishService.CreateOrEditDish:input_type -> restaurant_rpc.CreateOrEditDishReq
-	6,  // 22: restaurant_rpc.DishService.GetDishes:output_type -> restaurant_rpc.GetDishesResp
-	8,  // 23: restaurant_rpc.DishService.GetDishType:output_type -> restaurant_rpc.GetDishTypeResp
-	10, // 24: restaurant_rpc.DishService.AddDishType:output_type -> restaurant_rpc.AddDishTypeResp
-	12, // 25: restaurant_rpc.DishService.GetMaterials:output_type -> restaurant_rpc.GetMaterialsResp
-	14, // 26: restaurant_rpc.DishService.CreateOrEditMaterial:output_type -> restaurant_rpc.CreateOrEditMaterialResp
-	19, // 27: restaurant_rpc.DishService.CreateOrEditDish:output_type -> google.protobuf.Empty
-	22, // [22:28] is the sub-list for method output_type
-	16, // [16:22] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	20, // 16: restaurant_rpc.GetDishesWithCategoryReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	7,  // 17: restaurant_rpc.GetDishesWithCategoryReq.category:type_name -> restaurant_rpc.DishType
+	0,  // 18: restaurant_rpc.GetDishesWithCategoryResp.dishes:type_name -> restaurant_rpc.Dish
+	20, // 19: restaurant_rpc.GetDishesWithCategoryResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	7,  // 20: restaurant_rpc.GetDishesWithCategoryResp.category:type_name -> restaurant_rpc.DishType
+	5,  // 21: restaurant_rpc.DishService.GetDishes:input_type -> restaurant_rpc.GetDishesReq
+	21, // 22: restaurant_rpc.DishService.GetDishType:input_type -> google.protobuf.Empty
+	9,  // 23: restaurant_rpc.DishService.AddDishType:input_type -> restaurant_rpc.AddDishTypeReq
+	11, // 24: restaurant_rpc.DishService.GetMaterials:input_type -> restaurant_rpc.GetMaterialsReq
+	13, // 25: restaurant_rpc.DishService.CreateOrEditMaterial:input_type -> restaurant_rpc.CreateOrEditMaterialReq
+	15, // 26: restaurant_rpc.DishService.CreateOrEditDish:input_type -> restaurant_rpc.CreateOrEditDishReq
+	16, // 27: restaurant_rpc.DishService.GetDishesWithCategory:input_type -> restaurant_rpc.GetDishesWithCategoryReq
+	6,  // 28: restaurant_rpc.DishService.GetDishes:output_type -> restaurant_rpc.GetDishesResp
+	8,  // 29: restaurant_rpc.DishService.GetDishType:output_type -> restaurant_rpc.GetDishTypeResp
+	10, // 30: restaurant_rpc.DishService.AddDishType:output_type -> restaurant_rpc.AddDishTypeResp
+	12, // 31: restaurant_rpc.DishService.GetMaterials:output_type -> restaurant_rpc.GetMaterialsResp
+	14, // 32: restaurant_rpc.DishService.CreateOrEditMaterial:output_type -> restaurant_rpc.CreateOrEditMaterialResp
+	21, // 33: restaurant_rpc.DishService.CreateOrEditDish:output_type -> google.protobuf.Empty
+	17, // 34: restaurant_rpc.DishService.GetDishesWithCategory:output_type -> restaurant_rpc.GetDishesWithCategoryResp
+	28, // [28:35] is the sub-list for method output_type
+	21, // [21:28] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_dish_service_proto_init() }
@@ -1050,7 +1179,7 @@ func file_dish_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_dish_service_proto_rawDesc), len(file_dish_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

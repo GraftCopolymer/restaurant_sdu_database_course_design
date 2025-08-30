@@ -67,13 +67,22 @@ func (s *AuthServer) Login(ctx context.Context, req *restaurant_rpc.LoginReq) (*
 		if err != nil {
 			return nil, err
 		}
-		return &restaurant_rpc.LoginResp{
-			AccessToken: accessToken,
+		loginResp := &restaurant_rpc.LoginResp{
+			AccessToken:  accessToken,
 			RefreshToken: refreshToken,
-			Role: restaurant_rpc.LoginRole_LOGIN_ROLE_EMPLOYEE,
+			Role:         restaurant_rpc.LoginRole_LOGIN_ROLE_EMPLOYEE,
 			EmployeeRole: employee.RoleType,
-			Status: &restaurant_rpc.RespStatus{Code: 0, Message: "Login success"},
-		}, nil
+			Status:       &restaurant_rpc.RespStatus{Code: 0, Message: "Login success"},
+			Phone: employee.Phone,
+			Salary: employee.Salary.StringFixed(2),
+			Username: employee.Name,
+		}
+		var managerId uint32
+		if employee.ManagerID != nil {
+			managerId = uint32(*employee.ManagerID)
+			loginResp.ManagerId = managerId
+		}
+		return loginResp, nil
 	}
 	return nil, errors.New("未知登录角色, 拒绝登录")
 }
@@ -223,6 +232,10 @@ func (s *AuthServer) RegisterAdmin(ctx context.Context, req *restaurant_rpc.Regi
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		UserID: uint32(userID),
+		LoginRole: restaurant_rpc.LoginRole_LOGIN_ROLE_EMPLOYEE,
+		EmployeeRole: admin.RoleType,
+		Phone: admin.Phone,
+		Username: admin.Name,
 	}
 	return resp, nil
 }

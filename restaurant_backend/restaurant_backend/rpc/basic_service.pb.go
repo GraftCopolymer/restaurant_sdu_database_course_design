@@ -240,6 +240,10 @@ type LoginResp struct {
 	UserID        uint32                 `protobuf:"varint,4,opt,name=userID,proto3" json:"userID,omitempty"`
 	Role          LoginRole              `protobuf:"varint,5,opt,name=role,proto3,enum=restaurant_rpc.LoginRole" json:"role,omitempty"`
 	EmployeeRole  EmployeeRole           `protobuf:"varint,6,opt,name=employeeRole,proto3,enum=restaurant_rpc.EmployeeRole" json:"employeeRole,omitempty"` // 仅雇员时该字段有值
+	ManagerId     uint32                 `protobuf:"varint,7,opt,name=managerId,proto3" json:"managerId,omitempty"`
+	Phone         string                 `protobuf:"bytes,8,opt,name=phone,proto3" json:"phone,omitempty"`
+	Salary        string                 `protobuf:"bytes,9,opt,name=salary,proto3" json:"salary,omitempty"`
+	Username      string                 `protobuf:"bytes,10,opt,name=username,proto3" json:"username,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -314,6 +318,34 @@ func (x *LoginResp) GetEmployeeRole() EmployeeRole {
 		return x.EmployeeRole
 	}
 	return EmployeeRole_ROLE_UNKNOWN
+}
+
+func (x *LoginResp) GetManagerId() uint32 {
+	if x != nil {
+		return x.ManagerId
+	}
+	return 0
+}
+
+func (x *LoginResp) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *LoginResp) GetSalary() string {
+	if x != nil {
+		return x.Salary
+	}
+	return ""
+}
+
+func (x *LoginResp) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
 }
 
 type RegisterReq struct {
@@ -391,6 +423,8 @@ type RegisterResp struct {
 	Status        *RespStatus            `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
 	UserID        uint32                 `protobuf:"varint,4,opt,name=userID,proto3" json:"userID,omitempty"`
 	Role          LoginRole              `protobuf:"varint,5,opt,name=role,proto3,enum=restaurant_rpc.LoginRole" json:"role,omitempty"`
+	Username      string                 `protobuf:"bytes,6,opt,name=username,proto3" json:"username,omitempty"`
+	Phone         string                 `protobuf:"bytes,7,opt,name=phone,proto3" json:"phone,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -458,6 +492,20 @@ func (x *RegisterResp) GetRole() LoginRole {
 		return x.Role
 	}
 	return LoginRole_LOGIN_ROLE_UNKNOWN
+}
+
+func (x *RegisterResp) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *RegisterResp) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
 }
 
 type RefreshTokenReq struct {
@@ -665,6 +713,10 @@ type RegisterAdminResp struct {
 	AccessToken   string                 `protobuf:"bytes,1,opt,name=accessToken,proto3" json:"accessToken,omitempty"`
 	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refreshToken,proto3" json:"refreshToken,omitempty"`
 	UserID        uint32                 `protobuf:"varint,3,opt,name=userID,proto3" json:"userID,omitempty"`
+	LoginRole     LoginRole              `protobuf:"varint,4,opt,name=loginRole,proto3,enum=restaurant_rpc.LoginRole" json:"loginRole,omitempty"`
+	EmployeeRole  EmployeeRole           `protobuf:"varint,5,opt,name=employeeRole,proto3,enum=restaurant_rpc.EmployeeRole" json:"employeeRole,omitempty"`
+	Phone         string                 `protobuf:"bytes,6,opt,name=phone,proto3" json:"phone,omitempty"`
+	Username      string                 `protobuf:"bytes,7,opt,name=username,proto3" json:"username,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -720,6 +772,34 @@ func (x *RegisterAdminResp) GetUserID() uint32 {
 	return 0
 }
 
+func (x *RegisterAdminResp) GetLoginRole() LoginRole {
+	if x != nil {
+		return x.LoginRole
+	}
+	return LoginRole_LOGIN_ROLE_UNKNOWN
+}
+
+func (x *RegisterAdminResp) GetEmployeeRole() EmployeeRole {
+	if x != nil {
+		return x.EmployeeRole
+	}
+	return EmployeeRole_ROLE_UNKNOWN
+}
+
+func (x *RegisterAdminResp) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *RegisterAdminResp) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
 var File_basic_service_proto protoreflect.FileDescriptor
 
 const file_basic_service_proto_rawDesc = "" +
@@ -732,25 +812,32 @@ const file_basic_service_proto_rawDesc = "" +
 	"\bLoginReq\x12(\n" +
 	"\x0fusernameOrPhone\x18\x01 \x01(\tR\x0fusernameOrPhone\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12-\n" +
-	"\x04role\x18\x03 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\"\x8e\x02\n" +
+	"\x04role\x18\x03 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\"\xf6\x02\n" +
 	"\tLoginResp\x12 \n" +
 	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\x12\"\n" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\x122\n" +
 	"\x06status\x18\x03 \x01(\v2\x1a.restaurant_rpc.RespStatusR\x06status\x12\x16\n" +
 	"\x06userID\x18\x04 \x01(\rR\x06userID\x12-\n" +
 	"\x04role\x18\x05 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\x12@\n" +
-	"\femployeeRole\x18\x06 \x01(\x0e2\x1c.restaurant_rpc.EmployeeRoleR\femployeeRole\"\x87\x01\n" +
+	"\femployeeRole\x18\x06 \x01(\x0e2\x1c.restaurant_rpc.EmployeeRoleR\femployeeRole\x12\x1c\n" +
+	"\tmanagerId\x18\a \x01(\rR\tmanagerId\x12\x14\n" +
+	"\x05phone\x18\b \x01(\tR\x05phone\x12\x16\n" +
+	"\x06salary\x18\t \x01(\tR\x06salary\x12\x1a\n" +
+	"\busername\x18\n" +
+	" \x01(\tR\busername\"\x87\x01\n" +
 	"\vRegisterReq\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12*\n" +
 	"\x10repeatedPassword\x18\x03 \x01(\tR\x10repeatedPassword\x12\x14\n" +
-	"\x05phone\x18\x04 \x01(\tR\x05phone\"\xcf\x01\n" +
+	"\x05phone\x18\x04 \x01(\tR\x05phone\"\x81\x02\n" +
 	"\fRegisterResp\x12 \n" +
 	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\x12\"\n" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\x122\n" +
 	"\x06status\x18\x03 \x01(\v2\x1a.restaurant_rpc.RespStatusR\x06status\x12\x16\n" +
 	"\x06userID\x18\x04 \x01(\rR\x06userID\x12-\n" +
-	"\x04role\x18\x05 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\"5\n" +
+	"\x04role\x18\x05 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\x04role\x12\x1a\n" +
+	"\busername\x18\x06 \x01(\tR\busername\x12\x14\n" +
+	"\x05phone\x18\a \x01(\tR\x05phone\"5\n" +
 	"\x0fRefreshTokenReq\x12\"\n" +
 	"\frefreshToken\x18\x01 \x01(\tR\frefreshToken\"X\n" +
 	"\x10RefreshTokenResp\x12 \n" +
@@ -761,11 +848,15 @@ const file_basic_service_proto_rawDesc = "" +
 	"\x10RegisterAdminReq\x12\x14\n" +
 	"\x05phone\x18\x01 \x01(\tR\x05phone\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12*\n" +
-	"\x10repeatedPassword\x18\x03 \x01(\tR\x10repeatedPassword\"q\n" +
+	"\x10repeatedPassword\x18\x03 \x01(\tR\x10repeatedPassword\"\x9e\x02\n" +
 	"\x11RegisterAdminResp\x12 \n" +
 	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\x12\"\n" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\x12\x16\n" +
-	"\x06userID\x18\x03 \x01(\rR\x06userID*U\n" +
+	"\x06userID\x18\x03 \x01(\rR\x06userID\x127\n" +
+	"\tloginRole\x18\x04 \x01(\x0e2\x19.restaurant_rpc.LoginRoleR\tloginRole\x12@\n" +
+	"\femployeeRole\x18\x05 \x01(\x0e2\x1c.restaurant_rpc.EmployeeRoleR\femployeeRole\x12\x14\n" +
+	"\x05phone\x18\x06 \x01(\tR\x05phone\x12\x1a\n" +
+	"\busername\x18\a \x01(\tR\busername*U\n" +
 	"\tLoginRole\x12\x16\n" +
 	"\x12LOGIN_ROLE_UNKNOWN\x10\x00\x12\x17\n" +
 	"\x13LOGIN_ROLE_CUSTOMER\x10\x01\x12\x17\n" +
@@ -818,21 +909,23 @@ var file_basic_service_proto_depIdxs = []int32{
 	1,  // 3: restaurant_rpc.LoginResp.employeeRole:type_name -> restaurant_rpc.EmployeeRole
 	2,  // 4: restaurant_rpc.RegisterResp.status:type_name -> restaurant_rpc.RespStatus
 	0,  // 5: restaurant_rpc.RegisterResp.role:type_name -> restaurant_rpc.LoginRole
-	3,  // 6: restaurant_rpc.AuthService.Login:input_type -> restaurant_rpc.LoginReq
-	5,  // 7: restaurant_rpc.AuthService.Register:input_type -> restaurant_rpc.RegisterReq
-	7,  // 8: restaurant_rpc.AuthService.RefreshToken:input_type -> restaurant_rpc.RefreshTokenReq
-	12, // 9: restaurant_rpc.AuthService.CanRegisterAdmin:input_type -> google.protobuf.Empty
-	10, // 10: restaurant_rpc.AuthService.RegisterAdmin:input_type -> restaurant_rpc.RegisterAdminReq
-	4,  // 11: restaurant_rpc.AuthService.Login:output_type -> restaurant_rpc.LoginResp
-	6,  // 12: restaurant_rpc.AuthService.Register:output_type -> restaurant_rpc.RegisterResp
-	8,  // 13: restaurant_rpc.AuthService.RefreshToken:output_type -> restaurant_rpc.RefreshTokenResp
-	9,  // 14: restaurant_rpc.AuthService.CanRegisterAdmin:output_type -> restaurant_rpc.CanRegisterAdminResp
-	11, // 15: restaurant_rpc.AuthService.RegisterAdmin:output_type -> restaurant_rpc.RegisterAdminResp
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	0,  // 6: restaurant_rpc.RegisterAdminResp.loginRole:type_name -> restaurant_rpc.LoginRole
+	1,  // 7: restaurant_rpc.RegisterAdminResp.employeeRole:type_name -> restaurant_rpc.EmployeeRole
+	3,  // 8: restaurant_rpc.AuthService.Login:input_type -> restaurant_rpc.LoginReq
+	5,  // 9: restaurant_rpc.AuthService.Register:input_type -> restaurant_rpc.RegisterReq
+	7,  // 10: restaurant_rpc.AuthService.RefreshToken:input_type -> restaurant_rpc.RefreshTokenReq
+	12, // 11: restaurant_rpc.AuthService.CanRegisterAdmin:input_type -> google.protobuf.Empty
+	10, // 12: restaurant_rpc.AuthService.RegisterAdmin:input_type -> restaurant_rpc.RegisterAdminReq
+	4,  // 13: restaurant_rpc.AuthService.Login:output_type -> restaurant_rpc.LoginResp
+	6,  // 14: restaurant_rpc.AuthService.Register:output_type -> restaurant_rpc.RegisterResp
+	8,  // 15: restaurant_rpc.AuthService.RefreshToken:output_type -> restaurant_rpc.RefreshTokenResp
+	9,  // 16: restaurant_rpc.AuthService.CanRegisterAdmin:output_type -> restaurant_rpc.CanRegisterAdminResp
+	11, // 17: restaurant_rpc.AuthService.RegisterAdmin:output_type -> restaurant_rpc.RegisterAdminResp
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_basic_service_proto_init() }

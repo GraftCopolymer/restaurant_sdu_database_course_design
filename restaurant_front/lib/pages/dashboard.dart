@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurant_management/main.dart';
+import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart' as r;
 import 'package:restaurant_management/src/generated/basic_service.pbenum.dart';
 import 'package:restaurant_management/utils/utils.dart';
@@ -8,38 +10,14 @@ import 'package:restaurant_management/widgets/dashboard_card.dart';
 
 /// 仪表盘页面
 @RoutePage()
-class DashboardPage extends StatefulWidget {
+class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  ConsumerState<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
-  bool _isLoadingCard = true;
-  bool _hasError = false;
-  late List<Widget> _displayCards;
-
-  /// 刷新数据
-  Future<void> _refreshData() async {
-    _hasError = false;
-    _isLoadingCard = true;
-    setState(() {});
-    try {
-      final cards = await _getCards();
-      setState(() {
-        _isLoadingCard = false;
-        _hasError = false;
-        _displayCards = cards;
-      });
-    } catch (e, stack) {
-      Utils.report(e, stack);
-      setState(() {
-        _hasError = true;
-        _isLoadingCard = false;
-      });
-    }
-  }
+class _DashboardPageState extends ConsumerState<DashboardPage> {
 
   Widget _buildCardContent(String title, IconData icon) {
     return Center(
@@ -52,10 +30,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Future<List<Widget>> _getEmployeeCards() async {
-    if (!await Utils.isLogin()) {
-      return [];
-    }
+  List<Widget> _getEmployeeCards(UserInfo userInfo) {
     final employeeCards = [
       DashboardCard(
         child: _buildCardContent("成本管理", Icons.money),
@@ -70,14 +45,14 @@ class _DashboardPageState extends State<DashboardPage> {
         },
       ),
       DashboardCard(
-        child: _buildCardContent("原材料管理", Icons.cookie_outlined),
+        child: _buildCardContent("原材料管理", Icons.dining_outlined),
         onTap: () {
           router.push(r.MaterialListRoute());
         },
       ),
     ];
-    final loginRole = await Utils.getLoginRole();
-    final employeeRole = await Utils.getEmployeeRole();
+    final loginRole = userInfo.loginRole;
+    final employeeRole = userInfo.employeeRole;
     // 管理员和经理添加人员管理选项
     if (loginRole == LoginRole.LOGIN_ROLE_EMPLOYEE &&
         (employeeRole == EmployeeRole.ROLE_ADMIN ||
@@ -94,10 +69,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return employeeCards;
   }
 
-  Future<List<Widget>> _getCustomersCards() async {
-    if (!await Utils.isLogin()) {
-      return [];
-    }
+  List<Widget> _getCustomersCards() {
     final customerCards = [
       DashboardCard(
         child: _buildCardContent("点餐", Icons.dining_outlined),
@@ -107,22 +79,6 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
     ];
     return customerCards;
-  }
-
-  Future<List<Widget>> _getCards() async {
-    if (!await Utils.isLogin()) {
-      return [];
-    }
-    final loginRole = await Utils.getLoginRole();
-    if (loginRole == null || loginRole == LoginRole.LOGIN_ROLE_UNKNOWN)
-      return [];
-    if (loginRole == LoginRole.LOGIN_ROLE_CUSTOMER) {
-      return _getCustomersCards();
-    } else if (loginRole == LoginRole.LOGIN_ROLE_EMPLOYEE) {
-      return _getEmployeeCards();
-    } else {
-      return [];
-    }
   }
 
   Widget _buildErrorView() {
@@ -135,7 +91,7 @@ class _DashboardPageState extends State<DashboardPage> {
             Text("获取数据失败"),
             TextButton(
               onPressed: () {
-                _refreshData();
+                ref.read(userInfoModelProvider.notifier).reset();
               },
               child: Text("重试"),
             ),
@@ -159,17 +115,10 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
-    _refreshData();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_hasError) {
-      return _buildErrorView();
-    }
-    if (_isLoadingCard) {
-      return _buildLoadingView();
-    }
     // 根据屏幕旋转状态决定列数
     late int columnCount;
     final orientation = MediaQuery.of(context).orientation;
@@ -181,21 +130,42 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RefreshIndicator(
-          onRefresh: () {
-            return _refreshData();
+        child: Consumer(
+          builder: (context, ref, child) {
+            final asyncUserInfo = ref.watch(userInfoModelProvider);
+            return asyncUserInfo.when(
+              data: (userInfo) {
+                if (!userInfo.isLogin()) {
+                  Center(child: Text("请先登录"),);
+                }
+                late final List<Widget> displayCards;
+                if (userInfo.isEmployee()) {
+                  displayCards = _getEmployeeCards(userInfo);
+                } else if (userInfo.isCustomer()) {
+                  displayCards = _getCustomersCards();
+                } else {
+                  displayCards = [];
+                }
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: columnCount,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                  ),
+                  itemCount: displayCards.length,
+                  itemBuilder: (context, index) {
+                    return displayCards[index];
+                  },
+                );
+              }, 
+              error: (e, s) {
+                return _buildErrorView();
+              }, 
+              loading: () {
+                return _buildLoadingView();
+              }
+            );
           },
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: columnCount,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-            ),
-            itemCount: _displayCards.length,
-            itemBuilder: (context, index) {
-              return _displayCards[index];
-            },
-          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -204,6 +174,9 @@ class _DashboardPageState extends State<DashboardPage> {
             r.LoginRoute(
               onLoginResult: (p0) {
                 // 登录成功后返回
+                if (p0) router.back();
+              },
+              onRegisterResult: (p0) {
                 if (p0) router.back();
               },
             ),

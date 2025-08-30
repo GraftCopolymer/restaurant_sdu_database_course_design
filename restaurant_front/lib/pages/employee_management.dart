@@ -9,6 +9,7 @@ import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/employee_service.pb.dart'
     as pb;
 import 'package:restaurant_management/src/generated/employee_service.pbgrpc.dart';
+import 'package:restaurant_management/widgets/back_scope.dart';
 
 @RoutePage()
 class EmployeeManagementPage extends ConsumerStatefulWidget {
@@ -148,79 +149,81 @@ class _EmployeeManagementPageState extends ConsumerState<EmployeeManagementPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("员工管理"), actions: [_buildAdminMenu()]),
-      body: RefreshIndicator(
-        onRefresh: () {
-          return _refresh();
-        },
-        child: CustomScrollView(
-          controller: _scrollController,
-          physics: AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics(),
-          ),
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 90,
-              collapsedHeight: 90,
-              automaticallyImplyLeading: false,
-              flexibleSpace: FlexibleSpaceBar(
-                expandedTitleScale: 1.0,
-                title: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextField(
-                          focusNode: _focusNode,
-                          controller: _employeeSearchCon,
-                          keyboardType: TextInputType.webSearch,
-                          onSubmitted: (value) {
-                            _focusNode.unfocus();
-                          },
-                          onTapOutside: (event) {
-                            _focusNode.unfocus();
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            hintText: "员工姓名/手机号",
-                            suffixIcon: _searchTimer == null
-                                ? Icon(Icons.search)
-                                : UnconstrainedBox(
-                                    child: SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(),
+    return BackScope(
+      child: Scaffold(
+        appBar: AppBar(title: Text("员工管理"), actions: [_buildAdminMenu()], leading: BackButton(),),
+        body: RefreshIndicator(
+          onRefresh: () {
+            return _refresh();
+          },
+          child: CustomScrollView(
+            controller: _scrollController,
+            physics: AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 90,
+                collapsedHeight: 90,
+                automaticallyImplyLeading: false,
+                flexibleSpace: FlexibleSpaceBar(
+                  expandedTitleScale: 1.0,
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: TextField(
+                            focusNode: _focusNode,
+                            controller: _employeeSearchCon,
+                            keyboardType: TextInputType.webSearch,
+                            onSubmitted: (value) {
+                              _focusNode.unfocus();
+                            },
+                            onTapOutside: (event) {
+                              _focusNode.unfocus();
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              hintText: "员工姓名/手机号",
+                              suffixIcon: _searchTimer == null
+                                  ? Icon(Icons.search)
+                                  : UnconstrainedBox(
+                                      child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(),
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                pinned: true,
               ),
-              pinned: true,
-            ),
-            Consumer(
-              builder: (context, ref, child) {
-                final employeeList = ref.watch(employeeListModelProvider);
-                switch (employeeList) {
-                  case AsyncData(:final value):
-                    return _buildDataView(value);
-                  case AsyncError(:final error):
-                    return _buildErrorView(error);
-                  case AsyncLoading():
-                    return _buildLoadingView();
-                  default:
-                    return _buildErrorView(null);
-                }
-              },
-            ),
-          ],
+              Consumer(
+                builder: (context, ref, child) {
+                  final employeeList = ref.watch(employeeListModelProvider);
+                  switch (employeeList) {
+                    case AsyncData(:final value):
+                      return _buildDataView(value);
+                    case AsyncError(:final error):
+                      return _buildErrorView(error);
+                    case AsyncLoading():
+                      return _buildLoadingView();
+                    default:
+                      return _buildErrorView(null);
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -24,6 +24,11 @@ class RestaurantApp extends StatefulWidget {
 class _RestaurantAppState extends State<RestaurantApp> {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router.config(),

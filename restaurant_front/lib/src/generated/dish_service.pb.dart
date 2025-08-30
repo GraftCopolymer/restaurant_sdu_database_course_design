@@ -1175,6 +1175,165 @@ class CreateOrEditDishReq extends $pb.GeneratedMessage {
   Dish ensureDish() => $_ensure(0);
 }
 
+class GetDishesWithCategoryReq extends $pb.GeneratedMessage {
+  factory GetDishesWithCategoryReq({
+    $2.PageInfo? pageInfo,
+    DishType? category,
+  }) {
+    final result = create();
+    if (pageInfo != null) result.pageInfo = pageInfo;
+    if (category != null) result.category = category;
+    return result;
+  }
+
+  GetDishesWithCategoryReq._();
+
+  factory GetDishesWithCategoryReq.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetDishesWithCategoryReq.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetDishesWithCategoryReq',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..aOM<$2.PageInfo>(1, _omitFieldNames ? '' : 'pageInfo',
+        protoName: 'pageInfo', subBuilder: $2.PageInfo.create)
+    ..aOM<DishType>(2, _omitFieldNames ? '' : 'category',
+        subBuilder: DishType.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetDishesWithCategoryReq clone() =>
+      GetDishesWithCategoryReq()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetDishesWithCategoryReq copyWith(
+          void Function(GetDishesWithCategoryReq) updates) =>
+      super.copyWith((message) => updates(message as GetDishesWithCategoryReq))
+          as GetDishesWithCategoryReq;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetDishesWithCategoryReq create() => GetDishesWithCategoryReq._();
+  @$core.override
+  GetDishesWithCategoryReq createEmptyInstance() => create();
+  static $pb.PbList<GetDishesWithCategoryReq> createRepeated() =>
+      $pb.PbList<GetDishesWithCategoryReq>();
+  @$core.pragma('dart2js:noInline')
+  static GetDishesWithCategoryReq getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetDishesWithCategoryReq>(create);
+  static GetDishesWithCategoryReq? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $2.PageInfo get pageInfo => $_getN(0);
+  @$pb.TagNumber(1)
+  set pageInfo($2.PageInfo value) => $_setField(1, value);
+  @$pb.TagNumber(1)
+  $core.bool hasPageInfo() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPageInfo() => $_clearField(1);
+  @$pb.TagNumber(1)
+  $2.PageInfo ensurePageInfo() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  DishType get category => $_getN(1);
+  @$pb.TagNumber(2)
+  set category(DishType value) => $_setField(2, value);
+  @$pb.TagNumber(2)
+  $core.bool hasCategory() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearCategory() => $_clearField(2);
+  @$pb.TagNumber(2)
+  DishType ensureCategory() => $_ensure(1);
+}
+
+class GetDishesWithCategoryResp extends $pb.GeneratedMessage {
+  factory GetDishesWithCategoryResp({
+    $core.Iterable<Dish>? dishes,
+    $2.PageInfo? pageInfo,
+    DishType? category,
+  }) {
+    final result = create();
+    if (dishes != null) result.dishes.addAll(dishes);
+    if (pageInfo != null) result.pageInfo = pageInfo;
+    if (category != null) result.category = category;
+    return result;
+  }
+
+  GetDishesWithCategoryResp._();
+
+  factory GetDishesWithCategoryResp.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetDishesWithCategoryResp.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetDishesWithCategoryResp',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..pc<Dish>(1, _omitFieldNames ? '' : 'dishes', $pb.PbFieldType.PM,
+        subBuilder: Dish.create)
+    ..aOM<$2.PageInfo>(2, _omitFieldNames ? '' : 'pageInfo',
+        protoName: 'pageInfo', subBuilder: $2.PageInfo.create)
+    ..aOM<DishType>(3, _omitFieldNames ? '' : 'category',
+        subBuilder: DishType.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetDishesWithCategoryResp clone() =>
+      GetDishesWithCategoryResp()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetDishesWithCategoryResp copyWith(
+          void Function(GetDishesWithCategoryResp) updates) =>
+      super.copyWith((message) => updates(message as GetDishesWithCategoryResp))
+          as GetDishesWithCategoryResp;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetDishesWithCategoryResp create() => GetDishesWithCategoryResp._();
+  @$core.override
+  GetDishesWithCategoryResp createEmptyInstance() => create();
+  static $pb.PbList<GetDishesWithCategoryResp> createRepeated() =>
+      $pb.PbList<GetDishesWithCategoryResp>();
+  @$core.pragma('dart2js:noInline')
+  static GetDishesWithCategoryResp getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetDishesWithCategoryResp>(create);
+  static GetDishesWithCategoryResp? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbList<Dish> get dishes => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $2.PageInfo get pageInfo => $_getN(1);
+  @$pb.TagNumber(2)
+  set pageInfo($2.PageInfo value) => $_setField(2, value);
+  @$pb.TagNumber(2)
+  $core.bool hasPageInfo() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPageInfo() => $_clearField(2);
+  @$pb.TagNumber(2)
+  $2.PageInfo ensurePageInfo() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  DishType get category => $_getN(2);
+  @$pb.TagNumber(3)
+  set category(DishType value) => $_setField(3, value);
+  @$pb.TagNumber(3)
+  $core.bool hasCategory() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearCategory() => $_clearField(3);
+  @$pb.TagNumber(3)
+  DishType ensureCategory() => $_ensure(2);
+}
+
 const $core.bool _omitFieldNames =
     $core.bool.fromEnvironment('protobuf.omit_field_names');
 const $core.bool _omitMessageNames =
