@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:restaurant_management/pages/table_list.dart';
 import 'package:restaurant_management/route/admin_register_guard.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/route/auth_guard.dart';
@@ -28,5 +29,9 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: RecipeEditRoute.page, guards: [AuthGuard(), PermissionGuard()]),
     AutoRoute(page: MaterialListRoute.page, guards: [AuthGuard(), PermissionGuard()]),
     AutoRoute(page: MaterialEditRoute.page, guards: [AuthGuard(), PermissionGuard()]),
+    AutoRoute(page: CustomerSelectDishRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: PlaceOrderRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: TableListRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: TableEditRoute.page, guards: [AuthGuard(), PermissionGuard()]),
   ];
 }

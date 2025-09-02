@@ -363,6 +363,128 @@ func (x *Material) GetAmount() string {
 	return ""
 }
 
+// / 座位
+type Seat struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TableId       uint32                 `protobuf:"varint,2,opt,name=tableId,proto3" json:"tableId,omitempty"`
+	SeatNumber    string                 `protobuf:"bytes,3,opt,name=seatNumber,proto3" json:"seatNumber,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Seat) Reset() {
+	*x = Seat{}
+	mi := &file_dish_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Seat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Seat) ProtoMessage() {}
+
+func (x *Seat) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Seat.ProtoReflect.Descriptor instead.
+func (*Seat) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Seat) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Seat) GetTableId() uint32 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
+func (x *Seat) GetSeatNumber() string {
+	if x != nil {
+		return x.SeatNumber
+	}
+	return ""
+}
+
+// / 餐桌
+type Table struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Number        string                 `protobuf:"bytes,2,opt,name=number,proto3" json:"number,omitempty"`
+	Seats         []*Seat                `protobuf:"bytes,3,rep,name=seats,proto3" json:"seats,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Table) Reset() {
+	*x = Table{}
+	mi := &file_dish_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Table) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Table) ProtoMessage() {}
+
+func (x *Table) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Table.ProtoReflect.Descriptor instead.
+func (*Table) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *Table) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Table) GetNumber() string {
+	if x != nil {
+		return x.Number
+	}
+	return ""
+}
+
+func (x *Table) GetSeats() []*Seat {
+	if x != nil {
+		return x.Seats
+	}
+	return nil
+}
+
 type GetDishesReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PageInfo      *PageInfo              `protobuf:"bytes,1,opt,name=pageInfo,proto3" json:"pageInfo,omitempty"`
@@ -373,7 +495,7 @@ type GetDishesReq struct {
 
 func (x *GetDishesReq) Reset() {
 	*x = GetDishesReq{}
-	mi := &file_dish_service_proto_msgTypes[5]
+	mi := &file_dish_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -385,7 +507,7 @@ func (x *GetDishesReq) String() string {
 func (*GetDishesReq) ProtoMessage() {}
 
 func (x *GetDishesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[5]
+	mi := &file_dish_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -398,7 +520,7 @@ func (x *GetDishesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDishesReq.ProtoReflect.Descriptor instead.
 func (*GetDishesReq) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{5}
+	return file_dish_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetDishesReq) GetPageInfo() *PageInfo {
@@ -425,7 +547,7 @@ type GetDishesResp struct {
 
 func (x *GetDishesResp) Reset() {
 	*x = GetDishesResp{}
-	mi := &file_dish_service_proto_msgTypes[6]
+	mi := &file_dish_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -437,7 +559,7 @@ func (x *GetDishesResp) String() string {
 func (*GetDishesResp) ProtoMessage() {}
 
 func (x *GetDishesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[6]
+	mi := &file_dish_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -450,7 +572,7 @@ func (x *GetDishesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDishesResp.ProtoReflect.Descriptor instead.
 func (*GetDishesResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{6}
+	return file_dish_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetDishesResp) GetDishes() []*Dish {
@@ -477,7 +599,7 @@ type DishType struct {
 
 func (x *DishType) Reset() {
 	*x = DishType{}
-	mi := &file_dish_service_proto_msgTypes[7]
+	mi := &file_dish_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -489,7 +611,7 @@ func (x *DishType) String() string {
 func (*DishType) ProtoMessage() {}
 
 func (x *DishType) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[7]
+	mi := &file_dish_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -502,7 +624,7 @@ func (x *DishType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DishType.ProtoReflect.Descriptor instead.
 func (*DishType) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{7}
+	return file_dish_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DishType) GetDishTypeID() uint32 {
@@ -528,7 +650,7 @@ type GetDishTypeResp struct {
 
 func (x *GetDishTypeResp) Reset() {
 	*x = GetDishTypeResp{}
-	mi := &file_dish_service_proto_msgTypes[8]
+	mi := &file_dish_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -540,7 +662,7 @@ func (x *GetDishTypeResp) String() string {
 func (*GetDishTypeResp) ProtoMessage() {}
 
 func (x *GetDishTypeResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[8]
+	mi := &file_dish_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -553,7 +675,7 @@ func (x *GetDishTypeResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDishTypeResp.ProtoReflect.Descriptor instead.
 func (*GetDishTypeResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{8}
+	return file_dish_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *GetDishTypeResp) GetDishTypes() []*DishType {
@@ -572,7 +694,7 @@ type AddDishTypeReq struct {
 
 func (x *AddDishTypeReq) Reset() {
 	*x = AddDishTypeReq{}
-	mi := &file_dish_service_proto_msgTypes[9]
+	mi := &file_dish_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -584,7 +706,7 @@ func (x *AddDishTypeReq) String() string {
 func (*AddDishTypeReq) ProtoMessage() {}
 
 func (x *AddDishTypeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[9]
+	mi := &file_dish_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -597,7 +719,7 @@ func (x *AddDishTypeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddDishTypeReq.ProtoReflect.Descriptor instead.
 func (*AddDishTypeReq) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{9}
+	return file_dish_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *AddDishTypeReq) GetTypeName() string {
@@ -617,7 +739,7 @@ type AddDishTypeResp struct {
 
 func (x *AddDishTypeResp) Reset() {
 	*x = AddDishTypeResp{}
-	mi := &file_dish_service_proto_msgTypes[10]
+	mi := &file_dish_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -629,7 +751,7 @@ func (x *AddDishTypeResp) String() string {
 func (*AddDishTypeResp) ProtoMessage() {}
 
 func (x *AddDishTypeResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[10]
+	mi := &file_dish_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -642,7 +764,7 @@ func (x *AddDishTypeResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddDishTypeResp.ProtoReflect.Descriptor instead.
 func (*AddDishTypeResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{10}
+	return file_dish_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *AddDishTypeResp) GetDishTypeID() uint32 {
@@ -669,7 +791,7 @@ type GetMaterialsReq struct {
 
 func (x *GetMaterialsReq) Reset() {
 	*x = GetMaterialsReq{}
-	mi := &file_dish_service_proto_msgTypes[11]
+	mi := &file_dish_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -681,7 +803,7 @@ func (x *GetMaterialsReq) String() string {
 func (*GetMaterialsReq) ProtoMessage() {}
 
 func (x *GetMaterialsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[11]
+	mi := &file_dish_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -694,7 +816,7 @@ func (x *GetMaterialsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMaterialsReq.ProtoReflect.Descriptor instead.
 func (*GetMaterialsReq) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{11}
+	return file_dish_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetMaterialsReq) GetPageInfo() *PageInfo {
@@ -721,7 +843,7 @@ type GetMaterialsResp struct {
 
 func (x *GetMaterialsResp) Reset() {
 	*x = GetMaterialsResp{}
-	mi := &file_dish_service_proto_msgTypes[12]
+	mi := &file_dish_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -733,7 +855,7 @@ func (x *GetMaterialsResp) String() string {
 func (*GetMaterialsResp) ProtoMessage() {}
 
 func (x *GetMaterialsResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[12]
+	mi := &file_dish_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -746,7 +868,7 @@ func (x *GetMaterialsResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMaterialsResp.ProtoReflect.Descriptor instead.
 func (*GetMaterialsResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{12}
+	return file_dish_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetMaterialsResp) GetMaterialList() []*Material {
@@ -772,7 +894,7 @@ type CreateOrEditMaterialReq struct {
 
 func (x *CreateOrEditMaterialReq) Reset() {
 	*x = CreateOrEditMaterialReq{}
-	mi := &file_dish_service_proto_msgTypes[13]
+	mi := &file_dish_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -784,7 +906,7 @@ func (x *CreateOrEditMaterialReq) String() string {
 func (*CreateOrEditMaterialReq) ProtoMessage() {}
 
 func (x *CreateOrEditMaterialReq) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[13]
+	mi := &file_dish_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -797,7 +919,7 @@ func (x *CreateOrEditMaterialReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrEditMaterialReq.ProtoReflect.Descriptor instead.
 func (*CreateOrEditMaterialReq) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{13}
+	return file_dish_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *CreateOrEditMaterialReq) GetMaterial() *Material {
@@ -816,7 +938,7 @@ type CreateOrEditMaterialResp struct {
 
 func (x *CreateOrEditMaterialResp) Reset() {
 	*x = CreateOrEditMaterialResp{}
-	mi := &file_dish_service_proto_msgTypes[14]
+	mi := &file_dish_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -828,7 +950,7 @@ func (x *CreateOrEditMaterialResp) String() string {
 func (*CreateOrEditMaterialResp) ProtoMessage() {}
 
 func (x *CreateOrEditMaterialResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[14]
+	mi := &file_dish_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -841,7 +963,7 @@ func (x *CreateOrEditMaterialResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrEditMaterialResp.ProtoReflect.Descriptor instead.
 func (*CreateOrEditMaterialResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{14}
+	return file_dish_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *CreateOrEditMaterialResp) GetMaterialId() uint32 {
@@ -860,7 +982,7 @@ type CreateOrEditDishReq struct {
 
 func (x *CreateOrEditDishReq) Reset() {
 	*x = CreateOrEditDishReq{}
-	mi := &file_dish_service_proto_msgTypes[15]
+	mi := &file_dish_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -872,7 +994,7 @@ func (x *CreateOrEditDishReq) String() string {
 func (*CreateOrEditDishReq) ProtoMessage() {}
 
 func (x *CreateOrEditDishReq) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[15]
+	mi := &file_dish_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -885,7 +1007,7 @@ func (x *CreateOrEditDishReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrEditDishReq.ProtoReflect.Descriptor instead.
 func (*CreateOrEditDishReq) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{15}
+	return file_dish_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *CreateOrEditDishReq) GetDish() *Dish {
@@ -905,7 +1027,7 @@ type GetDishesWithCategoryReq struct {
 
 func (x *GetDishesWithCategoryReq) Reset() {
 	*x = GetDishesWithCategoryReq{}
-	mi := &file_dish_service_proto_msgTypes[16]
+	mi := &file_dish_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -917,7 +1039,7 @@ func (x *GetDishesWithCategoryReq) String() string {
 func (*GetDishesWithCategoryReq) ProtoMessage() {}
 
 func (x *GetDishesWithCategoryReq) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[16]
+	mi := &file_dish_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -930,7 +1052,7 @@ func (x *GetDishesWithCategoryReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDishesWithCategoryReq.ProtoReflect.Descriptor instead.
 func (*GetDishesWithCategoryReq) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{16}
+	return file_dish_service_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetDishesWithCategoryReq) GetPageInfo() *PageInfo {
@@ -958,7 +1080,7 @@ type GetDishesWithCategoryResp struct {
 
 func (x *GetDishesWithCategoryResp) Reset() {
 	*x = GetDishesWithCategoryResp{}
-	mi := &file_dish_service_proto_msgTypes[17]
+	mi := &file_dish_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -970,7 +1092,7 @@ func (x *GetDishesWithCategoryResp) String() string {
 func (*GetDishesWithCategoryResp) ProtoMessage() {}
 
 func (x *GetDishesWithCategoryResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[17]
+	mi := &file_dish_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -983,7 +1105,7 @@ func (x *GetDishesWithCategoryResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDishesWithCategoryResp.ProtoReflect.Descriptor instead.
 func (*GetDishesWithCategoryResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{17}
+	return file_dish_service_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GetDishesWithCategoryResp) GetDishes() []*Dish {
@@ -1005,6 +1127,182 @@ func (x *GetDishesWithCategoryResp) GetCategory() *DishType {
 		return x.Category
 	}
 	return nil
+}
+
+type DeleteDishesReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DishIds       []uint32               `protobuf:"varint,1,rep,packed,name=dishIds,proto3" json:"dishIds,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDishesReq) Reset() {
+	*x = DeleteDishesReq{}
+	mi := &file_dish_service_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDishesReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDishesReq) ProtoMessage() {}
+
+func (x *DeleteDishesReq) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDishesReq.ProtoReflect.Descriptor instead.
+func (*DeleteDishesReq) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *DeleteDishesReq) GetDishIds() []uint32 {
+	if x != nil {
+		return x.DishIds
+	}
+	return nil
+}
+
+type GetAllTablesResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tables        []*Table               `protobuf:"bytes,1,rep,name=tables,proto3" json:"tables,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllTablesResp) Reset() {
+	*x = GetAllTablesResp{}
+	mi := &file_dish_service_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllTablesResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllTablesResp) ProtoMessage() {}
+
+func (x *GetAllTablesResp) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllTablesResp.ProtoReflect.Descriptor instead.
+func (*GetAllTablesResp) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *GetAllTablesResp) GetTables() []*Table {
+	if x != nil {
+		return x.Tables
+	}
+	return nil
+}
+
+type CreateOrEditTableReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Table         *Table                 `protobuf:"bytes,1,opt,name=table,proto3" json:"table,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrEditTableReq) Reset() {
+	*x = CreateOrEditTableReq{}
+	mi := &file_dish_service_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrEditTableReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrEditTableReq) ProtoMessage() {}
+
+func (x *CreateOrEditTableReq) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrEditTableReq.ProtoReflect.Descriptor instead.
+func (*CreateOrEditTableReq) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *CreateOrEditTableReq) GetTable() *Table {
+	if x != nil {
+		return x.Table
+	}
+	return nil
+}
+
+type DeleteTableReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TableId       uint32                 `protobuf:"varint,1,opt,name=tableId,proto3" json:"tableId,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTableReq) Reset() {
+	*x = DeleteTableReq{}
+	mi := &file_dish_service_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTableReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTableReq) ProtoMessage() {}
+
+func (x *DeleteTableReq) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTableReq.ProtoReflect.Descriptor instead.
+func (*DeleteTableReq) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *DeleteTableReq) GetTableId() uint32 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
 }
 
 var File_dish_service_proto protoreflect.FileDescriptor
@@ -1036,7 +1334,17 @@ const file_dish_service_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
 	"\x05price\x18\x03 \x01(\tR\x05price\x120\n" +
 	"\bunitType\x18\x04 \x01(\x0e2\x14.restaurant.UnitTypeR\bunitType\x12\x16\n" +
-	"\x06amount\x18\x05 \x01(\tR\x06amount\"`\n" +
+	"\x06amount\x18\x05 \x01(\tR\x06amount\"P\n" +
+	"\x04Seat\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12\x18\n" +
+	"\atableId\x18\x02 \x01(\rR\atableId\x12\x1e\n" +
+	"\n" +
+	"seatNumber\x18\x03 \x01(\tR\n" +
+	"seatNumber\"[\n" +
+	"\x05Table\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12\x16\n" +
+	"\x06number\x18\x02 \x01(\tR\x06number\x12*\n" +
+	"\x05seats\x18\x03 \x03(\v2\x14.restaurant_rpc.SeatR\x05seats\"`\n" +
 	"\fGetDishesReq\x124\n" +
 	"\bpageInfo\x18\x01 \x01(\v2\x18.restaurant_rpc.PageInfoR\bpageInfo\x12\x1a\n" +
 	"\bkeywords\x18\x02 \x01(\tR\bkeywords\"s\n" +
@@ -1077,7 +1385,15 @@ const file_dish_service_proto_rawDesc = "" +
 	"\x19GetDishesWithCategoryResp\x12,\n" +
 	"\x06dishes\x18\x01 \x03(\v2\x14.restaurant_rpc.DishR\x06dishes\x124\n" +
 	"\bpageInfo\x18\x02 \x01(\v2\x18.restaurant_rpc.PageInfoR\bpageInfo\x124\n" +
-	"\bcategory\x18\x03 \x01(\v2\x18.restaurant_rpc.DishTypeR\bcategory2\xec\x04\n" +
+	"\bcategory\x18\x03 \x01(\v2\x18.restaurant_rpc.DishTypeR\bcategory\"+\n" +
+	"\x0fDeleteDishesReq\x12\x18\n" +
+	"\adishIds\x18\x01 \x03(\rR\adishIds\"A\n" +
+	"\x10GetAllTablesResp\x12-\n" +
+	"\x06tables\x18\x01 \x03(\v2\x15.restaurant_rpc.TableR\x06tables\"C\n" +
+	"\x14CreateOrEditTableReq\x12+\n" +
+	"\x05table\x18\x01 \x01(\v2\x15.restaurant_rpc.TableR\x05table\"*\n" +
+	"\x0eDeleteTableReq\x12\x18\n" +
+	"\atableId\x18\x01 \x01(\rR\atableId2\x99\a\n" +
 	"\vDishService\x12H\n" +
 	"\tGetDishes\x12\x1c.restaurant_rpc.GetDishesReq\x1a\x1d.restaurant_rpc.GetDishesResp\x12F\n" +
 	"\vGetDishType\x12\x16.google.protobuf.Empty\x1a\x1f.restaurant_rpc.GetDishTypeResp\x12N\n" +
@@ -1085,7 +1401,11 @@ const file_dish_service_proto_rawDesc = "" +
 	"\fGetMaterials\x12\x1f.restaurant_rpc.GetMaterialsReq\x1a .restaurant_rpc.GetMaterialsResp\x12i\n" +
 	"\x14CreateOrEditMaterial\x12'.restaurant_rpc.CreateOrEditMaterialReq\x1a(.restaurant_rpc.CreateOrEditMaterialResp\x12O\n" +
 	"\x10CreateOrEditDish\x12#.restaurant_rpc.CreateOrEditDishReq\x1a\x16.google.protobuf.Empty\x12l\n" +
-	"\x15GetDishesWithCategory\x12(.restaurant_rpc.GetDishesWithCategoryReq\x1a).restaurant_rpc.GetDishesWithCategoryRespB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
+	"\x15GetDishesWithCategory\x12(.restaurant_rpc.GetDishesWithCategoryReq\x1a).restaurant_rpc.GetDishesWithCategoryResp\x12G\n" +
+	"\fDeleteDishes\x12\x1f.restaurant_rpc.DeleteDishesReq\x1a\x16.google.protobuf.Empty\x12H\n" +
+	"\fGetAllTables\x12\x16.google.protobuf.Empty\x1a .restaurant_rpc.GetAllTablesResp\x12Q\n" +
+	"\x11CreateOrEditTable\x12$.restaurant_rpc.CreateOrEditTableReq\x1a\x16.google.protobuf.Empty\x12E\n" +
+	"\vDeleteTable\x12\x1e.restaurant_rpc.DeleteTableReq\x1a\x16.google.protobuf.EmptyB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
 
 var (
 	file_dish_service_proto_rawDescOnce sync.Once
@@ -1099,72 +1419,89 @@ func file_dish_service_proto_rawDescGZIP() []byte {
 	return file_dish_service_proto_rawDescData
 }
 
-var file_dish_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_dish_service_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_dish_service_proto_goTypes = []any{
 	(*Dish)(nil),                      // 0: restaurant_rpc.Dish
 	(*DishPortion)(nil),               // 1: restaurant_rpc.DishPortion
 	(*Recipe)(nil),                    // 2: restaurant_rpc.Recipe
 	(*RecipeMaterial)(nil),            // 3: restaurant_rpc.RecipeMaterial
 	(*Material)(nil),                  // 4: restaurant_rpc.Material
-	(*GetDishesReq)(nil),              // 5: restaurant_rpc.GetDishesReq
-	(*GetDishesResp)(nil),             // 6: restaurant_rpc.GetDishesResp
-	(*DishType)(nil),                  // 7: restaurant_rpc.DishType
-	(*GetDishTypeResp)(nil),           // 8: restaurant_rpc.GetDishTypeResp
-	(*AddDishTypeReq)(nil),            // 9: restaurant_rpc.AddDishTypeReq
-	(*AddDishTypeResp)(nil),           // 10: restaurant_rpc.AddDishTypeResp
-	(*GetMaterialsReq)(nil),           // 11: restaurant_rpc.GetMaterialsReq
-	(*GetMaterialsResp)(nil),          // 12: restaurant_rpc.GetMaterialsResp
-	(*CreateOrEditMaterialReq)(nil),   // 13: restaurant_rpc.CreateOrEditMaterialReq
-	(*CreateOrEditMaterialResp)(nil),  // 14: restaurant_rpc.CreateOrEditMaterialResp
-	(*CreateOrEditDishReq)(nil),       // 15: restaurant_rpc.CreateOrEditDishReq
-	(*GetDishesWithCategoryReq)(nil),  // 16: restaurant_rpc.GetDishesWithCategoryReq
-	(*GetDishesWithCategoryResp)(nil), // 17: restaurant_rpc.GetDishesWithCategoryResp
-	(types.DishPortion)(0),            // 18: restaurant.DishPortion
-	(types.UnitType)(0),               // 19: restaurant.UnitType
-	(*PageInfo)(nil),                  // 20: restaurant_rpc.PageInfo
-	(*emptypb.Empty)(nil),             // 21: google.protobuf.Empty
+	(*Seat)(nil),                      // 5: restaurant_rpc.Seat
+	(*Table)(nil),                     // 6: restaurant_rpc.Table
+	(*GetDishesReq)(nil),              // 7: restaurant_rpc.GetDishesReq
+	(*GetDishesResp)(nil),             // 8: restaurant_rpc.GetDishesResp
+	(*DishType)(nil),                  // 9: restaurant_rpc.DishType
+	(*GetDishTypeResp)(nil),           // 10: restaurant_rpc.GetDishTypeResp
+	(*AddDishTypeReq)(nil),            // 11: restaurant_rpc.AddDishTypeReq
+	(*AddDishTypeResp)(nil),           // 12: restaurant_rpc.AddDishTypeResp
+	(*GetMaterialsReq)(nil),           // 13: restaurant_rpc.GetMaterialsReq
+	(*GetMaterialsResp)(nil),          // 14: restaurant_rpc.GetMaterialsResp
+	(*CreateOrEditMaterialReq)(nil),   // 15: restaurant_rpc.CreateOrEditMaterialReq
+	(*CreateOrEditMaterialResp)(nil),  // 16: restaurant_rpc.CreateOrEditMaterialResp
+	(*CreateOrEditDishReq)(nil),       // 17: restaurant_rpc.CreateOrEditDishReq
+	(*GetDishesWithCategoryReq)(nil),  // 18: restaurant_rpc.GetDishesWithCategoryReq
+	(*GetDishesWithCategoryResp)(nil), // 19: restaurant_rpc.GetDishesWithCategoryResp
+	(*DeleteDishesReq)(nil),           // 20: restaurant_rpc.DeleteDishesReq
+	(*GetAllTablesResp)(nil),          // 21: restaurant_rpc.GetAllTablesResp
+	(*CreateOrEditTableReq)(nil),      // 22: restaurant_rpc.CreateOrEditTableReq
+	(*DeleteTableReq)(nil),            // 23: restaurant_rpc.DeleteTableReq
+	(types.DishPortion)(0),            // 24: restaurant.DishPortion
+	(types.UnitType)(0),               // 25: restaurant.UnitType
+	(*PageInfo)(nil),                  // 26: restaurant_rpc.PageInfo
+	(*emptypb.Empty)(nil),             // 27: google.protobuf.Empty
 }
 var file_dish_service_proto_depIdxs = []int32{
-	7,  // 0: restaurant_rpc.Dish.dishType:type_name -> restaurant_rpc.DishType
+	9,  // 0: restaurant_rpc.Dish.dishType:type_name -> restaurant_rpc.DishType
 	1,  // 1: restaurant_rpc.Dish.portions:type_name -> restaurant_rpc.DishPortion
-	18, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant.DishPortion
+	24, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant.DishPortion
 	2,  // 3: restaurant_rpc.DishPortion.recipe:type_name -> restaurant_rpc.Recipe
 	3,  // 4: restaurant_rpc.Recipe.materials:type_name -> restaurant_rpc.RecipeMaterial
 	4,  // 5: restaurant_rpc.RecipeMaterial.material:type_name -> restaurant_rpc.Material
-	19, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant.UnitType
-	20, // 7: restaurant_rpc.GetDishesReq.pageInfo:type_name -> restaurant_rpc.PageInfo
-	0,  // 8: restaurant_rpc.GetDishesResp.dishes:type_name -> restaurant_rpc.Dish
-	20, // 9: restaurant_rpc.GetDishesResp.pageInfo:type_name -> restaurant_rpc.PageInfo
-	7,  // 10: restaurant_rpc.GetDishTypeResp.dishTypes:type_name -> restaurant_rpc.DishType
-	20, // 11: restaurant_rpc.GetMaterialsReq.pageInfo:type_name -> restaurant_rpc.PageInfo
-	4,  // 12: restaurant_rpc.GetMaterialsResp.materialList:type_name -> restaurant_rpc.Material
-	20, // 13: restaurant_rpc.GetMaterialsResp.pageInfo:type_name -> restaurant_rpc.PageInfo
-	4,  // 14: restaurant_rpc.CreateOrEditMaterialReq.material:type_name -> restaurant_rpc.Material
-	0,  // 15: restaurant_rpc.CreateOrEditDishReq.dish:type_name -> restaurant_rpc.Dish
-	20, // 16: restaurant_rpc.GetDishesWithCategoryReq.pageInfo:type_name -> restaurant_rpc.PageInfo
-	7,  // 17: restaurant_rpc.GetDishesWithCategoryReq.category:type_name -> restaurant_rpc.DishType
-	0,  // 18: restaurant_rpc.GetDishesWithCategoryResp.dishes:type_name -> restaurant_rpc.Dish
-	20, // 19: restaurant_rpc.GetDishesWithCategoryResp.pageInfo:type_name -> restaurant_rpc.PageInfo
-	7,  // 20: restaurant_rpc.GetDishesWithCategoryResp.category:type_name -> restaurant_rpc.DishType
-	5,  // 21: restaurant_rpc.DishService.GetDishes:input_type -> restaurant_rpc.GetDishesReq
-	21, // 22: restaurant_rpc.DishService.GetDishType:input_type -> google.protobuf.Empty
-	9,  // 23: restaurant_rpc.DishService.AddDishType:input_type -> restaurant_rpc.AddDishTypeReq
-	11, // 24: restaurant_rpc.DishService.GetMaterials:input_type -> restaurant_rpc.GetMaterialsReq
-	13, // 25: restaurant_rpc.DishService.CreateOrEditMaterial:input_type -> restaurant_rpc.CreateOrEditMaterialReq
-	15, // 26: restaurant_rpc.DishService.CreateOrEditDish:input_type -> restaurant_rpc.CreateOrEditDishReq
-	16, // 27: restaurant_rpc.DishService.GetDishesWithCategory:input_type -> restaurant_rpc.GetDishesWithCategoryReq
-	6,  // 28: restaurant_rpc.DishService.GetDishes:output_type -> restaurant_rpc.GetDishesResp
-	8,  // 29: restaurant_rpc.DishService.GetDishType:output_type -> restaurant_rpc.GetDishTypeResp
-	10, // 30: restaurant_rpc.DishService.AddDishType:output_type -> restaurant_rpc.AddDishTypeResp
-	12, // 31: restaurant_rpc.DishService.GetMaterials:output_type -> restaurant_rpc.GetMaterialsResp
-	14, // 32: restaurant_rpc.DishService.CreateOrEditMaterial:output_type -> restaurant_rpc.CreateOrEditMaterialResp
-	21, // 33: restaurant_rpc.DishService.CreateOrEditDish:output_type -> google.protobuf.Empty
-	17, // 34: restaurant_rpc.DishService.GetDishesWithCategory:output_type -> restaurant_rpc.GetDishesWithCategoryResp
-	28, // [28:35] is the sub-list for method output_type
-	21, // [21:28] is the sub-list for method input_type
-	21, // [21:21] is the sub-list for extension type_name
-	21, // [21:21] is the sub-list for extension extendee
-	0,  // [0:21] is the sub-list for field type_name
+	25, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant.UnitType
+	5,  // 7: restaurant_rpc.Table.seats:type_name -> restaurant_rpc.Seat
+	26, // 8: restaurant_rpc.GetDishesReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	0,  // 9: restaurant_rpc.GetDishesResp.dishes:type_name -> restaurant_rpc.Dish
+	26, // 10: restaurant_rpc.GetDishesResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	9,  // 11: restaurant_rpc.GetDishTypeResp.dishTypes:type_name -> restaurant_rpc.DishType
+	26, // 12: restaurant_rpc.GetMaterialsReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	4,  // 13: restaurant_rpc.GetMaterialsResp.materialList:type_name -> restaurant_rpc.Material
+	26, // 14: restaurant_rpc.GetMaterialsResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	4,  // 15: restaurant_rpc.CreateOrEditMaterialReq.material:type_name -> restaurant_rpc.Material
+	0,  // 16: restaurant_rpc.CreateOrEditDishReq.dish:type_name -> restaurant_rpc.Dish
+	26, // 17: restaurant_rpc.GetDishesWithCategoryReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	9,  // 18: restaurant_rpc.GetDishesWithCategoryReq.category:type_name -> restaurant_rpc.DishType
+	0,  // 19: restaurant_rpc.GetDishesWithCategoryResp.dishes:type_name -> restaurant_rpc.Dish
+	26, // 20: restaurant_rpc.GetDishesWithCategoryResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	9,  // 21: restaurant_rpc.GetDishesWithCategoryResp.category:type_name -> restaurant_rpc.DishType
+	6,  // 22: restaurant_rpc.GetAllTablesResp.tables:type_name -> restaurant_rpc.Table
+	6,  // 23: restaurant_rpc.CreateOrEditTableReq.table:type_name -> restaurant_rpc.Table
+	7,  // 24: restaurant_rpc.DishService.GetDishes:input_type -> restaurant_rpc.GetDishesReq
+	27, // 25: restaurant_rpc.DishService.GetDishType:input_type -> google.protobuf.Empty
+	11, // 26: restaurant_rpc.DishService.AddDishType:input_type -> restaurant_rpc.AddDishTypeReq
+	13, // 27: restaurant_rpc.DishService.GetMaterials:input_type -> restaurant_rpc.GetMaterialsReq
+	15, // 28: restaurant_rpc.DishService.CreateOrEditMaterial:input_type -> restaurant_rpc.CreateOrEditMaterialReq
+	17, // 29: restaurant_rpc.DishService.CreateOrEditDish:input_type -> restaurant_rpc.CreateOrEditDishReq
+	18, // 30: restaurant_rpc.DishService.GetDishesWithCategory:input_type -> restaurant_rpc.GetDishesWithCategoryReq
+	20, // 31: restaurant_rpc.DishService.DeleteDishes:input_type -> restaurant_rpc.DeleteDishesReq
+	27, // 32: restaurant_rpc.DishService.GetAllTables:input_type -> google.protobuf.Empty
+	22, // 33: restaurant_rpc.DishService.CreateOrEditTable:input_type -> restaurant_rpc.CreateOrEditTableReq
+	23, // 34: restaurant_rpc.DishService.DeleteTable:input_type -> restaurant_rpc.DeleteTableReq
+	8,  // 35: restaurant_rpc.DishService.GetDishes:output_type -> restaurant_rpc.GetDishesResp
+	10, // 36: restaurant_rpc.DishService.GetDishType:output_type -> restaurant_rpc.GetDishTypeResp
+	12, // 37: restaurant_rpc.DishService.AddDishType:output_type -> restaurant_rpc.AddDishTypeResp
+	14, // 38: restaurant_rpc.DishService.GetMaterials:output_type -> restaurant_rpc.GetMaterialsResp
+	16, // 39: restaurant_rpc.DishService.CreateOrEditMaterial:output_type -> restaurant_rpc.CreateOrEditMaterialResp
+	27, // 40: restaurant_rpc.DishService.CreateOrEditDish:output_type -> google.protobuf.Empty
+	19, // 41: restaurant_rpc.DishService.GetDishesWithCategory:output_type -> restaurant_rpc.GetDishesWithCategoryResp
+	27, // 42: restaurant_rpc.DishService.DeleteDishes:output_type -> google.protobuf.Empty
+	21, // 43: restaurant_rpc.DishService.GetAllTables:output_type -> restaurant_rpc.GetAllTablesResp
+	27, // 44: restaurant_rpc.DishService.CreateOrEditTable:output_type -> google.protobuf.Empty
+	27, // 45: restaurant_rpc.DishService.DeleteTable:output_type -> google.protobuf.Empty
+	35, // [35:46] is the sub-list for method output_type
+	24, // [24:35] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_dish_service_proto_init() }
@@ -1179,7 +1516,7 @@ func file_dish_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_dish_service_proto_rawDesc), len(file_dish_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

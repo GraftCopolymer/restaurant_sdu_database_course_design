@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DashboardCard extends StatelessWidget {
-  const DashboardCard({
+class GridViewCard extends StatelessWidget {
+  const GridViewCard({
     super.key,
     required this.child,
     this.backgroundColor,
     this.borderColor,
     this.onTap,
+    this.onLongPress,
   });
 
   final Widget child;
@@ -14,6 +15,7 @@ class DashboardCard extends StatelessWidget {
   final Color? borderColor;
 
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class DashboardCard extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(_borderRadius),
                 onTap: onTap ?? (){},
+                onLongPress: onLongPress,
               ),
             )
           ],

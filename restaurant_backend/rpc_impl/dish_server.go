@@ -21,6 +21,7 @@ type DishServer struct {
 
 
 func (s *DishServer) GetDishes(ctx context.Context, req *restaurant_rpc.GetDishesReq) (*restaurant_rpc.GetDishesResp, error) {
+	//time.Sleep(2 * time.Second)
 	page, pageSize := req.PageInfo.Page, req.PageInfo.PageSize
 	if page <= 0 {
 		page = 1
@@ -32,8 +33,15 @@ func (s *DishServer) GetDishes(ctx context.Context, req *restaurant_rpc.GetDishe
 	}
 	keyword := strings.TrimSpace(req.Keywords)
 
+	var count int64
+	// 查询总数
+	err := database.DB().Model(&po.Dish{}).Where("name LIKE ?", "%"+keyword+"%").Count(&count).Error
+	if err != nil {
+		return nil, errors.New("服务器错误")
+	}
+
 	var poDishes []po.Dish
-	err := database.DB().Model(&po.Dish{}).
+	err = database.DB().Model(&po.Dish{}).
 		Scopes(database.Paginate(int(page), int(pageSize))).
 		Where("name ILIKE ?", "%"+keyword+"%").
 		Preload("DishType").
@@ -88,8 +96,15 @@ func (s *DishServer) GetDishes(ctx context.Context, req *restaurant_rpc.GetDishe
 		})
 	}
 
+	pageInfo := &restaurant_rpc.PageInfo{
+		Page:     page,
+		PageSize: pageSize,
+		Total: uint64(count),
+	}
+
 	return &restaurant_rpc.GetDishesResp{
 		Dishes: dishes,
+		PageInfo: pageInfo,
 	}, nil
 }
 
@@ -478,17 +493,17 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 			}
 		}
 		if len(toDeleteRecipeIDs) > 0 {
-			if err := tx.Where("recipe_id IN ?", toDeleteRecipeIDs).Delete(&po.RecipeMaterial{}).Error; err != nil {
+			if err := tx.Where("recipe_id IN ?", toDeleteRecipeIDs).Unscoped().Delete(&po.RecipeMaterial{}).Error; err != nil {
 				tx.Rollback()
 				return nil, errors.New("服务器错误")
 			}
-			if err := tx.Where("id IN ?", toDeleteRecipeIDs).Delete(&po.Recipe{}).Error; err != nil {
+			if err := tx.Where("id IN ?", toDeleteRecipeIDs).Unscoped().Delete(&po.Recipe{}).Error; err != nil {
 				tx.Rollback()
 				return nil, errors.New("服务器错误")
 			}
 		}
 		if len(toDeletePortionIDs) > 0 {
-			if err := tx.Where("dish_id = ? AND id IN ?", dish.ID, toDeletePortionIDs).Delete(&po.Portion{}).Error; err != nil {
+			if err := tx.Where("dish_id = ? AND id IN ?", dish.ID, toDeletePortionIDs).Unscoped().Delete(&po.Portion{}).Error; err != nil {
 				tx.Rollback()
 				return nil, errors.New("服务器错误")
 			}
@@ -526,19 +541,21 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 			// 7.2 Upsert RecipeMaterial
 			// 收集本次的 material_id 列表
 			var upserts []po.RecipeMaterial
-			materialIDs := make([]uint, 0, len(pbPortion.Recipe.Materials))
-			for _, m := range pbPortion.Recipe.Materials {
-				mid := uint(m.Material.Id)
-				materialIDs = append(materialIDs, mid)
-				am, err := decimal.NewFromString(m.Quantity)
-				if err != nil {
-					return nil, errors.New("用量数据不合法")
+			materialIDs := make([]uint, 0)
+			if pbPortion.Recipe != nil {
+				for _, m := range pbPortion.Recipe.Materials {
+					mid := uint(m.Material.Id)
+					materialIDs = append(materialIDs, mid)
+					am, err := decimal.NewFromString(m.Quantity)
+					if err != nil {
+						return nil, errors.New("用量数据不合法")
+					}
+					upserts = append(upserts, po.RecipeMaterial{
+						RecipeID:   recipeID,
+						MaterialID: mid,
+						Quantity:   am,
+					})
 				}
-				upserts = append(upserts, po.RecipeMaterial{
-					RecipeID:   recipeID,
-					MaterialID: mid,
-					Quantity:   am,
-				})
 			}
 
 			// 冲突更新 quantity
@@ -555,12 +572,13 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 			// 删除本次未出现的 Material（差异删除）
 			if len(materialIDs) == 0 {
 				// 本次一个材料都没传，清空该 recipe 的所有材料
-				if err := tx.Where("recipe_id = ?", recipeID).Delete(&po.RecipeMaterial{}).Error; err != nil {
+				if err := tx.Where("recipe_id = ?", recipeID).Unscoped().Delete(&po.RecipeMaterial{}).Error; err != nil {
 					tx.Rollback()
 					return nil, errors.New("服务器错误")
 				}
 			} else {
 				if err := tx.Where("recipe_id = ? AND material_id NOT IN ?", recipeID, materialIDs).
+					Unscoped().
 					Delete(&po.RecipeMaterial{}).Error; err != nil {
 					tx.Rollback()
 					return nil, errors.New("服务器错误")
@@ -665,4 +683,251 @@ func (s *DishServer) GetDishesWithCategory(ctx context.Context, req *restaurant_
 		PageInfo: pageInfo,
 	}
 	return resp, nil
+}
+
+func (s *DishServer) DeleteDishes(ctx context.Context, req *restaurant_rpc.DeleteDishesReq) (*emptypb.Empty, error) {
+	// TODO: 删除对应的 portion
+	idsToDelete := req.DishIds
+	tx := database.DB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+	for _, id := range idsToDelete {
+		if err := tx.Model(&po.Dish{}).Unscoped().Delete(&po.Dish{}, id).Error; err != nil {
+			tx.Rollback()
+		}
+	}
+	if err := tx.Commit().Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	return &emptypb.Empty{}, nil
+}
+
+func (s *DishServer) GetAllTables(ctx context.Context, req *emptypb.Empty) (*restaurant_rpc.GetAllTablesResp, error) {
+	// 获取所有桌子
+	var poTables []po.DiningTable
+	if err := database.DB().Model(&po.DiningTable{}).Preload("Seats").Find(&poTables).Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	var pbTables []*restaurant_rpc.Table
+	for _, poTable := range poTables {
+		// 处理所有座位
+		var pbSeats []*restaurant_rpc.Seat
+		for _, poSeat := range poTable.Seats {
+			pbSeats = append(pbSeats, &restaurant_rpc.Seat{
+				Id:         uint32(poSeat.ID),
+				TableId:    uint32(poTable.ID),
+				SeatNumber: poSeat.SeatNumber,
+			})
+		}
+		pbTables = append(pbTables, &restaurant_rpc.Table{
+			Id: uint32(poTable.ID),
+			Seats: pbSeats,
+			Number: poTable.Number,
+		})
+	}
+	return &restaurant_rpc.GetAllTablesResp{
+		Tables: pbTables,
+	}, nil
+}
+
+func (s *DishServer) CreateOrEditTable(ctx context.Context, req *restaurant_rpc.CreateOrEditTableReq) (*emptypb.Empty, error) {
+	table := req.Table
+	if table.GetId() <= 0 { // 新建
+		// 检查桌号
+		if table.GetNumber() == "" {
+			return nil, errors.New("桌号不能为空")
+		}
+		tx := database.DB().Begin()
+		defer func() {
+			if err := recover(); err != nil {
+				tx.Rollback()
+			}
+		}()
+		// 检查是否有相同桌号
+		var exist bool
+		err := tx.Model(&po.DiningTable{}).Where("number = ?", table.GetNumber()).Select("1").Scan(&exist).Error
+		if err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		if exist {
+			tx.Rollback()
+			return nil, errors.New("桌号已存在")
+		}
+		// 先保存桌子信息
+		poTable := po.DiningTable{
+			Number: table.Number,
+		}
+		err = tx.Create(&poTable).Error
+		if err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		// 提取座位
+		var poSeatList []po.Seat
+		for _, pbSeat := range table.GetSeats() {
+			poSeatList = append(poSeatList, po.Seat{
+				SeatNumber: pbSeat.GetSeatNumber(),
+				TableID: poTable.ID,
+			})
+		}
+		// 保存座位
+		err = tx.Create(&poSeatList).Error
+		if err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		err = tx.Commit().Error
+		if err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		return &emptypb.Empty{}, nil
+	} else { // 编辑
+		// 检查桌号
+		if table.GetNumber() == "" {
+			return nil, errors.New("桌号不能为空")
+		}
+		tx := database.DB().Begin()
+		defer func() {
+			if err := recover(); err != nil {
+				tx.Rollback()
+			}
+		}()
+		// 获取数据库中的原始对象
+		var poTable po.DiningTable
+		if err := tx.Model(&po.DiningTable{}).Where("id = ?", table.GetId()).Preload("Seats").Find(&poTable).Error; err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		// 更新桌子本身的信息
+		poTable.Number = table.GetNumber()
+		if err := tx.Model(&po.DiningTable{}).Where("id = ?", poTable.ID).Save(&poTable).Error; err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		// 提取请求中新的座位
+		var seatToBeCreated []*restaurant_rpc.Seat
+		// 提取将要编辑的座位
+		var seatToBeEdited []*restaurant_rpc.Seat
+		for _, newSeat := range table.Seats {
+			if newSeat.GetId() <= 0 {
+				seatToBeCreated = append(seatToBeCreated, &restaurant_rpc.Seat{
+					TableId: newSeat.TableId,
+					SeatNumber: newSeat.SeatNumber,
+				})
+			} else {
+				seatToBeEdited = append(seatToBeEdited, &restaurant_rpc.Seat{
+					Id: newSeat.Id,
+					TableId: newSeat.TableId,
+					SeatNumber: newSeat.SeatNumber,
+				})
+			}
+		}
+		// 先删除本次请求中没有出现的座位, 采用差异删除
+		var seatToBeDeleted []po.Seat
+		for _, poSeat := range poTable.Seats {
+			var shouldDelete = true
+			for _, editSeat := range seatToBeEdited {
+				if uint(editSeat.GetId()) == poSeat.ID {
+					shouldDelete = false
+					break;
+				}
+			}
+			if shouldDelete {
+				seatToBeDeleted = append(seatToBeDeleted, poSeat)
+			}
+		}
+		if len(seatToBeDeleted) > 0 {
+			if err := tx.Unscoped().Delete(&seatToBeDeleted).Error; err != nil {
+				tx.Rollback()
+				return nil, errors.New("服务器错误")
+			}
+		}
+		// 更新需要编辑的座位
+		for _, pbEditSeat := range seatToBeEdited {
+			// 检查是否有重复
+			var exist bool
+			err := tx.Model(&po.Seat{}).Where("table_id = ? AND seat_number = ?", table.GetId(), pbEditSeat.GetSeatNumber()).Select("1").Scan(&exist).Error
+			if err != nil {
+				tx.Rollback()
+				return nil, errors.New("服务器错误")
+			}
+			if exist {
+				// 检查是不是本身
+				var shadowSeat po.Seat
+				if err := tx.Model(&po.Seat{}).Where("table_id = ? AND seat_number = ?", table.GetId(), pbEditSeat.GetSeatNumber()).First(&shadowSeat).Error; err != nil {
+					tx.Rollback()
+					return nil, errors.New("服务器错误")
+				}
+				if shadowSeat.ID != uint(pbEditSeat.Id) {
+					tx.Rollback()
+					return nil, errors.New("桌号 " + pbEditSeat.GetSeatNumber() + " 重复")
+				}
+			}
+			poEditSeat := po.Seat{
+				Model: gorm.Model{
+					ID: uint(pbEditSeat.Id),
+				},
+				TableID: uint(pbEditSeat.TableId),
+				SeatNumber: pbEditSeat.SeatNumber,
+			}
+			err = tx.Save(&poEditSeat).Error
+			if err != nil {
+				tx.Rollback()
+				return nil, errors.New("服务器错误")
+			}
+		}
+		// 再次查询当前所有座位
+		var currentPoSeats []po.Seat
+		if err := tx.Model(&po.Seat{}).Where("table_id = ?", table.GetId()).Find(&currentPoSeats).Error; err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		// 插入新座位
+		for _, newSeat := range seatToBeCreated {
+			for _, currentPoSeat := range currentPoSeats {
+				if currentPoSeat.SeatNumber == newSeat.GetSeatNumber() {
+					tx.Rollback()
+					return nil, errors.New("座位号" + newSeat.GetSeatNumber() + "重复")
+				}
+			}
+			if err := tx.Create(&po.Seat{
+				TableID: uint(table.GetId()),
+				SeatNumber: newSeat.GetSeatNumber(),
+			}).Error; err != nil {
+				tx.Rollback()
+				return nil, errors.New("服务器错误")
+			}
+		}
+		if err := tx.Commit().Error; err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		return &emptypb.Empty{}, nil
+	}
+}
+
+func (s *DishServer) DeleteTable(ctx context.Context, req *restaurant_rpc.DeleteTableReq) (*emptypb.Empty, error) {
+	tableId := req.TableId
+	// 检查桌子是否存在
+	var poTable po.DiningTable
+	if err := database.DB().Model(&po.DiningTable{}).Where("id = ?", tableId).Preload("Seats").First(&poTable).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("桌子不存在")
+		}
+		return nil, errors.New("服务器错误")
+	}
+	// 删除对应的座位
+	if err := database.DB().Unscoped().Delete(&poTable.Seats).Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	// 删除桌子
+	if err := database.DB().Unscoped().Delete(&poTable).Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	return &emptypb.Empty{}, nil
 }

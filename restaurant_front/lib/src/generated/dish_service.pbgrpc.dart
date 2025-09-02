@@ -82,6 +82,34 @@ class DishServiceClient extends $grpc.Client {
     return $createUnaryCall(_$getDishesWithCategory, request, options: options);
   }
 
+  $grpc.ResponseFuture<$1.Empty> deleteDishes(
+    $0.DeleteDishesReq request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$deleteDishes, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetAllTablesResp> getAllTables(
+    $1.Empty request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$getAllTables, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.Empty> createOrEditTable(
+    $0.CreateOrEditTableReq request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$createOrEditTable, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.Empty> deleteTable(
+    $0.DeleteTableReq request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$deleteTable, request, options: options);
+  }
+
   // method descriptors
 
   static final _$getDishes =
@@ -118,6 +146,25 @@ class DishServiceClient extends $grpc.Client {
       '/restaurant_rpc.DishService/GetDishesWithCategory',
       ($0.GetDishesWithCategoryReq value) => value.writeToBuffer(),
       $0.GetDishesWithCategoryResp.fromBuffer);
+  static final _$deleteDishes =
+      $grpc.ClientMethod<$0.DeleteDishesReq, $1.Empty>(
+          '/restaurant_rpc.DishService/DeleteDishes',
+          ($0.DeleteDishesReq value) => value.writeToBuffer(),
+          $1.Empty.fromBuffer);
+  static final _$getAllTables =
+      $grpc.ClientMethod<$1.Empty, $0.GetAllTablesResp>(
+          '/restaurant_rpc.DishService/GetAllTables',
+          ($1.Empty value) => value.writeToBuffer(),
+          $0.GetAllTablesResp.fromBuffer);
+  static final _$createOrEditTable =
+      $grpc.ClientMethod<$0.CreateOrEditTableReq, $1.Empty>(
+          '/restaurant_rpc.DishService/CreateOrEditTable',
+          ($0.CreateOrEditTableReq value) => value.writeToBuffer(),
+          $1.Empty.fromBuffer);
+  static final _$deleteTable = $grpc.ClientMethod<$0.DeleteTableReq, $1.Empty>(
+      '/restaurant_rpc.DishService/DeleteTable',
+      ($0.DeleteTableReq value) => value.writeToBuffer(),
+      $1.Empty.fromBuffer);
 }
 
 @$pb.GrpcServiceName('restaurant_rpc.DishService')
@@ -179,6 +226,35 @@ abstract class DishServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.GetDishesWithCategoryReq.fromBuffer(value),
         ($0.GetDishesWithCategoryResp value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.DeleteDishesReq, $1.Empty>(
+        'DeleteDishes',
+        deleteDishes_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.DeleteDishesReq.fromBuffer(value),
+        ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.Empty, $0.GetAllTablesResp>(
+        'GetAllTables',
+        getAllTables_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.Empty.fromBuffer(value),
+        ($0.GetAllTablesResp value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CreateOrEditTableReq, $1.Empty>(
+        'CreateOrEditTable',
+        createOrEditTable_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.CreateOrEditTableReq.fromBuffer(value),
+        ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.DeleteTableReq, $1.Empty>(
+        'DeleteTable',
+        deleteTable_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.DeleteTableReq.fromBuffer(value),
+        ($1.Empty value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetDishesResp> getDishes_Pre(
@@ -238,4 +314,36 @@ abstract class DishServiceBase extends $grpc.Service {
 
   $async.Future<$0.GetDishesWithCategoryResp> getDishesWithCategory(
       $grpc.ServiceCall call, $0.GetDishesWithCategoryReq request);
+
+  $async.Future<$1.Empty> deleteDishes_Pre($grpc.ServiceCall $call,
+      $async.Future<$0.DeleteDishesReq> $request) async {
+    return deleteDishes($call, await $request);
+  }
+
+  $async.Future<$1.Empty> deleteDishes(
+      $grpc.ServiceCall call, $0.DeleteDishesReq request);
+
+  $async.Future<$0.GetAllTablesResp> getAllTables_Pre(
+      $grpc.ServiceCall $call, $async.Future<$1.Empty> $request) async {
+    return getAllTables($call, await $request);
+  }
+
+  $async.Future<$0.GetAllTablesResp> getAllTables(
+      $grpc.ServiceCall call, $1.Empty request);
+
+  $async.Future<$1.Empty> createOrEditTable_Pre($grpc.ServiceCall $call,
+      $async.Future<$0.CreateOrEditTableReq> $request) async {
+    return createOrEditTable($call, await $request);
+  }
+
+  $async.Future<$1.Empty> createOrEditTable(
+      $grpc.ServiceCall call, $0.CreateOrEditTableReq request);
+
+  $async.Future<$1.Empty> deleteTable_Pre($grpc.ServiceCall $call,
+      $async.Future<$0.DeleteTableReq> $request) async {
+    return deleteTable($call, await $request);
+  }
+
+  $async.Future<$1.Empty> deleteTable(
+      $grpc.ServiceCall call, $0.DeleteTableReq request);
 }

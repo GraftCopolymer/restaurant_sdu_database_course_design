@@ -27,6 +27,10 @@ const (
 	DishService_CreateOrEditMaterial_FullMethodName  = "/restaurant_rpc.DishService/CreateOrEditMaterial"
 	DishService_CreateOrEditDish_FullMethodName      = "/restaurant_rpc.DishService/CreateOrEditDish"
 	DishService_GetDishesWithCategory_FullMethodName = "/restaurant_rpc.DishService/GetDishesWithCategory"
+	DishService_DeleteDishes_FullMethodName          = "/restaurant_rpc.DishService/DeleteDishes"
+	DishService_GetAllTables_FullMethodName          = "/restaurant_rpc.DishService/GetAllTables"
+	DishService_CreateOrEditTable_FullMethodName     = "/restaurant_rpc.DishService/CreateOrEditTable"
+	DishService_DeleteTable_FullMethodName           = "/restaurant_rpc.DishService/DeleteTable"
 )
 
 // DishServiceClient is the client API for DishService service.
@@ -40,6 +44,10 @@ type DishServiceClient interface {
 	CreateOrEditMaterial(ctx context.Context, in *CreateOrEditMaterialReq, opts ...grpc.CallOption) (*CreateOrEditMaterialResp, error)
 	CreateOrEditDish(ctx context.Context, in *CreateOrEditDishReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetDishesWithCategory(ctx context.Context, in *GetDishesWithCategoryReq, opts ...grpc.CallOption) (*GetDishesWithCategoryResp, error)
+	DeleteDishes(ctx context.Context, in *DeleteDishesReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetAllTables(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllTablesResp, error)
+	CreateOrEditTable(ctx context.Context, in *CreateOrEditTableReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteTable(ctx context.Context, in *DeleteTableReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type dishServiceClient struct {
@@ -120,6 +128,46 @@ func (c *dishServiceClient) GetDishesWithCategory(ctx context.Context, in *GetDi
 	return out, nil
 }
 
+func (c *dishServiceClient) DeleteDishes(ctx context.Context, in *DeleteDishesReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DishService_DeleteDishes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dishServiceClient) GetAllTables(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllTablesResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllTablesResp)
+	err := c.cc.Invoke(ctx, DishService_GetAllTables_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dishServiceClient) CreateOrEditTable(ctx context.Context, in *CreateOrEditTableReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DishService_CreateOrEditTable_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dishServiceClient) DeleteTable(ctx context.Context, in *DeleteTableReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DishService_DeleteTable_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DishServiceServer is the server API for DishService service.
 // All implementations must embed UnimplementedDishServiceServer
 // for forward compatibility.
@@ -131,6 +179,10 @@ type DishServiceServer interface {
 	CreateOrEditMaterial(context.Context, *CreateOrEditMaterialReq) (*CreateOrEditMaterialResp, error)
 	CreateOrEditDish(context.Context, *CreateOrEditDishReq) (*emptypb.Empty, error)
 	GetDishesWithCategory(context.Context, *GetDishesWithCategoryReq) (*GetDishesWithCategoryResp, error)
+	DeleteDishes(context.Context, *DeleteDishesReq) (*emptypb.Empty, error)
+	GetAllTables(context.Context, *emptypb.Empty) (*GetAllTablesResp, error)
+	CreateOrEditTable(context.Context, *CreateOrEditTableReq) (*emptypb.Empty, error)
+	DeleteTable(context.Context, *DeleteTableReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedDishServiceServer()
 }
 
@@ -161,6 +213,18 @@ func (UnimplementedDishServiceServer) CreateOrEditDish(context.Context, *CreateO
 }
 func (UnimplementedDishServiceServer) GetDishesWithCategory(context.Context, *GetDishesWithCategoryReq) (*GetDishesWithCategoryResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDishesWithCategory not implemented")
+}
+func (UnimplementedDishServiceServer) DeleteDishes(context.Context, *DeleteDishesReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDishes not implemented")
+}
+func (UnimplementedDishServiceServer) GetAllTables(context.Context, *emptypb.Empty) (*GetAllTablesResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllTables not implemented")
+}
+func (UnimplementedDishServiceServer) CreateOrEditTable(context.Context, *CreateOrEditTableReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrEditTable not implemented")
+}
+func (UnimplementedDishServiceServer) DeleteTable(context.Context, *DeleteTableReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTable not implemented")
 }
 func (UnimplementedDishServiceServer) mustEmbedUnimplementedDishServiceServer() {}
 func (UnimplementedDishServiceServer) testEmbeddedByValue()                     {}
@@ -309,6 +373,78 @@ func _DishService_GetDishesWithCategory_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DishService_DeleteDishes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDishesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DishServiceServer).DeleteDishes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DishService_DeleteDishes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DishServiceServer).DeleteDishes(ctx, req.(*DeleteDishesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DishService_GetAllTables_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DishServiceServer).GetAllTables(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DishService_GetAllTables_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DishServiceServer).GetAllTables(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DishService_CreateOrEditTable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrEditTableReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DishServiceServer).CreateOrEditTable(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DishService_CreateOrEditTable_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DishServiceServer).CreateOrEditTable(ctx, req.(*CreateOrEditTableReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DishService_DeleteTable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTableReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DishServiceServer).DeleteTable(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DishService_DeleteTable_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DishServiceServer).DeleteTable(ctx, req.(*DeleteTableReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DishService_ServiceDesc is the grpc.ServiceDesc for DishService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -343,6 +479,22 @@ var DishService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDishesWithCategory",
 			Handler:    _DishService_GetDishesWithCategory_Handler,
+		},
+		{
+			MethodName: "DeleteDishes",
+			Handler:    _DishService_DeleteDishes_Handler,
+		},
+		{
+			MethodName: "GetAllTables",
+			Handler:    _DishService_GetAllTables_Handler,
+		},
+		{
+			MethodName: "CreateOrEditTable",
+			Handler:    _DishService_CreateOrEditTable_Handler,
+		},
+		{
+			MethodName: "DeleteTable",
+			Handler:    _DishService_DeleteTable_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -27,7 +27,7 @@ type Customer struct {
 	Username string `gorm:"not null;unique"`
 	Phone string
 	Password string `gorm:"not null"`
-	Coupon []Coupon `gorm:"many2many2:customer_coupon;foreignKey:CustomerID"` // 用户持有的优惠券
+	//Coupon []Coupon `gorm:"many2many2:customer_coupon;foreignKey:CustomerID"` // 用户持有的优惠券
 }
 
 

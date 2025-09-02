@@ -480,6 +480,160 @@ class Material extends $pb.GeneratedMessage {
   void clearAmount() => $_clearField(5);
 }
 
+/// / 座位
+class Seat extends $pb.GeneratedMessage {
+  factory Seat({
+    $core.int? id,
+    $core.int? tableId,
+    $core.String? seatNumber,
+  }) {
+    final result = create();
+    if (id != null) result.id = id;
+    if (tableId != null) result.tableId = tableId;
+    if (seatNumber != null) result.seatNumber = seatNumber;
+    return result;
+  }
+
+  Seat._();
+
+  factory Seat.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory Seat.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'Seat',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'tableId', $pb.PbFieldType.OU3,
+        protoName: 'tableId')
+    ..aOS(3, _omitFieldNames ? '' : 'seatNumber', protoName: 'seatNumber')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  Seat clone() => Seat()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  Seat copyWith(void Function(Seat) updates) =>
+      super.copyWith((message) => updates(message as Seat)) as Seat;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Seat create() => Seat._();
+  @$core.override
+  Seat createEmptyInstance() => create();
+  static $pb.PbList<Seat> createRepeated() => $pb.PbList<Seat>();
+  @$core.pragma('dart2js:noInline')
+  static Seat getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Seat>(create);
+  static Seat? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get id => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set id($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get tableId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set tableId($core.int value) => $_setUnsignedInt32(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasTableId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTableId() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get seatNumber => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set seatNumber($core.String value) => $_setString(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasSeatNumber() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSeatNumber() => $_clearField(3);
+}
+
+/// / 餐桌
+class Table extends $pb.GeneratedMessage {
+  factory Table({
+    $core.int? id,
+    $core.String? number,
+    $core.Iterable<Seat>? seats,
+  }) {
+    final result = create();
+    if (id != null) result.id = id;
+    if (number != null) result.number = number;
+    if (seats != null) result.seats.addAll(seats);
+    return result;
+  }
+
+  Table._();
+
+  factory Table.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory Table.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'Table',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
+    ..aOS(2, _omitFieldNames ? '' : 'number')
+    ..pc<Seat>(3, _omitFieldNames ? '' : 'seats', $pb.PbFieldType.PM,
+        subBuilder: Seat.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  Table clone() => Table()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  Table copyWith(void Function(Table) updates) =>
+      super.copyWith((message) => updates(message as Table)) as Table;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Table create() => Table._();
+  @$core.override
+  Table createEmptyInstance() => create();
+  static $pb.PbList<Table> createRepeated() => $pb.PbList<Table>();
+  @$core.pragma('dart2js:noInline')
+  static Table getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Table>(create);
+  static Table? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get id => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set id($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get number => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set number($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasNumber() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearNumber() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $pb.PbList<Seat> get seats => $_getList(2);
+}
+
 class GetDishesReq extends $pb.GeneratedMessage {
   factory GetDishesReq({
     $2.PageInfo? pageInfo,
@@ -1332,6 +1486,224 @@ class GetDishesWithCategoryResp extends $pb.GeneratedMessage {
   void clearCategory() => $_clearField(3);
   @$pb.TagNumber(3)
   DishType ensureCategory() => $_ensure(2);
+}
+
+class DeleteDishesReq extends $pb.GeneratedMessage {
+  factory DeleteDishesReq({
+    $core.Iterable<$core.int>? dishIds,
+  }) {
+    final result = create();
+    if (dishIds != null) result.dishIds.addAll(dishIds);
+    return result;
+  }
+
+  DeleteDishesReq._();
+
+  factory DeleteDishesReq.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory DeleteDishesReq.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'DeleteDishesReq',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..p<$core.int>(1, _omitFieldNames ? '' : 'dishIds', $pb.PbFieldType.KU3,
+        protoName: 'dishIds')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  DeleteDishesReq clone() => DeleteDishesReq()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  DeleteDishesReq copyWith(void Function(DeleteDishesReq) updates) =>
+      super.copyWith((message) => updates(message as DeleteDishesReq))
+          as DeleteDishesReq;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteDishesReq create() => DeleteDishesReq._();
+  @$core.override
+  DeleteDishesReq createEmptyInstance() => create();
+  static $pb.PbList<DeleteDishesReq> createRepeated() =>
+      $pb.PbList<DeleteDishesReq>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteDishesReq getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DeleteDishesReq>(create);
+  static DeleteDishesReq? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbList<$core.int> get dishIds => $_getList(0);
+}
+
+class GetAllTablesResp extends $pb.GeneratedMessage {
+  factory GetAllTablesResp({
+    $core.Iterable<Table>? tables,
+  }) {
+    final result = create();
+    if (tables != null) result.tables.addAll(tables);
+    return result;
+  }
+
+  GetAllTablesResp._();
+
+  factory GetAllTablesResp.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetAllTablesResp.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetAllTablesResp',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..pc<Table>(1, _omitFieldNames ? '' : 'tables', $pb.PbFieldType.PM,
+        subBuilder: Table.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetAllTablesResp clone() => GetAllTablesResp()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetAllTablesResp copyWith(void Function(GetAllTablesResp) updates) =>
+      super.copyWith((message) => updates(message as GetAllTablesResp))
+          as GetAllTablesResp;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetAllTablesResp create() => GetAllTablesResp._();
+  @$core.override
+  GetAllTablesResp createEmptyInstance() => create();
+  static $pb.PbList<GetAllTablesResp> createRepeated() =>
+      $pb.PbList<GetAllTablesResp>();
+  @$core.pragma('dart2js:noInline')
+  static GetAllTablesResp getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetAllTablesResp>(create);
+  static GetAllTablesResp? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbList<Table> get tables => $_getList(0);
+}
+
+class CreateOrEditTableReq extends $pb.GeneratedMessage {
+  factory CreateOrEditTableReq({
+    Table? table,
+  }) {
+    final result = create();
+    if (table != null) result.table = table;
+    return result;
+  }
+
+  CreateOrEditTableReq._();
+
+  factory CreateOrEditTableReq.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CreateOrEditTableReq.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'CreateOrEditTableReq',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..aOM<Table>(1, _omitFieldNames ? '' : 'table', subBuilder: Table.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  CreateOrEditTableReq clone() =>
+      CreateOrEditTableReq()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  CreateOrEditTableReq copyWith(void Function(CreateOrEditTableReq) updates) =>
+      super.copyWith((message) => updates(message as CreateOrEditTableReq))
+          as CreateOrEditTableReq;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CreateOrEditTableReq create() => CreateOrEditTableReq._();
+  @$core.override
+  CreateOrEditTableReq createEmptyInstance() => create();
+  static $pb.PbList<CreateOrEditTableReq> createRepeated() =>
+      $pb.PbList<CreateOrEditTableReq>();
+  @$core.pragma('dart2js:noInline')
+  static CreateOrEditTableReq getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<CreateOrEditTableReq>(create);
+  static CreateOrEditTableReq? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Table get table => $_getN(0);
+  @$pb.TagNumber(1)
+  set table(Table value) => $_setField(1, value);
+  @$pb.TagNumber(1)
+  $core.bool hasTable() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTable() => $_clearField(1);
+  @$pb.TagNumber(1)
+  Table ensureTable() => $_ensure(0);
+}
+
+class DeleteTableReq extends $pb.GeneratedMessage {
+  factory DeleteTableReq({
+    $core.int? tableId,
+  }) {
+    final result = create();
+    if (tableId != null) result.tableId = tableId;
+    return result;
+  }
+
+  DeleteTableReq._();
+
+  factory DeleteTableReq.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory DeleteTableReq.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'DeleteTableReq',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'tableId', $pb.PbFieldType.OU3,
+        protoName: 'tableId')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  DeleteTableReq clone() => DeleteTableReq()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  DeleteTableReq copyWith(void Function(DeleteTableReq) updates) =>
+      super.copyWith((message) => updates(message as DeleteTableReq))
+          as DeleteTableReq;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteTableReq create() => DeleteTableReq._();
+  @$core.override
+  DeleteTableReq createEmptyInstance() => create();
+  static $pb.PbList<DeleteTableReq> createRepeated() =>
+      $pb.PbList<DeleteTableReq>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteTableReq getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DeleteTableReq>(create);
+  static DeleteTableReq? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get tableId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set tableId($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasTableId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTableId() => $_clearField(1);
 }
 
 const $core.bool _omitFieldNames =

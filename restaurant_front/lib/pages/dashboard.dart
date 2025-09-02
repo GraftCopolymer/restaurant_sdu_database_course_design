@@ -5,6 +5,8 @@ import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart' as r;
 import 'package:restaurant_management/src/generated/basic_service.pbenum.dart';
+import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart'
+    show ORDER_TYPE_DINING_IN, OrderType;
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/dashboard_card.dart';
 
@@ -18,7 +20,6 @@ class DashboardPage extends ConsumerStatefulWidget {
 }
 
 class _DashboardPageState extends ConsumerState<DashboardPage> {
-
   Widget _buildCardContent(String title, IconData icon) {
     return Center(
       child: Column(
@@ -32,22 +33,28 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 
   List<Widget> _getEmployeeCards(UserInfo userInfo) {
     final employeeCards = [
-      DashboardCard(
+      GridViewCard(
         child: _buildCardContent("成本管理", Icons.money),
         onTap: () {
           router.push(r.CostManagementRoute());
         },
       ),
-      DashboardCard(
+      GridViewCard(
         child: _buildCardContent("菜品管理", Icons.dining_outlined),
         onTap: () {
           router.push(r.DishManagementRoute());
         },
       ),
-      DashboardCard(
+      GridViewCard(
         child: _buildCardContent("原材料管理", Icons.dining_outlined),
         onTap: () {
           router.push(r.MaterialListRoute());
+        },
+      ),
+      GridViewCard(
+        child: _buildCardContent("餐桌管理", Icons.table_bar),
+        onTap: () {
+          router.push(r.TableListRoute());
         },
       ),
     ];
@@ -57,24 +64,43 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     if (loginRole == LoginRole.LOGIN_ROLE_EMPLOYEE &&
         (employeeRole == EmployeeRole.ROLE_ADMIN ||
             employeeRole == EmployeeRole.ROLE_MANAGER)) {
-              employeeCards.add(
-                DashboardCard(
-        child: _buildCardContent("人员管理", Icons.supervisor_account_sharp),
-        onTap: () {
-          router.push(r.EmployeeManagementRoute());
-        },
-      ),
-              );
-            }
+      employeeCards.add(
+        GridViewCard(
+          child: _buildCardContent("人员管理", Icons.supervisor_account_sharp),
+          onTap: () {
+            router.push(r.EmployeeManagementRoute());
+          },
+        ),
+      );
+    }
     return employeeCards;
   }
 
   List<Widget> _getCustomersCards() {
     final customerCards = [
-      DashboardCard(
-        child: _buildCardContent("点餐", Icons.dining_outlined),
+      GridViewCard(
+        child: _buildCardContent("堂食点餐", Icons.dining_outlined),
         onTap: () {
-          router.push(r.SalesDataRoute());
+          router.push(
+            r.TableListRoute(
+              onTableTap: (table) {
+                router.push(
+                  r.CustomerSelectDishRoute(
+                    orderType: OrderType.ORDER_TYPE_DINING_IN,
+                    table: table
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+      GridViewCard(
+        child: _buildCardContent("外卖点餐", Icons.takeout_dining_outlined),
+        onTap: () {
+          router.push(
+            r.CustomerSelectDishRoute(orderType: OrderType.ORDER_TYPE_TAKE_OUT),
+          );
         },
       ),
     ];
@@ -136,7 +162,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             return asyncUserInfo.when(
               data: (userInfo) {
                 if (!userInfo.isLogin()) {
-                  Center(child: Text("请先登录"),);
+                  Center(child: Text("请先登录"));
                 }
                 late final List<Widget> displayCards;
                 if (userInfo.isEmployee()) {
@@ -157,13 +183,13 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     return displayCards[index];
                   },
                 );
-              }, 
+              },
               error: (e, s) {
                 return _buildErrorView();
-              }, 
+              },
               loading: () {
                 return _buildLoadingView();
-              }
+              },
             );
           },
         ),

@@ -149,6 +149,43 @@ final $typed_data.Uint8List materialDescriptor = $convert.base64Decode(
     'gDIAEoCVIFcHJpY2USMAoIdW5pdFR5cGUYBCABKA4yFC5yZXN0YXVyYW50LlVuaXRUeXBlUgh1'
     'bml0VHlwZRIWCgZhbW91bnQYBSABKAlSBmFtb3VudA==');
 
+@$core.Deprecated('Use seatDescriptor instead')
+const Seat$json = {
+  '1': 'Seat',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'tableId', '3': 2, '4': 1, '5': 13, '10': 'tableId'},
+    {'1': 'seatNumber', '3': 3, '4': 1, '5': 9, '10': 'seatNumber'},
+  ],
+};
+
+/// Descriptor for `Seat`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List seatDescriptor = $convert.base64Decode(
+    'CgRTZWF0Eg4KAmlkGAEgASgNUgJpZBIYCgd0YWJsZUlkGAIgASgNUgd0YWJsZUlkEh4KCnNlYX'
+    'ROdW1iZXIYAyABKAlSCnNlYXROdW1iZXI=');
+
+@$core.Deprecated('Use tableDescriptor instead')
+const Table$json = {
+  '1': 'Table',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'number', '3': 2, '4': 1, '5': 9, '10': 'number'},
+    {
+      '1': 'seats',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.Seat',
+      '10': 'seats'
+    },
+  ],
+};
+
+/// Descriptor for `Table`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List tableDescriptor = $convert.base64Decode(
+    'CgVUYWJsZRIOCgJpZBgBIAEoDVICaWQSFgoGbnVtYmVyGAIgASgJUgZudW1iZXISKgoFc2VhdH'
+    'MYAyADKAsyFC5yZXN0YXVyYW50X3JwYy5TZWF0UgVzZWF0cw==');
+
 @$core.Deprecated('Use getDishesReqDescriptor instead')
 const GetDishesReq$json = {
   '1': 'GetDishesReq',
@@ -430,3 +467,67 @@ final $typed_data.Uint8List getDishesWithCategoryRespDescriptor = $convert.base6
     'RfcnBjLkRpc2hSBmRpc2hlcxI0CghwYWdlSW5mbxgCIAEoCzIYLnJlc3RhdXJhbnRfcnBjLlBh'
     'Z2VJbmZvUghwYWdlSW5mbxI0CghjYXRlZ29yeRgDIAEoCzIYLnJlc3RhdXJhbnRfcnBjLkRpc2'
     'hUeXBlUghjYXRlZ29yeQ==');
+
+@$core.Deprecated('Use deleteDishesReqDescriptor instead')
+const DeleteDishesReq$json = {
+  '1': 'DeleteDishesReq',
+  '2': [
+    {'1': 'dishIds', '3': 1, '4': 3, '5': 13, '10': 'dishIds'},
+  ],
+};
+
+/// Descriptor for `DeleteDishesReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteDishesReqDescriptor = $convert.base64Decode(
+    'Cg9EZWxldGVEaXNoZXNSZXESGAoHZGlzaElkcxgBIAMoDVIHZGlzaElkcw==');
+
+@$core.Deprecated('Use getAllTablesRespDescriptor instead')
+const GetAllTablesResp$json = {
+  '1': 'GetAllTablesResp',
+  '2': [
+    {
+      '1': 'tables',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.Table',
+      '10': 'tables'
+    },
+  ],
+};
+
+/// Descriptor for `GetAllTablesResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getAllTablesRespDescriptor = $convert.base64Decode(
+    'ChBHZXRBbGxUYWJsZXNSZXNwEi0KBnRhYmxlcxgBIAMoCzIVLnJlc3RhdXJhbnRfcnBjLlRhYm'
+    'xlUgZ0YWJsZXM=');
+
+@$core.Deprecated('Use createOrEditTableReqDescriptor instead')
+const CreateOrEditTableReq$json = {
+  '1': 'CreateOrEditTableReq',
+  '2': [
+    {
+      '1': 'table',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Table',
+      '10': 'table'
+    },
+  ],
+};
+
+/// Descriptor for `CreateOrEditTableReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createOrEditTableReqDescriptor = $convert.base64Decode(
+    'ChRDcmVhdGVPckVkaXRUYWJsZVJlcRIrCgV0YWJsZRgBIAEoCzIVLnJlc3RhdXJhbnRfcnBjLl'
+    'RhYmxlUgV0YWJsZQ==');
+
+@$core.Deprecated('Use deleteTableReqDescriptor instead')
+const DeleteTableReq$json = {
+  '1': 'DeleteTableReq',
+  '2': [
+    {'1': 'tableId', '3': 1, '4': 1, '5': 13, '10': 'tableId'},
+  ],
+};
+
+/// Descriptor for `DeleteTableReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteTableReqDescriptor = $convert
+    .base64Decode('Cg5EZWxldGVUYWJsZVJlcRIYCgd0YWJsZUlkGAEgASgNUgd0YWJsZUlk');
