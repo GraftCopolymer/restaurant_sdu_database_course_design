@@ -40,67 +40,72 @@ class _DishManagementPageState extends ConsumerState<DishManagementPage> {
     if (data.isEmpty) {
       return _buildNoDataView();
     }
-    return ListView.builder(itemCount: data.length + 1, itemBuilder: (context, index) {
-      final isFinished = ref.watch(provider.notifier).isFinished();
-      if (index == data.length) {
-        return NotificationListener<LoadMoreNotification>(
-          onNotification: (notification) {
-            if (isFinished != null && !isFinished) {
-              ref.read(provider.notifier).loadMore();
-              return true;
-            }
-            return false;
-          },
-          child: LoadMoreWidget(isFinished: isFinished)
-        );
-      }
-      final dish = data[index];
-      return ListTile(
-        leading: _isEditMode ? Checkbox(value: _selectedIndexList.contains(index), onChanged: (value) {
-          final _v = value ?? false;
-          if (_v && _selectedIndexList.contains(index)) {
-            setState(() {
-              _selectedIndexList.add(index);
-            });
-          } else {
-            setState(() {
-              _selectedIndexList.remove(index);
-            });
-          }
-        }) : null,
-        title: Text(dish.name),
-        onTap: () {
-          if (_isEditMode) {
-            if (!_selectedIndexList.contains(index)) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        ref.invalidate(provider);
+      },
+      child: ListView.builder(itemCount: data.length + 1, itemBuilder: (context, index) {
+        final isFinished = ref.watch(provider.notifier).isFinished();
+        if (index == data.length) {
+          return NotificationListener<LoadMoreNotification>(
+            onNotification: (notification) {
+              if (isFinished != null && !isFinished) {
+                ref.read(provider.notifier).loadMore();
+                return true;
+              }
+              return false;
+            },
+            child: LoadMoreWidget(isFinished: isFinished)
+          );
+        }
+        final dish = data[index];
+        return ListTile(
+          leading: _isEditMode ? Checkbox(value: _selectedIndexList.contains(index), onChanged: (value) {
+            final _v = value ?? false;
+            if (_v && _selectedIndexList.contains(index)) {
               setState(() {
                 _selectedIndexList.add(index);
               });
-            } 
-            else {
+            } else {
               setState(() {
                 _selectedIndexList.remove(index);
               });
             }
-            debugPrint("当前选中的菜品: ");
-            for (final i in _selectedIndexList) {
-              if (_selectedIndexList.contains(index)) {
-                debugPrint("${data[i].name}");
+          }) : null,
+          title: Text(dish.name),
+          onTap: () {
+            if (_isEditMode) {
+              if (!_selectedIndexList.contains(index)) {
+                setState(() {
+                  _selectedIndexList.add(index);
+                });
+              } 
+              else {
+                setState(() {
+                  _selectedIndexList.remove(index);
+                });
               }
+              debugPrint("当前选中的菜品: ");
+              for (final i in _selectedIndexList) {
+                if (_selectedIndexList.contains(index)) {
+                  debugPrint("${data[i].name}");
+                }
+              }
+              return;
             }
-            return;
-          }
-          // TODO: 进入菜品编辑页面
-          router.push(DishAddRoute(
-            dish: dish,
-            onSaveDish: (dish) {
-              ref.read(provider.notifier).updateDish(dish);
-              // 返回当前页面
-              router.back();
-            },
-          ));
-        },
-      );
-    });
+            // TODO: 进入菜品编辑页面
+            router.push(DishAddRoute(
+              dish: dish,
+              onSaveDish: (dish) {
+                ref.read(provider.notifier).updateDish(dish);
+                // 返回当前页面
+                router.back();
+              },
+            ));
+          },
+        );
+      }),
+    );
   }
 
   Widget _buildErrorView(Object e, StackTrace? s) {

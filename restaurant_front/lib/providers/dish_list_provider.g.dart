@@ -6,7 +6,7 @@ part of 'dish_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dishListModelHash() => r'3151b89db0a09e1cfaed97bfc140764173d86990';
+String _$dishListModelHash() => r'f4c1699f1edab73c9445b6155f87b606a9ac61a4';
 
 /// See also [DishListModel].
 @ProviderFor(DishListModel)

@@ -686,7 +686,6 @@ func (s *DishServer) GetDishesWithCategory(ctx context.Context, req *restaurant_
 }
 
 func (s *DishServer) DeleteDishes(ctx context.Context, req *restaurant_rpc.DeleteDishesReq) (*emptypb.Empty, error) {
-	// TODO: 删除对应的 portion
 	idsToDelete := req.DishIds
 	tx := database.DB().Begin()
 	defer func() {
@@ -695,8 +694,46 @@ func (s *DishServer) DeleteDishes(ctx context.Context, req *restaurant_rpc.Delet
 		}
 	}()
 	for _, id := range idsToDelete {
+		// 查询本菜品是否已经有订单订下
+		var hasOrdered bool
+		if err := tx.Model(&po.OrderDishPortion{}).Where("dish_id = ?", id).Select("1").Scan(&hasOrdered).Error; err != nil {
+			return nil, errors.New("系统错误")
+		}
+		if hasOrdered {
+			return nil, errors.New("该菜品已经被顾客预定, 无法删除")
+		}
+		// 该菜品id对应的所有portions
+		var poPortions []po.Portion
+		if err := tx.Model(&po.Portion{}).
+			Where("dish_id = ?", id).
+			Preload("Recipe").Preload("Recipe.Materials").
+			Find(&poPortions).Error; err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		for _, poPortion := range poPortions {
+			// 先删除Recipe对应的recipe_materials表中的记录
+			if err := tx.Model(&po.RecipeMaterial{}).
+				Where("recipe_id = ?", poPortion.RecipeID).
+				Unscoped().Delete(&po.RecipeMaterial{}).
+				Error; err != nil {
+				tx.Rollback()
+				return nil, errors.New("服务器错误")
+			}
+			// 删除 Portion
+			if err := tx.Model(&po.Portion{}).Unscoped().Delete(&po.Portion{}, poPortion.ID).Error; err != nil {
+				tx.Rollback()
+				return nil, errors.New("服务器错误")
+			}
+			// 删除Recipe
+			if err := tx.Model(&po.Recipe{}).Unscoped().Delete(&po.Recipe{}, poPortion.RecipeID).Error; err != nil {
+				tx.Rollback()
+				return nil, errors.New("服务器错误")
+			}
+		}
 		if err := tx.Model(&po.Dish{}).Unscoped().Delete(&po.Dish{}, id).Error; err != nil {
 			tx.Rollback()
+			return nil, errors.New("服务器错误")
 		}
 	}
 	if err := tx.Commit().Error; err != nil {

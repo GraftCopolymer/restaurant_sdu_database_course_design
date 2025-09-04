@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grpc/grpc.dart';
 import 'package:restaurant_management/network/dish_service.dart';
 import 'package:restaurant_management/src/generated/common.pb.dart';
@@ -15,6 +16,11 @@ class DishListModel extends _$DishListModel {
 
   @override
   FutureOr<List<Dish>> build() async {
+    // 重置页码, 防止刷新时数据错乱
+    _pageInfo
+      ..page = 1
+      ..pageSize = 10
+      ..total = Int64(0);
     final req = GetDishesReq(pageInfo: _pageInfo, keywords: "");
     final resp = await DishService.client.getDishes(req);
     _updatePageInfo(resp.pageInfo);
@@ -99,11 +105,13 @@ class DishListModel extends _$DishListModel {
       dishIds: toDelete.map((e) => e.id)
     );
     try {
-      final resp = await DishService.client.deleteDishes(req);
+      await DishService.client.deleteDishes(req);
       // 刷新页面
       _refreshSelf();
+      Fluttertoast.showToast(msg: "删除成功");
     } on GrpcError catch(e, stack) {
       Utils.report(e, stack);
+      Fluttertoast.showToast(msg: "${e.message}");
     }
   }
 
