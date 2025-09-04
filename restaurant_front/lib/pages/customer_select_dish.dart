@@ -4,13 +4,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart' hide Table;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grpc/grpc.dart';
+import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/models/shopping_cart.dart';
 import 'package:restaurant_management/network/dish_service.dart';
 import 'package:restaurant_management/providers/shopping_cart_provider.dart';
+import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/dish_service.pbgrpc.dart';
 import 'package:restaurant_management/src/generated/google/protobuf/empty.pb.dart';
-import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart' show ORDER_TYPE_DINING_IN, OrderType;
+import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart' show ORDER_TYPE_DINING_IN, ORDER_TYPE_TAKE_OUT, OrderType;
 import 'package:restaurant_management/utils/data_extends.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
@@ -146,6 +149,17 @@ class _CustomerSelectDishPageState
     }
   }
 
+  String _getTitleText() {
+    String baseTitle = "点餐";
+    if (widget.table != null) {
+      baseTitle = "${widget.table!.number}桌 $baseTitle";
+    }
+    if (_selectDishType != null) {
+      baseTitle = "$baseTitle - ${_selectDishType!.name}";
+    }
+    return baseTitle;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -158,7 +172,7 @@ class _CustomerSelectDishPageState
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            _selectDishType == null ? "点餐" : "点餐 - ${_selectDishType!.name}",
+            _getTitleText(),
           ),
           leading: BackButton(),
         ),
@@ -329,7 +343,21 @@ class _CustomerSelectDishPageState
                     },
                   );
                 },
-                trailing: FilledButton(onPressed: () {}, child: Text("下单")),
+                trailing: FilledButton(onPressed: () {
+                  if (widget.orderType == OrderType.ORDER_TYPE_DINING_IN) {
+                    router.push(PlaceOrderRoute(orderType: widget.orderType, provider: shoppingCartModelProvider(), table: widget.table));
+                  } else if (widget.orderType == OrderType.ORDER_TYPE_TAKE_OUT) {
+                    router.push(PlaceOrderRoute(orderType: widget.orderType, provider: shoppingCartModelProvider()));
+                  } else {
+                    Fluttertoast.showToast(msg: "订单错误!");
+                  }
+                }, child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("下单"),
+                    Icon(Icons.local_fire_department)
+                  ],
+                )),
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Row(
@@ -631,6 +659,9 @@ class __ShoppingCartBottomSheetState
     final cartItemList = _getSortedCartItemList();
     // 屏幕高度
     final screenHeight = MediaQuery.of(context).size.height;
+    if (cartItemList.isEmpty) {
+      return Center(child: Text("您还未选购商品哦, 快去看看吧~"),);
+    }
     return Column(
       children: [
         Expanded(

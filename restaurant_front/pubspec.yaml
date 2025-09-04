@@ -34,6 +34,8 @@ dependencies:
   decimal: ^3.2.4
   # 可滚动到指定位置的滚动列表组件
   scrollable_positioned_list: ^0.3.8
+  # 日期格式化
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

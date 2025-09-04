@@ -103,6 +103,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           );
         },
       ),
+      GridViewCard(
+        child: _buildCardContent("我的订单", Icons.receipt_long),
+        onTap: () {
+          router.push(
+            r.OrderListRoute(),
+          );
+        },
+      ),
     ];
     return customerCards;
   }

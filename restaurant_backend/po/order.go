@@ -46,9 +46,10 @@ type Order struct {
 
 	TableID *uint
 	SeatID *uint // 为nil时被视为整桌菜单
+	CustomerID uint32 // 订单客户
 	Table *DiningTable `gorm:"foreignKey:TableID"`
 	Seat *Seat `gorm:"foreignKey:SeatID"`
-	Dishes []Dish `gorm:"many2many:order_dishes"`
+	Customer Customer `gorm:"foreignKey:CustomerID"`
 
 	//OriginalTotal decimal.Decimal `gorm:"type:decimal(10,2)"` // 原始金额
 	//Discount decimal.Decimal `gorm:"type:decimal(10,2)"` // 总优惠金额
@@ -61,4 +62,14 @@ type Order struct {
 	//ChildrenOrder []Order `gorm:"foreignKey:ParentID"` // 子订单
 }
 
+type OrderDishPortion struct {
+	gorm.Model
+	OrderID uint `gorm:"uniqueIndex:idx_order_dish_portion"`
+	DishID uint `gorm:"uniqueIndex:idx_order_dish_portion"`
+	PortionID uint `gorm:"uniqueIndex:idx_order_dish_portion"`
 
+	Order Order `gorm:"foreignKey:OrderID"`
+	Dish Dish `gorm:"foreignKey:DishID"`
+	Portion Portion `gorm:"foreignKey:PortionID"`
+	Count int // 份量
+}

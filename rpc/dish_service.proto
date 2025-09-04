@@ -133,6 +133,61 @@ message DeleteTableReq {
     uint32 tableId = 1;
 }
 
+/// 订单基本组成部分
+message OrderItem {
+    uint32 dishId = 1;
+    uint32 portionId = 2;
+    uint32 count = 3;
+}
+
+/// 下订单请求
+message PlaceOrderReq {
+    repeated OrderItem orderItems = 1;
+    restaurant.OrderType orderType = 2; // 订单类型
+    string address = 3; // 订单地址, 仅外卖订单有该字段
+    Table table = 4; // 桌号, 仅堂食订单有该字段
+}
+
+message OrderInfoItem {
+    uint32 dishId = 1;
+    uint32 portionId = 2;
+    uint32 count = 3;
+    Dish dish = 4;
+    DishPortion portion = 5;
+}
+
+/**
+订单信息
+ */
+message OrderInfo {
+    uint32 orderId = 1;
+    restaurant.OrderType orderType = 2;
+    Table table = 3;
+    int64 createdAt = 4;
+    repeated OrderInfoItem orderInfoItems = 5;
+    string totalPrice = 6;
+    uint32 customerId = 7;
+}
+
+message GetOrderInfoReq {
+    uint32 orderId = 1;
+}
+
+message GetOrderInfoResp {
+    OrderInfo orderInfo = 1;
+}
+
+/// 订单简略信息
+message OrderSimpleInfo {
+    uint32 orderId = 1; // 订单ID
+    string totalPrice = 2; // 订单总价
+    int64 createdAt = 3; // 订单创建时间
+}
+
+message GetAllOrdersResp {
+    repeated OrderSimpleInfo orderInfoList = 1;
+}
+
 service DishService {
     rpc GetDishes(GetDishesReq) returns (GetDishesResp);
     rpc GetDishType(google.protobuf.Empty) returns (GetDishTypeResp);
@@ -145,4 +200,7 @@ service DishService {
     rpc GetAllTables(google.protobuf.Empty) returns (GetAllTablesResp);
     rpc CreateOrEditTable(CreateOrEditTableReq) returns (google.protobuf.Empty);
     rpc DeleteTable(DeleteTableReq) returns (google.protobuf.Empty);
+    rpc PlaceOrder(PlaceOrderReq) returns(google.protobuf.Empty);
+    rpc GetOrderInfo(GetOrderInfoReq) returns (GetOrderInfoResp);
+    rpc GetAllOrders(google.protobuf.Empty) returns (GetAllOrdersResp);
 }

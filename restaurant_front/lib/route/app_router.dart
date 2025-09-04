@@ -33,5 +33,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: PlaceOrderRoute.page, guards: [AuthGuard()]),
     AutoRoute(page: TableListRoute.page, guards: [AuthGuard()]),
     AutoRoute(page: TableEditRoute.page, guards: [AuthGuard(), PermissionGuard()]),
+    AutoRoute(page: OrderDetailRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: OrderListRoute.page, guards: [AuthGuard()]),
   ];
 }

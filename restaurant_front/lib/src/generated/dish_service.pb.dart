@@ -12,6 +12,7 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'common.pb.dart' as $2;
@@ -1704,6 +1705,674 @@ class DeleteTableReq extends $pb.GeneratedMessage {
   $core.bool hasTableId() => $_has(0);
   @$pb.TagNumber(1)
   void clearTableId() => $_clearField(1);
+}
+
+/// / 订单基本组成部分
+class OrderItem extends $pb.GeneratedMessage {
+  factory OrderItem({
+    $core.int? dishId,
+    $core.int? portionId,
+    $core.int? count,
+  }) {
+    final result = create();
+    if (dishId != null) result.dishId = dishId;
+    if (portionId != null) result.portionId = portionId;
+    if (count != null) result.count = count;
+    return result;
+  }
+
+  OrderItem._();
+
+  factory OrderItem.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory OrderItem.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OrderItem',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'dishId', $pb.PbFieldType.OU3,
+        protoName: 'dishId')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'portionId', $pb.PbFieldType.OU3,
+        protoName: 'portionId')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'count', $pb.PbFieldType.OU3)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderItem clone() => OrderItem()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderItem copyWith(void Function(OrderItem) updates) =>
+      super.copyWith((message) => updates(message as OrderItem)) as OrderItem;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static OrderItem create() => OrderItem._();
+  @$core.override
+  OrderItem createEmptyInstance() => create();
+  static $pb.PbList<OrderItem> createRepeated() => $pb.PbList<OrderItem>();
+  @$core.pragma('dart2js:noInline')
+  static OrderItem getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OrderItem>(create);
+  static OrderItem? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get dishId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set dishId($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasDishId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDishId() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get portionId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set portionId($core.int value) => $_setUnsignedInt32(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasPortionId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPortionId() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get count => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set count($core.int value) => $_setUnsignedInt32(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasCount() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearCount() => $_clearField(3);
+}
+
+/// / 下订单请求
+class PlaceOrderReq extends $pb.GeneratedMessage {
+  factory PlaceOrderReq({
+    $core.Iterable<OrderItem>? orderItems,
+    $3.OrderType? orderType,
+    $core.String? address,
+    Table? table,
+  }) {
+    final result = create();
+    if (orderItems != null) result.orderItems.addAll(orderItems);
+    if (orderType != null) result.orderType = orderType;
+    if (address != null) result.address = address;
+    if (table != null) result.table = table;
+    return result;
+  }
+
+  PlaceOrderReq._();
+
+  factory PlaceOrderReq.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory PlaceOrderReq.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PlaceOrderReq',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..pc<OrderItem>(1, _omitFieldNames ? '' : 'orderItems', $pb.PbFieldType.PM,
+        protoName: 'orderItems', subBuilder: OrderItem.create)
+    ..e<$3.OrderType>(2, _omitFieldNames ? '' : 'orderType', $pb.PbFieldType.OE,
+        protoName: 'orderType',
+        defaultOrMaker: $3.OrderType.ORDER_TYPE_UNKNOWN,
+        valueOf: $3.OrderType.valueOf,
+        enumValues: $3.OrderType.values)
+    ..aOS(3, _omitFieldNames ? '' : 'address')
+    ..aOM<Table>(4, _omitFieldNames ? '' : 'table', subBuilder: Table.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  PlaceOrderReq clone() => PlaceOrderReq()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  PlaceOrderReq copyWith(void Function(PlaceOrderReq) updates) =>
+      super.copyWith((message) => updates(message as PlaceOrderReq))
+          as PlaceOrderReq;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PlaceOrderReq create() => PlaceOrderReq._();
+  @$core.override
+  PlaceOrderReq createEmptyInstance() => create();
+  static $pb.PbList<PlaceOrderReq> createRepeated() =>
+      $pb.PbList<PlaceOrderReq>();
+  @$core.pragma('dart2js:noInline')
+  static PlaceOrderReq getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PlaceOrderReq>(create);
+  static PlaceOrderReq? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbList<OrderItem> get orderItems => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $3.OrderType get orderType => $_getN(1);
+  @$pb.TagNumber(2)
+  set orderType($3.OrderType value) => $_setField(2, value);
+  @$pb.TagNumber(2)
+  $core.bool hasOrderType() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearOrderType() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get address => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set address($core.String value) => $_setString(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasAddress() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAddress() => $_clearField(3);
+
+  @$pb.TagNumber(4)
+  Table get table => $_getN(3);
+  @$pb.TagNumber(4)
+  set table(Table value) => $_setField(4, value);
+  @$pb.TagNumber(4)
+  $core.bool hasTable() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearTable() => $_clearField(4);
+  @$pb.TagNumber(4)
+  Table ensureTable() => $_ensure(3);
+}
+
+class OrderInfoItem extends $pb.GeneratedMessage {
+  factory OrderInfoItem({
+    $core.int? dishId,
+    $core.int? portionId,
+    $core.int? count,
+    Dish? dish,
+    DishPortion? portion,
+  }) {
+    final result = create();
+    if (dishId != null) result.dishId = dishId;
+    if (portionId != null) result.portionId = portionId;
+    if (count != null) result.count = count;
+    if (dish != null) result.dish = dish;
+    if (portion != null) result.portion = portion;
+    return result;
+  }
+
+  OrderInfoItem._();
+
+  factory OrderInfoItem.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory OrderInfoItem.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OrderInfoItem',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'dishId', $pb.PbFieldType.OU3,
+        protoName: 'dishId')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'portionId', $pb.PbFieldType.OU3,
+        protoName: 'portionId')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'count', $pb.PbFieldType.OU3)
+    ..aOM<Dish>(4, _omitFieldNames ? '' : 'dish', subBuilder: Dish.create)
+    ..aOM<DishPortion>(5, _omitFieldNames ? '' : 'portion',
+        subBuilder: DishPortion.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderInfoItem clone() => OrderInfoItem()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderInfoItem copyWith(void Function(OrderInfoItem) updates) =>
+      super.copyWith((message) => updates(message as OrderInfoItem))
+          as OrderInfoItem;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static OrderInfoItem create() => OrderInfoItem._();
+  @$core.override
+  OrderInfoItem createEmptyInstance() => create();
+  static $pb.PbList<OrderInfoItem> createRepeated() =>
+      $pb.PbList<OrderInfoItem>();
+  @$core.pragma('dart2js:noInline')
+  static OrderInfoItem getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OrderInfoItem>(create);
+  static OrderInfoItem? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get dishId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set dishId($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasDishId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDishId() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get portionId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set portionId($core.int value) => $_setUnsignedInt32(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasPortionId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPortionId() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get count => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set count($core.int value) => $_setUnsignedInt32(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasCount() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearCount() => $_clearField(3);
+
+  @$pb.TagNumber(4)
+  Dish get dish => $_getN(3);
+  @$pb.TagNumber(4)
+  set dish(Dish value) => $_setField(4, value);
+  @$pb.TagNumber(4)
+  $core.bool hasDish() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDish() => $_clearField(4);
+  @$pb.TagNumber(4)
+  Dish ensureDish() => $_ensure(3);
+
+  @$pb.TagNumber(5)
+  DishPortion get portion => $_getN(4);
+  @$pb.TagNumber(5)
+  set portion(DishPortion value) => $_setField(5, value);
+  @$pb.TagNumber(5)
+  $core.bool hasPortion() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearPortion() => $_clearField(5);
+  @$pb.TagNumber(5)
+  DishPortion ensurePortion() => $_ensure(4);
+}
+
+/// *
+/// 订单信息
+class OrderInfo extends $pb.GeneratedMessage {
+  factory OrderInfo({
+    $core.int? orderId,
+    $3.OrderType? orderType,
+    Table? table,
+    $fixnum.Int64? createdAt,
+    $core.Iterable<OrderInfoItem>? orderInfoItems,
+    $core.String? totalPrice,
+    $core.int? customerId,
+  }) {
+    final result = create();
+    if (orderId != null) result.orderId = orderId;
+    if (orderType != null) result.orderType = orderType;
+    if (table != null) result.table = table;
+    if (createdAt != null) result.createdAt = createdAt;
+    if (orderInfoItems != null) result.orderInfoItems.addAll(orderInfoItems);
+    if (totalPrice != null) result.totalPrice = totalPrice;
+    if (customerId != null) result.customerId = customerId;
+    return result;
+  }
+
+  OrderInfo._();
+
+  factory OrderInfo.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory OrderInfo.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OrderInfo',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'orderId', $pb.PbFieldType.OU3,
+        protoName: 'orderId')
+    ..e<$3.OrderType>(2, _omitFieldNames ? '' : 'orderType', $pb.PbFieldType.OE,
+        protoName: 'orderType',
+        defaultOrMaker: $3.OrderType.ORDER_TYPE_UNKNOWN,
+        valueOf: $3.OrderType.valueOf,
+        enumValues: $3.OrderType.values)
+    ..aOM<Table>(3, _omitFieldNames ? '' : 'table', subBuilder: Table.create)
+    ..aInt64(4, _omitFieldNames ? '' : 'createdAt', protoName: 'createdAt')
+    ..pc<OrderInfoItem>(
+        5, _omitFieldNames ? '' : 'orderInfoItems', $pb.PbFieldType.PM,
+        protoName: 'orderInfoItems', subBuilder: OrderInfoItem.create)
+    ..aOS(6, _omitFieldNames ? '' : 'totalPrice', protoName: 'totalPrice')
+    ..a<$core.int>(7, _omitFieldNames ? '' : 'customerId', $pb.PbFieldType.OU3,
+        protoName: 'customerId')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderInfo clone() => OrderInfo()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderInfo copyWith(void Function(OrderInfo) updates) =>
+      super.copyWith((message) => updates(message as OrderInfo)) as OrderInfo;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static OrderInfo create() => OrderInfo._();
+  @$core.override
+  OrderInfo createEmptyInstance() => create();
+  static $pb.PbList<OrderInfo> createRepeated() => $pb.PbList<OrderInfo>();
+  @$core.pragma('dart2js:noInline')
+  static OrderInfo getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OrderInfo>(create);
+  static OrderInfo? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get orderId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set orderId($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasOrderId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOrderId() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $3.OrderType get orderType => $_getN(1);
+  @$pb.TagNumber(2)
+  set orderType($3.OrderType value) => $_setField(2, value);
+  @$pb.TagNumber(2)
+  $core.bool hasOrderType() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearOrderType() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  Table get table => $_getN(2);
+  @$pb.TagNumber(3)
+  set table(Table value) => $_setField(3, value);
+  @$pb.TagNumber(3)
+  $core.bool hasTable() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearTable() => $_clearField(3);
+  @$pb.TagNumber(3)
+  Table ensureTable() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $fixnum.Int64 get createdAt => $_getI64(3);
+  @$pb.TagNumber(4)
+  set createdAt($fixnum.Int64 value) => $_setInt64(3, value);
+  @$pb.TagNumber(4)
+  $core.bool hasCreatedAt() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearCreatedAt() => $_clearField(4);
+
+  @$pb.TagNumber(5)
+  $pb.PbList<OrderInfoItem> get orderInfoItems => $_getList(4);
+
+  @$pb.TagNumber(6)
+  $core.String get totalPrice => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set totalPrice($core.String value) => $_setString(5, value);
+  @$pb.TagNumber(6)
+  $core.bool hasTotalPrice() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearTotalPrice() => $_clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.int get customerId => $_getIZ(6);
+  @$pb.TagNumber(7)
+  set customerId($core.int value) => $_setUnsignedInt32(6, value);
+  @$pb.TagNumber(7)
+  $core.bool hasCustomerId() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearCustomerId() => $_clearField(7);
+}
+
+class GetOrderInfoReq extends $pb.GeneratedMessage {
+  factory GetOrderInfoReq({
+    $core.int? orderId,
+  }) {
+    final result = create();
+    if (orderId != null) result.orderId = orderId;
+    return result;
+  }
+
+  GetOrderInfoReq._();
+
+  factory GetOrderInfoReq.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetOrderInfoReq.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetOrderInfoReq',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'orderId', $pb.PbFieldType.OU3,
+        protoName: 'orderId')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetOrderInfoReq clone() => GetOrderInfoReq()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetOrderInfoReq copyWith(void Function(GetOrderInfoReq) updates) =>
+      super.copyWith((message) => updates(message as GetOrderInfoReq))
+          as GetOrderInfoReq;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetOrderInfoReq create() => GetOrderInfoReq._();
+  @$core.override
+  GetOrderInfoReq createEmptyInstance() => create();
+  static $pb.PbList<GetOrderInfoReq> createRepeated() =>
+      $pb.PbList<GetOrderInfoReq>();
+  @$core.pragma('dart2js:noInline')
+  static GetOrderInfoReq getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOrderInfoReq>(create);
+  static GetOrderInfoReq? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get orderId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set orderId($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasOrderId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOrderId() => $_clearField(1);
+}
+
+class GetOrderInfoResp extends $pb.GeneratedMessage {
+  factory GetOrderInfoResp({
+    OrderInfo? orderInfo,
+  }) {
+    final result = create();
+    if (orderInfo != null) result.orderInfo = orderInfo;
+    return result;
+  }
+
+  GetOrderInfoResp._();
+
+  factory GetOrderInfoResp.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetOrderInfoResp.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetOrderInfoResp',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..aOM<OrderInfo>(1, _omitFieldNames ? '' : 'orderInfo',
+        protoName: 'orderInfo', subBuilder: OrderInfo.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetOrderInfoResp clone() => GetOrderInfoResp()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetOrderInfoResp copyWith(void Function(GetOrderInfoResp) updates) =>
+      super.copyWith((message) => updates(message as GetOrderInfoResp))
+          as GetOrderInfoResp;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetOrderInfoResp create() => GetOrderInfoResp._();
+  @$core.override
+  GetOrderInfoResp createEmptyInstance() => create();
+  static $pb.PbList<GetOrderInfoResp> createRepeated() =>
+      $pb.PbList<GetOrderInfoResp>();
+  @$core.pragma('dart2js:noInline')
+  static GetOrderInfoResp getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOrderInfoResp>(create);
+  static GetOrderInfoResp? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  OrderInfo get orderInfo => $_getN(0);
+  @$pb.TagNumber(1)
+  set orderInfo(OrderInfo value) => $_setField(1, value);
+  @$pb.TagNumber(1)
+  $core.bool hasOrderInfo() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOrderInfo() => $_clearField(1);
+  @$pb.TagNumber(1)
+  OrderInfo ensureOrderInfo() => $_ensure(0);
+}
+
+/// / 订单简略信息
+class OrderSimpleInfo extends $pb.GeneratedMessage {
+  factory OrderSimpleInfo({
+    $core.int? orderId,
+    $core.String? totalPrice,
+    $fixnum.Int64? createdAt,
+  }) {
+    final result = create();
+    if (orderId != null) result.orderId = orderId;
+    if (totalPrice != null) result.totalPrice = totalPrice;
+    if (createdAt != null) result.createdAt = createdAt;
+    return result;
+  }
+
+  OrderSimpleInfo._();
+
+  factory OrderSimpleInfo.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory OrderSimpleInfo.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OrderSimpleInfo',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'orderId', $pb.PbFieldType.OU3,
+        protoName: 'orderId')
+    ..aOS(2, _omitFieldNames ? '' : 'totalPrice', protoName: 'totalPrice')
+    ..aInt64(3, _omitFieldNames ? '' : 'createdAt', protoName: 'createdAt')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderSimpleInfo clone() => OrderSimpleInfo()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  OrderSimpleInfo copyWith(void Function(OrderSimpleInfo) updates) =>
+      super.copyWith((message) => updates(message as OrderSimpleInfo))
+          as OrderSimpleInfo;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static OrderSimpleInfo create() => OrderSimpleInfo._();
+  @$core.override
+  OrderSimpleInfo createEmptyInstance() => create();
+  static $pb.PbList<OrderSimpleInfo> createRepeated() =>
+      $pb.PbList<OrderSimpleInfo>();
+  @$core.pragma('dart2js:noInline')
+  static OrderSimpleInfo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OrderSimpleInfo>(create);
+  static OrderSimpleInfo? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get orderId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set orderId($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasOrderId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOrderId() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get totalPrice => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set totalPrice($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasTotalPrice() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTotalPrice() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $fixnum.Int64 get createdAt => $_getI64(2);
+  @$pb.TagNumber(3)
+  set createdAt($fixnum.Int64 value) => $_setInt64(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasCreatedAt() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearCreatedAt() => $_clearField(3);
+}
+
+class GetAllOrdersResp extends $pb.GeneratedMessage {
+  factory GetAllOrdersResp({
+    $core.Iterable<OrderSimpleInfo>? orderInfoList,
+  }) {
+    final result = create();
+    if (orderInfoList != null) result.orderInfoList.addAll(orderInfoList);
+    return result;
+  }
+
+  GetAllOrdersResp._();
+
+  factory GetAllOrdersResp.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetAllOrdersResp.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetAllOrdersResp',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..pc<OrderSimpleInfo>(
+        1, _omitFieldNames ? '' : 'orderInfoList', $pb.PbFieldType.PM,
+        protoName: 'orderInfoList', subBuilder: OrderSimpleInfo.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetAllOrdersResp clone() => GetAllOrdersResp()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  GetAllOrdersResp copyWith(void Function(GetAllOrdersResp) updates) =>
+      super.copyWith((message) => updates(message as GetAllOrdersResp))
+          as GetAllOrdersResp;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetAllOrdersResp create() => GetAllOrdersResp._();
+  @$core.override
+  GetAllOrdersResp createEmptyInstance() => create();
+  static $pb.PbList<GetAllOrdersResp> createRepeated() =>
+      $pb.PbList<GetAllOrdersResp>();
+  @$core.pragma('dart2js:noInline')
+  static GetAllOrdersResp getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetAllOrdersResp>(create);
+  static GetAllOrdersResp? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbList<OrderSimpleInfo> get orderInfoList => $_getList(0);
 }
 
 const $core.bool _omitFieldNames =

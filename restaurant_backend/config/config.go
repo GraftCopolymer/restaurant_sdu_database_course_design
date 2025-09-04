@@ -27,6 +27,7 @@ func InitDatabase() *gorm.DB {
 		&po.Order{},
 		&po.Dish{},
 		&po.Portion{},
+		&po.OrderDishPortion{},
 		&po.Material{},
 		&po.Recipe{},
 		//&po.RoomPosition{},

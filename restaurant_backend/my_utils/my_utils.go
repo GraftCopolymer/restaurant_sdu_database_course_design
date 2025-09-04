@@ -1,11 +1,13 @@
 package my_utils
 
 import (
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
+	metadata2 "google.golang.org/grpc/metadata"
 	config2 "restaurant_backend/config"
 	"restaurant_backend/constants"
 	"restaurant_backend/restaurant_backend/rpc"
@@ -14,10 +16,12 @@ import (
 )
 
 type Token struct {
-	UserID uint
-	TokenType constants.TokenType
-	Role restaurant_rpc.LoginRole
-	Exp int64
+	UserID uint `json:"user_id"`
+	TokenType constants.TokenType `json:"token_type"`
+	Role restaurant_rpc.LoginRole `json:"role"`
+	EmployeeRole restaurant_rpc.EmployeeRole `json:"employee_role"`
+	Exp int64 `json:"exp"`
+	jwt.RegisteredClaims
 }
 
 // HashPassword 计算密码哈希值
@@ -57,7 +61,8 @@ func GenerateRefreshJWT(userID uint, role restaurant_rpc.LoginRole, employeeRole
 }
 
 func ParseJWT2Struct(tokenString string) (*Token, error) {
-	parsed, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
+	parsed, err := jwt.ParseWithClaims(tokenString, &Token{}, func(token *jwt.Token) (interface{}, error) {
 		// 校验签名算法是否为 HMAC-SHA256
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("不支持的签名方法")
@@ -68,34 +73,46 @@ func ParseJWT2Struct(tokenString string) (*Token, error) {
 		return nil, err
 	}
 
-	claims, ok := parsed.Claims.(jwt.MapClaims)
+	claims, ok := parsed.Claims.(*Token)
 	if !ok || !parsed.Valid {
 		return nil, errors.New("无效的 token")
 	}
 
-	userIDFloat, ok := claims["user_id"].(float64)
-	if !ok {
-		return nil, errors.New("user_id 字段错误")
-	}
-	expFloat, ok := claims["exp"].(float64)
-	if !ok {
-		return nil, errors.New("exp 字段错误")
-	}
-	tokenTypeStr, ok := claims["token_type"].(constants.TokenType)
-	if !ok {
-		return nil, errors.New("token_type 字段错误")
-	}
-	roleFloat, ok := claims["role"].(float64) // 如果 LoginRole 是枚举（int 类型）
-	if !ok {
-		return nil, errors.New("role 字段错误")
-	}
+	//userIDFloat, ok := claims["user_id"].(float64)
+	//if !ok {
+	//	return nil, errors.New("user_id 字段错误")
+	//}
+	//expFloat, ok := claims["exp"].(float64)
+	//if !ok {
+	//	return nil, errors.New("exp 字段错误")
+	//}
+	//tokenTypeStr, ok := claims["token_type"].(constants.TokenType)
+	//if !ok {
+	//	return nil, errors.New("token_type 字段错误")
+	//}
+	//roleFloat, ok := claims["role"].(float64) // 如果 LoginRole 是枚举（int 类型）
+	//if !ok {
+	//	return nil, errors.New("role 字段错误")
+	//}
 
-	return &Token{
-		UserID:    uint(userIDFloat),
-		TokenType: tokenTypeStr,
-		Role:      restaurant_rpc.LoginRole(int32(roleFloat)),
-		Exp:       int64(expFloat),
-	}, nil
+	return claims, nil
+}
+
+func ExtractUserInfoFromContext(ctx context.Context) (*Token, bool) {
+	metadata, ok := metadata2.FromIncomingContext(ctx)
+	if !ok {
+		return nil, ok
+	}
+	if values := metadata.Get("authorization"); len(values) > 0 {
+		// 解析Token信息
+		if token, err := ParseJWT2Struct(values[0]); err != nil {
+			return nil, false
+		} else {
+			return token, true
+		}
+	} else {
+		return nil, false
+	}
 }
 
 // IsJwtExpired 判断 JWT 是否已过期

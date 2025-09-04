@@ -110,6 +110,27 @@ class DishServiceClient extends $grpc.Client {
     return $createUnaryCall(_$deleteTable, request, options: options);
   }
 
+  $grpc.ResponseFuture<$1.Empty> placeOrder(
+    $0.PlaceOrderReq request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$placeOrder, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetOrderInfoResp> getOrderInfo(
+    $0.GetOrderInfoReq request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$getOrderInfo, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetAllOrdersResp> getAllOrders(
+    $1.Empty request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$getAllOrders, request, options: options);
+  }
+
   // method descriptors
 
   static final _$getDishes =
@@ -165,6 +186,20 @@ class DishServiceClient extends $grpc.Client {
       '/restaurant_rpc.DishService/DeleteTable',
       ($0.DeleteTableReq value) => value.writeToBuffer(),
       $1.Empty.fromBuffer);
+  static final _$placeOrder = $grpc.ClientMethod<$0.PlaceOrderReq, $1.Empty>(
+      '/restaurant_rpc.DishService/PlaceOrder',
+      ($0.PlaceOrderReq value) => value.writeToBuffer(),
+      $1.Empty.fromBuffer);
+  static final _$getOrderInfo =
+      $grpc.ClientMethod<$0.GetOrderInfoReq, $0.GetOrderInfoResp>(
+          '/restaurant_rpc.DishService/GetOrderInfo',
+          ($0.GetOrderInfoReq value) => value.writeToBuffer(),
+          $0.GetOrderInfoResp.fromBuffer);
+  static final _$getAllOrders =
+      $grpc.ClientMethod<$1.Empty, $0.GetAllOrdersResp>(
+          '/restaurant_rpc.DishService/GetAllOrders',
+          ($1.Empty value) => value.writeToBuffer(),
+          $0.GetAllOrdersResp.fromBuffer);
 }
 
 @$pb.GrpcServiceName('restaurant_rpc.DishService')
@@ -255,6 +290,27 @@ abstract class DishServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.DeleteTableReq.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.PlaceOrderReq, $1.Empty>(
+        'PlaceOrder',
+        placeOrder_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.PlaceOrderReq.fromBuffer(value),
+        ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetOrderInfoReq, $0.GetOrderInfoResp>(
+        'GetOrderInfo',
+        getOrderInfo_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.GetOrderInfoReq.fromBuffer(value),
+        ($0.GetOrderInfoResp value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.Empty, $0.GetAllOrdersResp>(
+        'GetAllOrders',
+        getAllOrders_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.Empty.fromBuffer(value),
+        ($0.GetAllOrdersResp value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetDishesResp> getDishes_Pre(
@@ -346,4 +402,28 @@ abstract class DishServiceBase extends $grpc.Service {
 
   $async.Future<$1.Empty> deleteTable(
       $grpc.ServiceCall call, $0.DeleteTableReq request);
+
+  $async.Future<$1.Empty> placeOrder_Pre(
+      $grpc.ServiceCall $call, $async.Future<$0.PlaceOrderReq> $request) async {
+    return placeOrder($call, await $request);
+  }
+
+  $async.Future<$1.Empty> placeOrder(
+      $grpc.ServiceCall call, $0.PlaceOrderReq request);
+
+  $async.Future<$0.GetOrderInfoResp> getOrderInfo_Pre($grpc.ServiceCall $call,
+      $async.Future<$0.GetOrderInfoReq> $request) async {
+    return getOrderInfo($call, await $request);
+  }
+
+  $async.Future<$0.GetOrderInfoResp> getOrderInfo(
+      $grpc.ServiceCall call, $0.GetOrderInfoReq request);
+
+  $async.Future<$0.GetAllOrdersResp> getAllOrders_Pre(
+      $grpc.ServiceCall $call, $async.Future<$1.Empty> $request) async {
+    return getAllOrders($call, await $request);
+  }
+
+  $async.Future<$0.GetAllOrdersResp> getAllOrders(
+      $grpc.ServiceCall call, $1.Empty request);
 }

@@ -531,3 +531,201 @@ const DeleteTableReq$json = {
 /// Descriptor for `DeleteTableReq`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List deleteTableReqDescriptor = $convert
     .base64Decode('Cg5EZWxldGVUYWJsZVJlcRIYCgd0YWJsZUlkGAEgASgNUgd0YWJsZUlk');
+
+@$core.Deprecated('Use orderItemDescriptor instead')
+const OrderItem$json = {
+  '1': 'OrderItem',
+  '2': [
+    {'1': 'dishId', '3': 1, '4': 1, '5': 13, '10': 'dishId'},
+    {'1': 'portionId', '3': 2, '4': 1, '5': 13, '10': 'portionId'},
+    {'1': 'count', '3': 3, '4': 1, '5': 13, '10': 'count'},
+  ],
+};
+
+/// Descriptor for `OrderItem`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List orderItemDescriptor = $convert.base64Decode(
+    'CglPcmRlckl0ZW0SFgoGZGlzaElkGAEgASgNUgZkaXNoSWQSHAoJcG9ydGlvbklkGAIgASgNUg'
+    'lwb3J0aW9uSWQSFAoFY291bnQYAyABKA1SBWNvdW50');
+
+@$core.Deprecated('Use placeOrderReqDescriptor instead')
+const PlaceOrderReq$json = {
+  '1': 'PlaceOrderReq',
+  '2': [
+    {
+      '1': 'orderItems',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.OrderItem',
+      '10': 'orderItems'
+    },
+    {
+      '1': 'orderType',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.restaurant.OrderType',
+      '10': 'orderType'
+    },
+    {'1': 'address', '3': 3, '4': 1, '5': 9, '10': 'address'},
+    {
+      '1': 'table',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Table',
+      '10': 'table'
+    },
+  ],
+};
+
+/// Descriptor for `PlaceOrderReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List placeOrderReqDescriptor = $convert.base64Decode(
+    'Cg1QbGFjZU9yZGVyUmVxEjkKCm9yZGVySXRlbXMYASADKAsyGS5yZXN0YXVyYW50X3JwYy5Pcm'
+    'Rlckl0ZW1SCm9yZGVySXRlbXMSMwoJb3JkZXJUeXBlGAIgASgOMhUucmVzdGF1cmFudC5PcmRl'
+    'clR5cGVSCW9yZGVyVHlwZRIYCgdhZGRyZXNzGAMgASgJUgdhZGRyZXNzEisKBXRhYmxlGAQgAS'
+    'gLMhUucmVzdGF1cmFudF9ycGMuVGFibGVSBXRhYmxl');
+
+@$core.Deprecated('Use orderInfoItemDescriptor instead')
+const OrderInfoItem$json = {
+  '1': 'OrderInfoItem',
+  '2': [
+    {'1': 'dishId', '3': 1, '4': 1, '5': 13, '10': 'dishId'},
+    {'1': 'portionId', '3': 2, '4': 1, '5': 13, '10': 'portionId'},
+    {'1': 'count', '3': 3, '4': 1, '5': 13, '10': 'count'},
+    {
+      '1': 'dish',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Dish',
+      '10': 'dish'
+    },
+    {
+      '1': 'portion',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.DishPortion',
+      '10': 'portion'
+    },
+  ],
+};
+
+/// Descriptor for `OrderInfoItem`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List orderInfoItemDescriptor = $convert.base64Decode(
+    'Cg1PcmRlckluZm9JdGVtEhYKBmRpc2hJZBgBIAEoDVIGZGlzaElkEhwKCXBvcnRpb25JZBgCIA'
+    'EoDVIJcG9ydGlvbklkEhQKBWNvdW50GAMgASgNUgVjb3VudBIoCgRkaXNoGAQgASgLMhQucmVz'
+    'dGF1cmFudF9ycGMuRGlzaFIEZGlzaBI1Cgdwb3J0aW9uGAUgASgLMhsucmVzdGF1cmFudF9ycG'
+    'MuRGlzaFBvcnRpb25SB3BvcnRpb24=');
+
+@$core.Deprecated('Use orderInfoDescriptor instead')
+const OrderInfo$json = {
+  '1': 'OrderInfo',
+  '2': [
+    {'1': 'orderId', '3': 1, '4': 1, '5': 13, '10': 'orderId'},
+    {
+      '1': 'orderType',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.restaurant.OrderType',
+      '10': 'orderType'
+    },
+    {
+      '1': 'table',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.Table',
+      '10': 'table'
+    },
+    {'1': 'createdAt', '3': 4, '4': 1, '5': 3, '10': 'createdAt'},
+    {
+      '1': 'orderInfoItems',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.OrderInfoItem',
+      '10': 'orderInfoItems'
+    },
+    {'1': 'totalPrice', '3': 6, '4': 1, '5': 9, '10': 'totalPrice'},
+    {'1': 'customerId', '3': 7, '4': 1, '5': 13, '10': 'customerId'},
+  ],
+};
+
+/// Descriptor for `OrderInfo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List orderInfoDescriptor = $convert.base64Decode(
+    'CglPcmRlckluZm8SGAoHb3JkZXJJZBgBIAEoDVIHb3JkZXJJZBIzCglvcmRlclR5cGUYAiABKA'
+    '4yFS5yZXN0YXVyYW50Lk9yZGVyVHlwZVIJb3JkZXJUeXBlEisKBXRhYmxlGAMgASgLMhUucmVz'
+    'dGF1cmFudF9ycGMuVGFibGVSBXRhYmxlEhwKCWNyZWF0ZWRBdBgEIAEoA1IJY3JlYXRlZEF0Ek'
+    'UKDm9yZGVySW5mb0l0ZW1zGAUgAygLMh0ucmVzdGF1cmFudF9ycGMuT3JkZXJJbmZvSXRlbVIO'
+    'b3JkZXJJbmZvSXRlbXMSHgoKdG90YWxQcmljZRgGIAEoCVIKdG90YWxQcmljZRIeCgpjdXN0b2'
+    '1lcklkGAcgASgNUgpjdXN0b21lcklk');
+
+@$core.Deprecated('Use getOrderInfoReqDescriptor instead')
+const GetOrderInfoReq$json = {
+  '1': 'GetOrderInfoReq',
+  '2': [
+    {'1': 'orderId', '3': 1, '4': 1, '5': 13, '10': 'orderId'},
+  ],
+};
+
+/// Descriptor for `GetOrderInfoReq`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getOrderInfoReqDescriptor = $convert.base64Decode(
+    'Cg9HZXRPcmRlckluZm9SZXESGAoHb3JkZXJJZBgBIAEoDVIHb3JkZXJJZA==');
+
+@$core.Deprecated('Use getOrderInfoRespDescriptor instead')
+const GetOrderInfoResp$json = {
+  '1': 'GetOrderInfoResp',
+  '2': [
+    {
+      '1': 'orderInfo',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.restaurant_rpc.OrderInfo',
+      '10': 'orderInfo'
+    },
+  ],
+};
+
+/// Descriptor for `GetOrderInfoResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getOrderInfoRespDescriptor = $convert.base64Decode(
+    'ChBHZXRPcmRlckluZm9SZXNwEjcKCW9yZGVySW5mbxgBIAEoCzIZLnJlc3RhdXJhbnRfcnBjLk'
+    '9yZGVySW5mb1IJb3JkZXJJbmZv');
+
+@$core.Deprecated('Use orderSimpleInfoDescriptor instead')
+const OrderSimpleInfo$json = {
+  '1': 'OrderSimpleInfo',
+  '2': [
+    {'1': 'orderId', '3': 1, '4': 1, '5': 13, '10': 'orderId'},
+    {'1': 'totalPrice', '3': 2, '4': 1, '5': 9, '10': 'totalPrice'},
+    {'1': 'createdAt', '3': 3, '4': 1, '5': 3, '10': 'createdAt'},
+  ],
+};
+
+/// Descriptor for `OrderSimpleInfo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List orderSimpleInfoDescriptor = $convert.base64Decode(
+    'Cg9PcmRlclNpbXBsZUluZm8SGAoHb3JkZXJJZBgBIAEoDVIHb3JkZXJJZBIeCgp0b3RhbFByaW'
+    'NlGAIgASgJUgp0b3RhbFByaWNlEhwKCWNyZWF0ZWRBdBgDIAEoA1IJY3JlYXRlZEF0');
+
+@$core.Deprecated('Use getAllOrdersRespDescriptor instead')
+const GetAllOrdersResp$json = {
+  '1': 'GetAllOrdersResp',
+  '2': [
+    {
+      '1': 'orderInfoList',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.OrderSimpleInfo',
+      '10': 'orderInfoList'
+    },
+  ],
+};
+
+/// Descriptor for `GetAllOrdersResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getAllOrdersRespDescriptor = $convert.base64Decode(
+    'ChBHZXRBbGxPcmRlcnNSZXNwEkUKDW9yZGVySW5mb0xpc3QYASADKAsyHy5yZXN0YXVyYW50X3'
+    'JwYy5PcmRlclNpbXBsZUluZm9SDW9yZGVySW5mb0xpc3Q=');

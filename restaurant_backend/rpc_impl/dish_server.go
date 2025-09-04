@@ -931,3 +931,186 @@ func (s *DishServer) DeleteTable(ctx context.Context, req *restaurant_rpc.Delete
 	}
 	return &emptypb.Empty{}, nil
 }
+
+func (s *DishServer) PlaceOrder(ctx context.Context, req *restaurant_rpc.PlaceOrderReq) (*emptypb.Empty, error) {
+	orderItems := req.OrderItems
+	if len(orderItems) == 0 {
+		return nil, errors.New("订单为空")
+	}
+	// 获取用户信息
+	token, ok := myutils.ExtractUserInfoFromContext(ctx)
+	if !ok || token == nil {
+		return nil, errors.New("获取用户信息失败")
+	}
+	// 查询涉及到的所有Portion的价格
+	var inComingPortionIDs []uint32
+	for _, orderItem := range orderItems {
+		shouldAdd := true
+		// 检查是否重复
+		for _, id := range inComingPortionIDs {
+			if id == orderItem.PortionId {
+				shouldAdd = false
+				break;
+			}
+		}
+		if shouldAdd {
+			inComingPortionIDs = append(inComingPortionIDs, orderItem.PortionId)
+		}
+	}
+	var poPortions []po.Portion
+	if err := database.DB().Model(&po.Portion{}).Where("id IN ?", inComingPortionIDs).Find(&poPortions).Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	// 计算总价
+	totalPrice := decimal.NewFromInt(0)
+	for _, orderItem := range orderItems {
+		for _, poPortion := range poPortions {
+			if uint32(poPortion.ID) == orderItem.PortionId {
+				totalPrice = totalPrice.Add(poPortion.Price.Mul(decimal.NewFromInt32(int32(orderItem.Count))))
+				break
+			}
+		}
+	}
+	var tableId *uint
+	if req.Table != nil {
+		id := uint(req.Table.Id)
+		tableId = &id
+	}
+	tx := database.DB().Begin()
+	defer func() {
+		if err := recover(); err != nil {
+			tx.Rollback()
+		}
+	}()
+	// 创建订单
+	poOrder := po.Order{
+		CustomerID: uint32(token.UserID),
+		Total:      totalPrice,
+		OrderType:  req.OrderType,
+		Address:    &req.Address,
+		TableID:    tableId,
+	}
+	if err := tx.Create(&poOrder).Error; err != nil { // 先保存订单信息
+		tx.Rollback()
+		return nil, errors.New("服务器错误")
+	}
+	var orderDishPortionItems []po.OrderDishPortion
+	for _, item := range req.OrderItems {
+		orderDishPortionItems = append(orderDishPortionItems, po.OrderDishPortion{
+			OrderID:   poOrder.ID,
+			PortionID: uint(item.PortionId),
+			DishID:    uint(item.DishId),
+			Count: int(item.Count),
+		})
+	}
+	if err := tx.Create(&orderDishPortionItems).Error; err != nil {
+		tx.Rollback()
+		return nil, errors.New("服务器错误")
+	}
+	if err := tx.Commit().Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	return &emptypb.Empty{}, nil
+}
+
+func (s *DishServer) GetOrderInfo(ctx context.Context, req *restaurant_rpc.GetOrderInfoReq) (*restaurant_rpc.GetOrderInfoResp, error) {
+	orderId := req.OrderId
+	if orderId <= 0 {
+		return nil, errors.New("订单ID无效")
+	}
+	var poOrder po.Order
+	if err := database.DB().Model(&po.Order{}).Where("id = ?", orderId).Preload("Customer").Preload("Table").First(&poOrder).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) || poOrder.ID <= 0 {
+			return nil, errors.New("订单不存在")
+		}
+	}
+	// 初始化基本信息
+	var resultOrderInfo = &restaurant_rpc.OrderInfo{
+		OrderId: uint32(poOrder.ID),
+		OrderType: poOrder.OrderType,
+		CustomerId: poOrder.CustomerID,
+		TotalPrice: poOrder.Total.StringFixed(2),
+		CreatedAt: poOrder.CreatedAt.Unix(),
+		Table: &restaurant_rpc.Table{
+			Id: uint32(poOrder.Table.ID),
+			Number: poOrder.Table.Number,
+			// TODO: 暂时不需要座位信息
+		},
+	}
+	// 查询所有菜品
+	var poOrderDishPortionItems []po.OrderDishPortion
+	if err := database.DB().
+		Model(&po.OrderDishPortion{}).
+		Where("order_id = ?", poOrder.ID).
+		Preload("Order").
+		Preload("Dish").
+		Preload("Dish.DishType").
+		Preload("Portion").
+		Find(&poOrderDishPortionItems).Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	var pbOrderInfoItems []*restaurant_rpc.OrderInfoItem
+	for _, poItem := range poOrderDishPortionItems {
+		pbOrderInfoItems = append(pbOrderInfoItems, &restaurant_rpc.OrderInfoItem{
+			DishId:    uint32(poItem.DishID),
+			PortionId: uint32(poItem.PortionID),
+			Count: uint32(poItem.Count),
+			Dish: &restaurant_rpc.Dish{
+				Id: uint32(poItem.Dish.ID),
+				Name: poItem.Dish.Name,
+				DishType: &restaurant_rpc.DishType{
+					DishTypeID: uint32(poItem.Dish.DishTypeID),
+					Name: poItem.Dish.DishType.Name,
+				},
+				// 这里不需要Portions信息
+			},
+			Portion: &restaurant_rpc.DishPortion{
+				Id: uint32(poItem.Portion.ID),
+				Name: poItem.Portion.Name,
+				Price: poItem.Portion.Price.StringFixed(2),
+				PortionType: poItem.Portion.PortionType,
+				// 这里不需要Recipe信息
+			},
+		})
+	}
+
+	resultOrderInfo.OrderInfoItems = pbOrderInfoItems
+	return &restaurant_rpc.GetOrderInfoResp{
+		OrderInfo: resultOrderInfo,
+	}, nil
+}
+
+func (s *DishServer) GetAllOrders(ctx context.Context, req *emptypb.Empty) (*restaurant_rpc.GetAllOrdersResp, error) {
+	// 获取用户信息
+	token, ok := myutils.ExtractUserInfoFromContext(ctx)
+	if !ok {
+		return nil, errors.New("获取用户信息失败")
+	}
+	userId := token.UserID
+	if userId <= 0 {
+		return nil, errors.New("用户ID错误")
+	}
+	// 检查用户是否存在
+	if err := database.DB().Model(&po.Customer{}).Where("id = ?", userId).First(&po.Customer{}).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("用户不存在")
+		}
+		return nil, errors.New("服务器错误")
+	}
+	// 查出该用户所有的订单
+	var poOrderList []po.Order
+	if err := database.DB().Model(&po.Order{}).Where("customer_id = ?", userId).Find(&poOrderList).Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	var pbOrderSimpleInfoList []*restaurant_rpc.OrderSimpleInfo
+	for _, poOrder := range poOrderList {
+		pbOrderSimpleInfoList = append(pbOrderSimpleInfoList, &restaurant_rpc.OrderSimpleInfo{
+			OrderId: uint32(poOrder.ID),
+			TotalPrice: poOrder.Total.StringFixed(2),
+			CreatedAt: poOrder.CreatedAt.Unix(),
+		})
+	}
+	return &restaurant_rpc.GetAllOrdersResp{
+		OrderInfoList: pbOrderSimpleInfoList,
+	}, nil
+}

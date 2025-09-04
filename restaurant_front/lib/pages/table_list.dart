@@ -5,6 +5,7 @@ import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/providers/table_list_provider.dart';
 import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
+import 'package:restaurant_management/src/generated/restaurantV2/types.pbenum.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/dashboard_card.dart';
@@ -51,13 +52,30 @@ class _TableListPageState extends ConsumerState<TableListPage> {
                 itemBuilder: (context, index) {
                   final table = tableList[index];
                   return GridViewCard(
+                    onTap: ref
+                        .watch(userInfoModelProvider)
+                        .when(
+                          data: (userInfo) {
+                            if (userInfo.isCustomer()) {
+                              return () {
+                                router.push(CustomerSelectDishRoute(
+                                  orderType: OrderType.ORDER_TYPE_DINING_IN,
+                                  table: table,
+                                ));
+                              };
+                            } else {
+                              return (){};
+                            }
+                          },
+                          error: (error, stackTrace) => (){},
+                          loading: () => (){},
+                        ),
                     onLongPress: ref
                         .watch(userInfoModelProvider)
                         .when(
                           data: (userInfo) {
                             if (userInfo.isEmployee()) {
                               return () {
-                                // TODO: 弹出BottomSheet
                                 showModalBottomSheet(
                                   context: context,
                                   builder: (context) {
@@ -118,7 +136,6 @@ class _TableListPageState extends ConsumerState<TableListPage> {
                 if (userInfo.isEmployee()) {
                   return FloatingActionButton(
                     onPressed: () {
-                      // TODO: 跳转添加桌子页面
                       router.push(
                         TableEditRoute(
                           onSaveSuccess: () {
