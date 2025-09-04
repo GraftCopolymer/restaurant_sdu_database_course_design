@@ -1435,6 +1435,51 @@ func (x *PlaceOrderReq) GetTable() *Table {
 	return nil
 }
 
+// / 下订单响应
+type PlaceOrderResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       uint32                 `protobuf:"varint,1,opt,name=orderId,proto3" json:"orderId,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlaceOrderResp) Reset() {
+	*x = PlaceOrderResp{}
+	mi := &file_dish_service_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlaceOrderResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlaceOrderResp) ProtoMessage() {}
+
+func (x *PlaceOrderResp) ProtoReflect() protoreflect.Message {
+	mi := &file_dish_service_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlaceOrderResp.ProtoReflect.Descriptor instead.
+func (*PlaceOrderResp) Descriptor() ([]byte, []int) {
+	return file_dish_service_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *PlaceOrderResp) GetOrderId() uint32 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
 type OrderInfoItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DishId        uint32                 `protobuf:"varint,1,opt,name=dishId,proto3" json:"dishId,omitempty"`
@@ -1448,7 +1493,7 @@ type OrderInfoItem struct {
 
 func (x *OrderInfoItem) Reset() {
 	*x = OrderInfoItem{}
-	mi := &file_dish_service_proto_msgTypes[26]
+	mi := &file_dish_service_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1460,7 +1505,7 @@ func (x *OrderInfoItem) String() string {
 func (*OrderInfoItem) ProtoMessage() {}
 
 func (x *OrderInfoItem) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[26]
+	mi := &file_dish_service_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1473,7 +1518,7 @@ func (x *OrderInfoItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrderInfoItem.ProtoReflect.Descriptor instead.
 func (*OrderInfoItem) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{26}
+	return file_dish_service_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *OrderInfoItem) GetDishId() uint32 {
@@ -1522,13 +1567,14 @@ type OrderInfo struct {
 	OrderInfoItems []*OrderInfoItem       `protobuf:"bytes,5,rep,name=orderInfoItems,proto3" json:"orderInfoItems,omitempty"`
 	TotalPrice     string                 `protobuf:"bytes,6,opt,name=totalPrice,proto3" json:"totalPrice,omitempty"`
 	CustomerId     uint32                 `protobuf:"varint,7,opt,name=customerId,proto3" json:"customerId,omitempty"`
+	Address        string                 `protobuf:"bytes,8,opt,name=address,proto3" json:"address,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *OrderInfo) Reset() {
 	*x = OrderInfo{}
-	mi := &file_dish_service_proto_msgTypes[27]
+	mi := &file_dish_service_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1540,7 +1586,7 @@ func (x *OrderInfo) String() string {
 func (*OrderInfo) ProtoMessage() {}
 
 func (x *OrderInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[27]
+	mi := &file_dish_service_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1553,7 +1599,7 @@ func (x *OrderInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrderInfo.ProtoReflect.Descriptor instead.
 func (*OrderInfo) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{27}
+	return file_dish_service_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *OrderInfo) GetOrderId() uint32 {
@@ -1605,6 +1651,13 @@ func (x *OrderInfo) GetCustomerId() uint32 {
 	return 0
 }
 
+func (x *OrderInfo) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
 type GetOrderInfoReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       uint32                 `protobuf:"varint,1,opt,name=orderId,proto3" json:"orderId,omitempty"`
@@ -1614,7 +1667,7 @@ type GetOrderInfoReq struct {
 
 func (x *GetOrderInfoReq) Reset() {
 	*x = GetOrderInfoReq{}
-	mi := &file_dish_service_proto_msgTypes[28]
+	mi := &file_dish_service_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1626,7 +1679,7 @@ func (x *GetOrderInfoReq) String() string {
 func (*GetOrderInfoReq) ProtoMessage() {}
 
 func (x *GetOrderInfoReq) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[28]
+	mi := &file_dish_service_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1639,7 +1692,7 @@ func (x *GetOrderInfoReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrderInfoReq.ProtoReflect.Descriptor instead.
 func (*GetOrderInfoReq) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{28}
+	return file_dish_service_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *GetOrderInfoReq) GetOrderId() uint32 {
@@ -1658,7 +1711,7 @@ type GetOrderInfoResp struct {
 
 func (x *GetOrderInfoResp) Reset() {
 	*x = GetOrderInfoResp{}
-	mi := &file_dish_service_proto_msgTypes[29]
+	mi := &file_dish_service_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1670,7 +1723,7 @@ func (x *GetOrderInfoResp) String() string {
 func (*GetOrderInfoResp) ProtoMessage() {}
 
 func (x *GetOrderInfoResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[29]
+	mi := &file_dish_service_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1683,7 +1736,7 @@ func (x *GetOrderInfoResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrderInfoResp.ProtoReflect.Descriptor instead.
 func (*GetOrderInfoResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{29}
+	return file_dish_service_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *GetOrderInfoResp) GetOrderInfo() *OrderInfo {
@@ -1705,7 +1758,7 @@ type OrderSimpleInfo struct {
 
 func (x *OrderSimpleInfo) Reset() {
 	*x = OrderSimpleInfo{}
-	mi := &file_dish_service_proto_msgTypes[30]
+	mi := &file_dish_service_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1717,7 +1770,7 @@ func (x *OrderSimpleInfo) String() string {
 func (*OrderSimpleInfo) ProtoMessage() {}
 
 func (x *OrderSimpleInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[30]
+	mi := &file_dish_service_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1730,7 +1783,7 @@ func (x *OrderSimpleInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrderSimpleInfo.ProtoReflect.Descriptor instead.
 func (*OrderSimpleInfo) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{30}
+	return file_dish_service_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *OrderSimpleInfo) GetOrderId() uint32 {
@@ -1763,7 +1816,7 @@ type GetAllOrdersResp struct {
 
 func (x *GetAllOrdersResp) Reset() {
 	*x = GetAllOrdersResp{}
-	mi := &file_dish_service_proto_msgTypes[31]
+	mi := &file_dish_service_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1775,7 +1828,7 @@ func (x *GetAllOrdersResp) String() string {
 func (*GetAllOrdersResp) ProtoMessage() {}
 
 func (x *GetAllOrdersResp) ProtoReflect() protoreflect.Message {
-	mi := &file_dish_service_proto_msgTypes[31]
+	mi := &file_dish_service_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1788,7 +1841,7 @@ func (x *GetAllOrdersResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllOrdersResp.ProtoReflect.Descriptor instead.
 func (*GetAllOrdersResp) Descriptor() ([]byte, []int) {
-	return file_dish_service_proto_rawDescGZIP(), []int{31}
+	return file_dish_service_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *GetAllOrdersResp) GetOrderInfoList() []*OrderSimpleInfo {
@@ -1897,13 +1950,15 @@ const file_dish_service_proto_rawDesc = "" +
 	"orderItems\x123\n" +
 	"\torderType\x18\x02 \x01(\x0e2\x15.restaurant.OrderTypeR\torderType\x12\x18\n" +
 	"\aaddress\x18\x03 \x01(\tR\aaddress\x12+\n" +
-	"\x05table\x18\x04 \x01(\v2\x15.restaurant_rpc.TableR\x05table\"\xbc\x01\n" +
+	"\x05table\x18\x04 \x01(\v2\x15.restaurant_rpc.TableR\x05table\"*\n" +
+	"\x0ePlaceOrderResp\x12\x18\n" +
+	"\aorderId\x18\x01 \x01(\rR\aorderId\"\xbc\x01\n" +
 	"\rOrderInfoItem\x12\x16\n" +
 	"\x06dishId\x18\x01 \x01(\rR\x06dishId\x12\x1c\n" +
 	"\tportionId\x18\x02 \x01(\rR\tportionId\x12\x14\n" +
 	"\x05count\x18\x03 \x01(\rR\x05count\x12(\n" +
 	"\x04dish\x18\x04 \x01(\v2\x14.restaurant_rpc.DishR\x04dish\x125\n" +
-	"\aportion\x18\x05 \x01(\v2\x1b.restaurant_rpc.DishPortionR\aportion\"\xac\x02\n" +
+	"\aportion\x18\x05 \x01(\v2\x1b.restaurant_rpc.DishPortionR\aportion\"\xc6\x02\n" +
 	"\tOrderInfo\x12\x18\n" +
 	"\aorderId\x18\x01 \x01(\rR\aorderId\x123\n" +
 	"\torderType\x18\x02 \x01(\x0e2\x15.restaurant.OrderTypeR\torderType\x12+\n" +
@@ -1915,7 +1970,8 @@ const file_dish_service_proto_rawDesc = "" +
 	"totalPrice\x12\x1e\n" +
 	"\n" +
 	"customerId\x18\a \x01(\rR\n" +
-	"customerId\"+\n" +
+	"customerId\x12\x18\n" +
+	"\aaddress\x18\b \x01(\tR\aaddress\"+\n" +
 	"\x0fGetOrderInfoReq\x12\x18\n" +
 	"\aorderId\x18\x01 \x01(\rR\aorderId\"K\n" +
 	"\x10GetOrderInfoResp\x127\n" +
@@ -1927,7 +1983,7 @@ const file_dish_service_proto_rawDesc = "" +
 	"totalPrice\x12\x1c\n" +
 	"\tcreatedAt\x18\x03 \x01(\x03R\tcreatedAt\"Y\n" +
 	"\x10GetAllOrdersResp\x12E\n" +
-	"\rorderInfoList\x18\x01 \x03(\v2\x1f.restaurant_rpc.OrderSimpleInfoR\rorderInfoList2\xfb\b\n" +
+	"\rorderInfoList\x18\x01 \x03(\v2\x1f.restaurant_rpc.OrderSimpleInfoR\rorderInfoList2\x83\t\n" +
 	"\vDishService\x12H\n" +
 	"\tGetDishes\x12\x1c.restaurant_rpc.GetDishesReq\x1a\x1d.restaurant_rpc.GetDishesResp\x12F\n" +
 	"\vGetDishType\x12\x16.google.protobuf.Empty\x1a\x1f.restaurant_rpc.GetDishTypeResp\x12N\n" +
@@ -1939,9 +1995,9 @@ const file_dish_service_proto_rawDesc = "" +
 	"\fDeleteDishes\x12\x1f.restaurant_rpc.DeleteDishesReq\x1a\x16.google.protobuf.Empty\x12H\n" +
 	"\fGetAllTables\x12\x16.google.protobuf.Empty\x1a .restaurant_rpc.GetAllTablesResp\x12Q\n" +
 	"\x11CreateOrEditTable\x12$.restaurant_rpc.CreateOrEditTableReq\x1a\x16.google.protobuf.Empty\x12E\n" +
-	"\vDeleteTable\x12\x1e.restaurant_rpc.DeleteTableReq\x1a\x16.google.protobuf.Empty\x12C\n" +
+	"\vDeleteTable\x12\x1e.restaurant_rpc.DeleteTableReq\x1a\x16.google.protobuf.Empty\x12K\n" +
 	"\n" +
-	"PlaceOrder\x12\x1d.restaurant_rpc.PlaceOrderReq\x1a\x16.google.protobuf.Empty\x12Q\n" +
+	"PlaceOrder\x12\x1d.restaurant_rpc.PlaceOrderReq\x1a\x1e.restaurant_rpc.PlaceOrderResp\x12Q\n" +
 	"\fGetOrderInfo\x12\x1f.restaurant_rpc.GetOrderInfoReq\x1a .restaurant_rpc.GetOrderInfoResp\x12H\n" +
 	"\fGetAllOrders\x12\x16.google.protobuf.Empty\x1a .restaurant_rpc.GetAllOrdersRespB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
 
@@ -1957,7 +2013,7 @@ func file_dish_service_proto_rawDescGZIP() []byte {
 	return file_dish_service_proto_rawDescData
 }
 
-var file_dish_service_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
+var file_dish_service_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
 var file_dish_service_proto_goTypes = []any{
 	(*Dish)(nil),                      // 0: restaurant_rpc.Dish
 	(*DishPortion)(nil),               // 1: restaurant_rpc.DishPortion
@@ -1985,81 +2041,82 @@ var file_dish_service_proto_goTypes = []any{
 	(*DeleteTableReq)(nil),            // 23: restaurant_rpc.DeleteTableReq
 	(*OrderItem)(nil),                 // 24: restaurant_rpc.OrderItem
 	(*PlaceOrderReq)(nil),             // 25: restaurant_rpc.PlaceOrderReq
-	(*OrderInfoItem)(nil),             // 26: restaurant_rpc.OrderInfoItem
-	(*OrderInfo)(nil),                 // 27: restaurant_rpc.OrderInfo
-	(*GetOrderInfoReq)(nil),           // 28: restaurant_rpc.GetOrderInfoReq
-	(*GetOrderInfoResp)(nil),          // 29: restaurant_rpc.GetOrderInfoResp
-	(*OrderSimpleInfo)(nil),           // 30: restaurant_rpc.OrderSimpleInfo
-	(*GetAllOrdersResp)(nil),          // 31: restaurant_rpc.GetAllOrdersResp
-	(types.DishPortion)(0),            // 32: restaurant.DishPortion
-	(types.UnitType)(0),               // 33: restaurant.UnitType
-	(*PageInfo)(nil),                  // 34: restaurant_rpc.PageInfo
-	(types.OrderType)(0),              // 35: restaurant.OrderType
-	(*emptypb.Empty)(nil),             // 36: google.protobuf.Empty
+	(*PlaceOrderResp)(nil),            // 26: restaurant_rpc.PlaceOrderResp
+	(*OrderInfoItem)(nil),             // 27: restaurant_rpc.OrderInfoItem
+	(*OrderInfo)(nil),                 // 28: restaurant_rpc.OrderInfo
+	(*GetOrderInfoReq)(nil),           // 29: restaurant_rpc.GetOrderInfoReq
+	(*GetOrderInfoResp)(nil),          // 30: restaurant_rpc.GetOrderInfoResp
+	(*OrderSimpleInfo)(nil),           // 31: restaurant_rpc.OrderSimpleInfo
+	(*GetAllOrdersResp)(nil),          // 32: restaurant_rpc.GetAllOrdersResp
+	(types.DishPortion)(0),            // 33: restaurant.DishPortion
+	(types.UnitType)(0),               // 34: restaurant.UnitType
+	(*PageInfo)(nil),                  // 35: restaurant_rpc.PageInfo
+	(types.OrderType)(0),              // 36: restaurant.OrderType
+	(*emptypb.Empty)(nil),             // 37: google.protobuf.Empty
 }
 var file_dish_service_proto_depIdxs = []int32{
 	9,  // 0: restaurant_rpc.Dish.dishType:type_name -> restaurant_rpc.DishType
 	1,  // 1: restaurant_rpc.Dish.portions:type_name -> restaurant_rpc.DishPortion
-	32, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant.DishPortion
+	33, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant.DishPortion
 	2,  // 3: restaurant_rpc.DishPortion.recipe:type_name -> restaurant_rpc.Recipe
 	3,  // 4: restaurant_rpc.Recipe.materials:type_name -> restaurant_rpc.RecipeMaterial
 	4,  // 5: restaurant_rpc.RecipeMaterial.material:type_name -> restaurant_rpc.Material
-	33, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant.UnitType
+	34, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant.UnitType
 	5,  // 7: restaurant_rpc.Table.seats:type_name -> restaurant_rpc.Seat
-	34, // 8: restaurant_rpc.GetDishesReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	35, // 8: restaurant_rpc.GetDishesReq.pageInfo:type_name -> restaurant_rpc.PageInfo
 	0,  // 9: restaurant_rpc.GetDishesResp.dishes:type_name -> restaurant_rpc.Dish
-	34, // 10: restaurant_rpc.GetDishesResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	35, // 10: restaurant_rpc.GetDishesResp.pageInfo:type_name -> restaurant_rpc.PageInfo
 	9,  // 11: restaurant_rpc.GetDishTypeResp.dishTypes:type_name -> restaurant_rpc.DishType
-	34, // 12: restaurant_rpc.GetMaterialsReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	35, // 12: restaurant_rpc.GetMaterialsReq.pageInfo:type_name -> restaurant_rpc.PageInfo
 	4,  // 13: restaurant_rpc.GetMaterialsResp.materialList:type_name -> restaurant_rpc.Material
-	34, // 14: restaurant_rpc.GetMaterialsResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	35, // 14: restaurant_rpc.GetMaterialsResp.pageInfo:type_name -> restaurant_rpc.PageInfo
 	4,  // 15: restaurant_rpc.CreateOrEditMaterialReq.material:type_name -> restaurant_rpc.Material
 	0,  // 16: restaurant_rpc.CreateOrEditDishReq.dish:type_name -> restaurant_rpc.Dish
-	34, // 17: restaurant_rpc.GetDishesWithCategoryReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	35, // 17: restaurant_rpc.GetDishesWithCategoryReq.pageInfo:type_name -> restaurant_rpc.PageInfo
 	9,  // 18: restaurant_rpc.GetDishesWithCategoryReq.category:type_name -> restaurant_rpc.DishType
 	0,  // 19: restaurant_rpc.GetDishesWithCategoryResp.dishes:type_name -> restaurant_rpc.Dish
-	34, // 20: restaurant_rpc.GetDishesWithCategoryResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	35, // 20: restaurant_rpc.GetDishesWithCategoryResp.pageInfo:type_name -> restaurant_rpc.PageInfo
 	9,  // 21: restaurant_rpc.GetDishesWithCategoryResp.category:type_name -> restaurant_rpc.DishType
 	6,  // 22: restaurant_rpc.GetAllTablesResp.tables:type_name -> restaurant_rpc.Table
 	6,  // 23: restaurant_rpc.CreateOrEditTableReq.table:type_name -> restaurant_rpc.Table
 	24, // 24: restaurant_rpc.PlaceOrderReq.orderItems:type_name -> restaurant_rpc.OrderItem
-	35, // 25: restaurant_rpc.PlaceOrderReq.orderType:type_name -> restaurant.OrderType
+	36, // 25: restaurant_rpc.PlaceOrderReq.orderType:type_name -> restaurant.OrderType
 	6,  // 26: restaurant_rpc.PlaceOrderReq.table:type_name -> restaurant_rpc.Table
 	0,  // 27: restaurant_rpc.OrderInfoItem.dish:type_name -> restaurant_rpc.Dish
 	1,  // 28: restaurant_rpc.OrderInfoItem.portion:type_name -> restaurant_rpc.DishPortion
-	35, // 29: restaurant_rpc.OrderInfo.orderType:type_name -> restaurant.OrderType
+	36, // 29: restaurant_rpc.OrderInfo.orderType:type_name -> restaurant.OrderType
 	6,  // 30: restaurant_rpc.OrderInfo.table:type_name -> restaurant_rpc.Table
-	26, // 31: restaurant_rpc.OrderInfo.orderInfoItems:type_name -> restaurant_rpc.OrderInfoItem
-	27, // 32: restaurant_rpc.GetOrderInfoResp.orderInfo:type_name -> restaurant_rpc.OrderInfo
-	30, // 33: restaurant_rpc.GetAllOrdersResp.orderInfoList:type_name -> restaurant_rpc.OrderSimpleInfo
+	27, // 31: restaurant_rpc.OrderInfo.orderInfoItems:type_name -> restaurant_rpc.OrderInfoItem
+	28, // 32: restaurant_rpc.GetOrderInfoResp.orderInfo:type_name -> restaurant_rpc.OrderInfo
+	31, // 33: restaurant_rpc.GetAllOrdersResp.orderInfoList:type_name -> restaurant_rpc.OrderSimpleInfo
 	7,  // 34: restaurant_rpc.DishService.GetDishes:input_type -> restaurant_rpc.GetDishesReq
-	36, // 35: restaurant_rpc.DishService.GetDishType:input_type -> google.protobuf.Empty
+	37, // 35: restaurant_rpc.DishService.GetDishType:input_type -> google.protobuf.Empty
 	11, // 36: restaurant_rpc.DishService.AddDishType:input_type -> restaurant_rpc.AddDishTypeReq
 	13, // 37: restaurant_rpc.DishService.GetMaterials:input_type -> restaurant_rpc.GetMaterialsReq
 	15, // 38: restaurant_rpc.DishService.CreateOrEditMaterial:input_type -> restaurant_rpc.CreateOrEditMaterialReq
 	17, // 39: restaurant_rpc.DishService.CreateOrEditDish:input_type -> restaurant_rpc.CreateOrEditDishReq
 	18, // 40: restaurant_rpc.DishService.GetDishesWithCategory:input_type -> restaurant_rpc.GetDishesWithCategoryReq
 	20, // 41: restaurant_rpc.DishService.DeleteDishes:input_type -> restaurant_rpc.DeleteDishesReq
-	36, // 42: restaurant_rpc.DishService.GetAllTables:input_type -> google.protobuf.Empty
+	37, // 42: restaurant_rpc.DishService.GetAllTables:input_type -> google.protobuf.Empty
 	22, // 43: restaurant_rpc.DishService.CreateOrEditTable:input_type -> restaurant_rpc.CreateOrEditTableReq
 	23, // 44: restaurant_rpc.DishService.DeleteTable:input_type -> restaurant_rpc.DeleteTableReq
 	25, // 45: restaurant_rpc.DishService.PlaceOrder:input_type -> restaurant_rpc.PlaceOrderReq
-	28, // 46: restaurant_rpc.DishService.GetOrderInfo:input_type -> restaurant_rpc.GetOrderInfoReq
-	36, // 47: restaurant_rpc.DishService.GetAllOrders:input_type -> google.protobuf.Empty
+	29, // 46: restaurant_rpc.DishService.GetOrderInfo:input_type -> restaurant_rpc.GetOrderInfoReq
+	37, // 47: restaurant_rpc.DishService.GetAllOrders:input_type -> google.protobuf.Empty
 	8,  // 48: restaurant_rpc.DishService.GetDishes:output_type -> restaurant_rpc.GetDishesResp
 	10, // 49: restaurant_rpc.DishService.GetDishType:output_type -> restaurant_rpc.GetDishTypeResp
 	12, // 50: restaurant_rpc.DishService.AddDishType:output_type -> restaurant_rpc.AddDishTypeResp
 	14, // 51: restaurant_rpc.DishService.GetMaterials:output_type -> restaurant_rpc.GetMaterialsResp
 	16, // 52: restaurant_rpc.DishService.CreateOrEditMaterial:output_type -> restaurant_rpc.CreateOrEditMaterialResp
-	36, // 53: restaurant_rpc.DishService.CreateOrEditDish:output_type -> google.protobuf.Empty
+	37, // 53: restaurant_rpc.DishService.CreateOrEditDish:output_type -> google.protobuf.Empty
 	19, // 54: restaurant_rpc.DishService.GetDishesWithCategory:output_type -> restaurant_rpc.GetDishesWithCategoryResp
-	36, // 55: restaurant_rpc.DishService.DeleteDishes:output_type -> google.protobuf.Empty
+	37, // 55: restaurant_rpc.DishService.DeleteDishes:output_type -> google.protobuf.Empty
 	21, // 56: restaurant_rpc.DishService.GetAllTables:output_type -> restaurant_rpc.GetAllTablesResp
-	36, // 57: restaurant_rpc.DishService.CreateOrEditTable:output_type -> google.protobuf.Empty
-	36, // 58: restaurant_rpc.DishService.DeleteTable:output_type -> google.protobuf.Empty
-	36, // 59: restaurant_rpc.DishService.PlaceOrder:output_type -> google.protobuf.Empty
-	29, // 60: restaurant_rpc.DishService.GetOrderInfo:output_type -> restaurant_rpc.GetOrderInfoResp
-	31, // 61: restaurant_rpc.DishService.GetAllOrders:output_type -> restaurant_rpc.GetAllOrdersResp
+	37, // 57: restaurant_rpc.DishService.CreateOrEditTable:output_type -> google.protobuf.Empty
+	37, // 58: restaurant_rpc.DishService.DeleteTable:output_type -> google.protobuf.Empty
+	26, // 59: restaurant_rpc.DishService.PlaceOrder:output_type -> restaurant_rpc.PlaceOrderResp
+	30, // 60: restaurant_rpc.DishService.GetOrderInfo:output_type -> restaurant_rpc.GetOrderInfoResp
+	32, // 61: restaurant_rpc.DishService.GetAllOrders:output_type -> restaurant_rpc.GetAllOrdersResp
 	48, // [48:62] is the sub-list for method output_type
 	34, // [34:48] is the sub-list for method input_type
 	34, // [34:34] is the sub-list for extension type_name
@@ -2079,7 +2136,7 @@ func file_dish_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_dish_service_proto_rawDesc), len(file_dish_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   32,
+			NumMessages:   33,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

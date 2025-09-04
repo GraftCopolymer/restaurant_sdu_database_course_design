@@ -148,6 +148,11 @@ message PlaceOrderReq {
     Table table = 4; // 桌号, 仅堂食订单有该字段
 }
 
+/// 下订单响应
+message PlaceOrderResp {
+    uint32 orderId = 1;
+}
+
 message OrderInfoItem {
     uint32 dishId = 1;
     uint32 portionId = 2;
@@ -167,6 +172,7 @@ message OrderInfo {
     repeated OrderInfoItem orderInfoItems = 5;
     string totalPrice = 6;
     uint32 customerId = 7;
+    string address = 8;
 }
 
 message GetOrderInfoReq {
@@ -200,7 +206,7 @@ service DishService {
     rpc GetAllTables(google.protobuf.Empty) returns (GetAllTablesResp);
     rpc CreateOrEditTable(CreateOrEditTableReq) returns (google.protobuf.Empty);
     rpc DeleteTable(DeleteTableReq) returns (google.protobuf.Empty);
-    rpc PlaceOrder(PlaceOrderReq) returns(google.protobuf.Empty);
+    rpc PlaceOrder(PlaceOrderReq) returns(PlaceOrderResp);
     rpc GetOrderInfo(GetOrderInfoReq) returns (GetOrderInfoResp);
     rpc GetAllOrders(google.protobuf.Empty) returns (GetAllOrdersResp);
 }

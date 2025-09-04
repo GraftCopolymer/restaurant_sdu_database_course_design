@@ -110,7 +110,7 @@ class DishServiceClient extends $grpc.Client {
     return $createUnaryCall(_$deleteTable, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> placeOrder(
+  $grpc.ResponseFuture<$0.PlaceOrderResp> placeOrder(
     $0.PlaceOrderReq request, {
     $grpc.CallOptions? options,
   }) {
@@ -186,10 +186,11 @@ class DishServiceClient extends $grpc.Client {
       '/restaurant_rpc.DishService/DeleteTable',
       ($0.DeleteTableReq value) => value.writeToBuffer(),
       $1.Empty.fromBuffer);
-  static final _$placeOrder = $grpc.ClientMethod<$0.PlaceOrderReq, $1.Empty>(
-      '/restaurant_rpc.DishService/PlaceOrder',
-      ($0.PlaceOrderReq value) => value.writeToBuffer(),
-      $1.Empty.fromBuffer);
+  static final _$placeOrder =
+      $grpc.ClientMethod<$0.PlaceOrderReq, $0.PlaceOrderResp>(
+          '/restaurant_rpc.DishService/PlaceOrder',
+          ($0.PlaceOrderReq value) => value.writeToBuffer(),
+          $0.PlaceOrderResp.fromBuffer);
   static final _$getOrderInfo =
       $grpc.ClientMethod<$0.GetOrderInfoReq, $0.GetOrderInfoResp>(
           '/restaurant_rpc.DishService/GetOrderInfo',
@@ -290,13 +291,13 @@ abstract class DishServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.DeleteTableReq.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.PlaceOrderReq, $1.Empty>(
+    $addMethod($grpc.ServiceMethod<$0.PlaceOrderReq, $0.PlaceOrderResp>(
         'PlaceOrder',
         placeOrder_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PlaceOrderReq.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
+        ($0.PlaceOrderResp value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetOrderInfoReq, $0.GetOrderInfoResp>(
         'GetOrderInfo',
         getOrderInfo_Pre,
@@ -403,12 +404,12 @@ abstract class DishServiceBase extends $grpc.Service {
   $async.Future<$1.Empty> deleteTable(
       $grpc.ServiceCall call, $0.DeleteTableReq request);
 
-  $async.Future<$1.Empty> placeOrder_Pre(
+  $async.Future<$0.PlaceOrderResp> placeOrder_Pre(
       $grpc.ServiceCall $call, $async.Future<$0.PlaceOrderReq> $request) async {
     return placeOrder($call, await $request);
   }
 
-  $async.Future<$1.Empty> placeOrder(
+  $async.Future<$0.PlaceOrderResp> placeOrder(
       $grpc.ServiceCall call, $0.PlaceOrderReq request);
 
   $async.Future<$0.GetOrderInfoResp> getOrderInfo_Pre($grpc.ServiceCall $call,

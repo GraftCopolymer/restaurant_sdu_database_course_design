@@ -51,7 +51,7 @@ type DishServiceClient interface {
 	GetAllTables(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllTablesResp, error)
 	CreateOrEditTable(ctx context.Context, in *CreateOrEditTableReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteTable(ctx context.Context, in *DeleteTableReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	PlaceOrder(ctx context.Context, in *PlaceOrderReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	PlaceOrder(ctx context.Context, in *PlaceOrderReq, opts ...grpc.CallOption) (*PlaceOrderResp, error)
 	GetOrderInfo(ctx context.Context, in *GetOrderInfoReq, opts ...grpc.CallOption) (*GetOrderInfoResp, error)
 	GetAllOrders(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllOrdersResp, error)
 }
@@ -174,9 +174,9 @@ func (c *dishServiceClient) DeleteTable(ctx context.Context, in *DeleteTableReq,
 	return out, nil
 }
 
-func (c *dishServiceClient) PlaceOrder(ctx context.Context, in *PlaceOrderReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *dishServiceClient) PlaceOrder(ctx context.Context, in *PlaceOrderReq, opts ...grpc.CallOption) (*PlaceOrderResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(PlaceOrderResp)
 	err := c.cc.Invoke(ctx, DishService_PlaceOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -219,7 +219,7 @@ type DishServiceServer interface {
 	GetAllTables(context.Context, *emptypb.Empty) (*GetAllTablesResp, error)
 	CreateOrEditTable(context.Context, *CreateOrEditTableReq) (*emptypb.Empty, error)
 	DeleteTable(context.Context, *DeleteTableReq) (*emptypb.Empty, error)
-	PlaceOrder(context.Context, *PlaceOrderReq) (*emptypb.Empty, error)
+	PlaceOrder(context.Context, *PlaceOrderReq) (*PlaceOrderResp, error)
 	GetOrderInfo(context.Context, *GetOrderInfoReq) (*GetOrderInfoResp, error)
 	GetAllOrders(context.Context, *emptypb.Empty) (*GetAllOrdersResp, error)
 	mustEmbedUnimplementedDishServiceServer()
@@ -265,7 +265,7 @@ func (UnimplementedDishServiceServer) CreateOrEditTable(context.Context, *Create
 func (UnimplementedDishServiceServer) DeleteTable(context.Context, *DeleteTableReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTable not implemented")
 }
-func (UnimplementedDishServiceServer) PlaceOrder(context.Context, *PlaceOrderReq) (*emptypb.Empty, error) {
+func (UnimplementedDishServiceServer) PlaceOrder(context.Context, *PlaceOrderReq) (*PlaceOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceOrder not implemented")
 }
 func (UnimplementedDishServiceServer) GetOrderInfo(context.Context, *GetOrderInfoReq) (*GetOrderInfoResp, error) {

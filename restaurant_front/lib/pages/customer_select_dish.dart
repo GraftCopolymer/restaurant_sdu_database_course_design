@@ -151,8 +151,10 @@ class _CustomerSelectDishPageState
 
   String _getTitleText() {
     String baseTitle = "点餐";
-    if (widget.table != null) {
+    if (widget.table != null && widget.orderType == OrderType.ORDER_TYPE_DINING_IN) {
       baseTitle = "${widget.table!.number}桌 $baseTitle";
+    } else if (widget.orderType == OrderType.ORDER_TYPE_TAKE_OUT) {
+      baseTitle = "外卖 $baseTitle";
     }
     if (_selectDishType != null) {
       baseTitle = "$baseTitle - ${_selectDishType!.name}";

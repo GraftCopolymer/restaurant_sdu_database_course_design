@@ -83,7 +83,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         onTap: () {
           router.push(
             r.TableListRoute(
-              onTableTap: (table) {
+              onTableTap: (table) { // 点击桌子后跳转到点餐页面
                 router.push(
                   r.CustomerSelectDishRoute(
                     orderType: OrderType.ORDER_TYPE_DINING_IN,

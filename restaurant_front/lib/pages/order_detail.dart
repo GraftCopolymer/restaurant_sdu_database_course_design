@@ -47,7 +47,15 @@ class _OrderDetailPageState extends ConsumerState<OrderDetailPage> {
           case OrderType.ORDER_TYPE_DINING_IN:
             return Text("堂食订单 桌号: ${orderInfo.table.number}", style: Theme.of(context).textTheme.titleLarge,);
           case OrderType.ORDER_TYPE_TAKE_OUT:
-            return Text("外卖订单", style: Theme.of(context).textTheme.titleLarge);
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("外卖订单", style: Theme.of(context).textTheme.titleLarge),
+                Text("送餐地址: ${orderInfo.address}", style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: Colors.grey
+                ),)
+              ],
+            );
           default:
             return Text("未知订单", style: Theme.of(context).textTheme.titleLarge);
         }

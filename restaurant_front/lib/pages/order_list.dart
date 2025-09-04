@@ -25,19 +25,24 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
   Widget _buildListView() {
     final asyncOrderInfoList = ref.watch(provider);
     return asyncOrderInfoList.when(data: (orderInfoList){
-      return ListView.builder(itemCount: orderInfoList.length, itemBuilder: (context, index) {
-        final orderSimpleInfo = orderInfoList[index];
-        final orderCreatedDateTime = DateTime.fromMillisecondsSinceEpoch(orderSimpleInfo.createdAt.toInt() * 1000); // 后端传来的时间戳是秒数, 需要转换成毫秒数
-        final formatter = DateFormat("yyyy年MM月dd日 HH:mm");
-        final formattedDateTime = formatter.format(orderCreatedDateTime);
-        return ListTile(
-          title: Text(formattedDateTime),
-          subtitle: Text("￥${orderSimpleInfo.totalPrice}"),
-          onTap: () {
-            router.push(OrderDetailRoute(orderId: orderSimpleInfo.orderId));
-          },
-        );
-      });
+      return RefreshIndicator(
+        onRefresh: () async {
+          ref.invalidate(provider);
+        },
+        child: ListView.builder(itemCount: orderInfoList.length, itemBuilder: (context, index) {
+          final orderSimpleInfo = orderInfoList[index];
+          final orderCreatedDateTime = DateTime.fromMillisecondsSinceEpoch(orderSimpleInfo.createdAt.toInt() * 1000); // 后端传来的时间戳是秒数, 需要转换成毫秒数
+          final formatter = DateFormat("yyyy年MM月dd日 HH:mm");
+          final formattedDateTime = formatter.format(orderCreatedDateTime);
+          return ListTile(
+            title: Text(formattedDateTime),
+            subtitle: Text("￥${orderSimpleInfo.totalPrice}"),
+            onTap: () {
+              router.push(OrderDetailRoute(orderId: orderSimpleInfo.orderId));
+            },
+          );
+        }),
+      );
     }, error: (e, s) {
       Utils.report(e,s);
       return Center(child: Text("加载失败"),);

@@ -932,7 +932,7 @@ func (s *DishServer) DeleteTable(ctx context.Context, req *restaurant_rpc.Delete
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DishServer) PlaceOrder(ctx context.Context, req *restaurant_rpc.PlaceOrderReq) (*emptypb.Empty, error) {
+func (s *DishServer) PlaceOrder(ctx context.Context, req *restaurant_rpc.PlaceOrderReq) (*restaurant_rpc.PlaceOrderResp, error) {
 	orderItems := req.OrderItems
 	if len(orderItems) == 0 {
 		return nil, errors.New("订单为空")
@@ -1010,7 +1010,9 @@ func (s *DishServer) PlaceOrder(ctx context.Context, req *restaurant_rpc.PlaceOr
 	if err := tx.Commit().Error; err != nil {
 		return nil, errors.New("服务器错误")
 	}
-	return &emptypb.Empty{}, nil
+	return &restaurant_rpc.PlaceOrderResp{
+		OrderId: uint32(poOrder.ID),
+	}, nil
 }
 
 func (s *DishServer) GetOrderInfo(ctx context.Context, req *restaurant_rpc.GetOrderInfoReq) (*restaurant_rpc.GetOrderInfoResp, error) {
@@ -1025,17 +1027,26 @@ func (s *DishServer) GetOrderInfo(ctx context.Context, req *restaurant_rpc.GetOr
 		}
 	}
 	// 初始化基本信息
+	var table *restaurant_rpc.Table = nil
+	if poOrder.Table != nil {
+		table = &restaurant_rpc.Table{
+			Id: uint32(poOrder.Table.ID),
+			Number: poOrder.Table.Number,
+			// TODO: 暂时不需要座位信息
+		}
+	}
+	var orderAddress string
+	if poOrder.Address != nil {
+		orderAddress = *poOrder.Address
+	}
 	var resultOrderInfo = &restaurant_rpc.OrderInfo{
 		OrderId: uint32(poOrder.ID),
 		OrderType: poOrder.OrderType,
 		CustomerId: poOrder.CustomerID,
 		TotalPrice: poOrder.Total.StringFixed(2),
 		CreatedAt: poOrder.CreatedAt.Unix(),
-		Table: &restaurant_rpc.Table{
-			Id: uint32(poOrder.Table.ID),
-			Number: poOrder.Table.Number,
-			// TODO: 暂时不需要座位信息
-		},
+		Table: table,
+		Address: orderAddress,
 	}
 	// 查询所有菜品
 	var poOrderDishPortionItems []po.OrderDishPortion

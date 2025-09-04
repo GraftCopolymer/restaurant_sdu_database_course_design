@@ -586,6 +586,18 @@ final $typed_data.Uint8List placeOrderReqDescriptor = $convert.base64Decode(
     'clR5cGVSCW9yZGVyVHlwZRIYCgdhZGRyZXNzGAMgASgJUgdhZGRyZXNzEisKBXRhYmxlGAQgAS'
     'gLMhUucmVzdGF1cmFudF9ycGMuVGFibGVSBXRhYmxl');
 
+@$core.Deprecated('Use placeOrderRespDescriptor instead')
+const PlaceOrderResp$json = {
+  '1': 'PlaceOrderResp',
+  '2': [
+    {'1': 'orderId', '3': 1, '4': 1, '5': 13, '10': 'orderId'},
+  ],
+};
+
+/// Descriptor for `PlaceOrderResp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List placeOrderRespDescriptor = $convert
+    .base64Decode('Cg5QbGFjZU9yZGVyUmVzcBIYCgdvcmRlcklkGAEgASgNUgdvcmRlcklk');
+
 @$core.Deprecated('Use orderInfoItemDescriptor instead')
 const OrderInfoItem$json = {
   '1': 'OrderInfoItem',
@@ -651,6 +663,7 @@ const OrderInfo$json = {
     },
     {'1': 'totalPrice', '3': 6, '4': 1, '5': 9, '10': 'totalPrice'},
     {'1': 'customerId', '3': 7, '4': 1, '5': 13, '10': 'customerId'},
+    {'1': 'address', '3': 8, '4': 1, '5': 9, '10': 'address'},
   ],
 };
 
@@ -661,7 +674,7 @@ final $typed_data.Uint8List orderInfoDescriptor = $convert.base64Decode(
     'dGF1cmFudF9ycGMuVGFibGVSBXRhYmxlEhwKCWNyZWF0ZWRBdBgEIAEoA1IJY3JlYXRlZEF0Ek'
     'UKDm9yZGVySW5mb0l0ZW1zGAUgAygLMh0ucmVzdGF1cmFudF9ycGMuT3JkZXJJbmZvSXRlbVIO'
     'b3JkZXJJbmZvSXRlbXMSHgoKdG90YWxQcmljZRgGIAEoCVIKdG90YWxQcmljZRIeCgpjdXN0b2'
-    '1lcklkGAcgASgNUgpjdXN0b21lcklk');
+    '1lcklkGAcgASgNUgpjdXN0b21lcklkEhgKB2FkZHJlc3MYCCABKAlSB2FkZHJlc3M=');
 
 @$core.Deprecated('Use getOrderInfoReqDescriptor instead')
 const GetOrderInfoReq$json = {

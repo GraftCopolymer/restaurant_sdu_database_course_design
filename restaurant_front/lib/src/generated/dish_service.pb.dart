@@ -1882,6 +1882,64 @@ class PlaceOrderReq extends $pb.GeneratedMessage {
   Table ensureTable() => $_ensure(3);
 }
 
+/// / 下订单响应
+class PlaceOrderResp extends $pb.GeneratedMessage {
+  factory PlaceOrderResp({
+    $core.int? orderId,
+  }) {
+    final result = create();
+    if (orderId != null) result.orderId = orderId;
+    return result;
+  }
+
+  PlaceOrderResp._();
+
+  factory PlaceOrderResp.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory PlaceOrderResp.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PlaceOrderResp',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'orderId', $pb.PbFieldType.OU3,
+        protoName: 'orderId')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  PlaceOrderResp clone() => PlaceOrderResp()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  PlaceOrderResp copyWith(void Function(PlaceOrderResp) updates) =>
+      super.copyWith((message) => updates(message as PlaceOrderResp))
+          as PlaceOrderResp;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PlaceOrderResp create() => PlaceOrderResp._();
+  @$core.override
+  PlaceOrderResp createEmptyInstance() => create();
+  static $pb.PbList<PlaceOrderResp> createRepeated() =>
+      $pb.PbList<PlaceOrderResp>();
+  @$core.pragma('dart2js:noInline')
+  static PlaceOrderResp getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PlaceOrderResp>(create);
+  static PlaceOrderResp? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get orderId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set orderId($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasOrderId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOrderId() => $_clearField(1);
+}
+
 class OrderInfoItem extends $pb.GeneratedMessage {
   factory OrderInfoItem({
     $core.int? dishId,
@@ -2004,6 +2062,7 @@ class OrderInfo extends $pb.GeneratedMessage {
     $core.Iterable<OrderInfoItem>? orderInfoItems,
     $core.String? totalPrice,
     $core.int? customerId,
+    $core.String? address,
   }) {
     final result = create();
     if (orderId != null) result.orderId = orderId;
@@ -2013,6 +2072,7 @@ class OrderInfo extends $pb.GeneratedMessage {
     if (orderInfoItems != null) result.orderInfoItems.addAll(orderInfoItems);
     if (totalPrice != null) result.totalPrice = totalPrice;
     if (customerId != null) result.customerId = customerId;
+    if (address != null) result.address = address;
     return result;
   }
 
@@ -2044,6 +2104,7 @@ class OrderInfo extends $pb.GeneratedMessage {
     ..aOS(6, _omitFieldNames ? '' : 'totalPrice', protoName: 'totalPrice')
     ..a<$core.int>(7, _omitFieldNames ? '' : 'customerId', $pb.PbFieldType.OU3,
         protoName: 'customerId')
+    ..aOS(8, _omitFieldNames ? '' : 'address')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -2123,6 +2184,15 @@ class OrderInfo extends $pb.GeneratedMessage {
   $core.bool hasCustomerId() => $_has(6);
   @$pb.TagNumber(7)
   void clearCustomerId() => $_clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get address => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set address($core.String value) => $_setString(7, value);
+  @$pb.TagNumber(8)
+  $core.bool hasAddress() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearAddress() => $_clearField(8);
 }
 
 class GetOrderInfoReq extends $pb.GeneratedMessage {
