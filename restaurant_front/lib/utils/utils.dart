@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:restaurant_management/src/generated/basic_service.pb.dart';
 import 'package:restaurant_management/src/generated/dish_service.pb.dart' as pb;
-import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart' as en;
+import 'package:restaurant_management/src/generated/types.pb.dart' as en;
 import 'package:restaurant_management/utils/secure_storage_utils.dart';
 import 'package:restaurant_management/utils/sp.dart';
 import 'package:restaurant_management/utils/store_keys.dart';
@@ -107,13 +107,13 @@ class Utils {
     return role == EmployeeRole.ROLE_ADMIN;
   }
 
-  static String getPortionTypeTagName(en.DishPortion type) {
+  static String getPortionTypeTagName(en.PortionType type) {
     switch (type) {
-      case en.DishPortion.DISH_PORTION_SMALL:
+      case en.PortionType.DISH_PORTION_SMALL:
         return "小";
-      case en.DishPortion.DISH_PORTION_MID:
+      case en.PortionType.DISH_PORTION_MID:
         return "中";
-      case en.DishPortion.DISH_PORTION_BIG:
+      case en.PortionType.DISH_PORTION_BIG:
         return "大";
       default:
         return "未知";

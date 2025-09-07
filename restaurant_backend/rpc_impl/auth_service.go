@@ -54,7 +54,7 @@ func (s *AuthServer) Login(ctx context.Context, req *restaurant_rpc.LoginReq) (*
 	} else if role == restaurant_rpc.LoginRole_LOGIN_ROLE_EMPLOYEE {
 		// 执行员工登录逻辑
 		employee := po.Employee{}
-		err := database.DB().Where("phone = ?", req.UsernameOrPhone).First(&employee).Error
+		err := database.DB().Model(&po.Employee{}).Where("name = ? OR phone = ?", req.UsernameOrPhone, req.UsernameOrPhone).First(&employee).Error
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("该员工不存在")
 		}

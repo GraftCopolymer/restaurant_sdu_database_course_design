@@ -11,7 +11,6 @@ import (
 	myutils "restaurant_backend/my_utils"
 	"restaurant_backend/po"
 	"restaurant_backend/restaurant_backend/rpc"
-	"restaurant_backend/restaurant_backend/types"
 	"strings"
 )
 
@@ -238,7 +237,13 @@ func (s *DishServer) CreateOrEditMaterial(ctx context.Context, req *restaurant_r
 		return &restaurant_rpc.CreateOrEditMaterialResp{
 			MaterialId: uint32(dbMaterial.ID),
 		}, nil
-	} else { // 创建模式
+	} else { // 创建模式, 联动成本系统
+		tx := database.DB().Begin()
+		defer func() {
+			if err := recover(); err != nil {
+				tx.Rollback()
+			}
+		}()
 		price, err := decimal.NewFromString(material.Price)
 		if err != nil {
 			return nil, errors.New("服务器错误")
@@ -253,8 +258,23 @@ func (s *DishServer) CreateOrEditMaterial(ctx context.Context, req *restaurant_r
 			Amount: am,
 			UintType: material.UnitType,
 		}
-		err = database.DB().Create(&newMaterial).Error
+		err = tx.Create(&newMaterial).Error
 		if err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		// 向成本系统添加记录
+		var cost = po.Cost{
+			CostType: restaurant_rpc.CostType_COST_TYPE_MATERIAL,
+			Value: price.Mul(am),
+			Description: material.Name + " 采购成本",
+		}
+		if err := tx.Model(&po.Cost{}).Create(&cost).Error; err != nil {
+			tx.Rollback()
+			return nil, errors.New("服务器错误")
+		}
+		// 提交事务
+		if err := tx.Commit().Error; err != nil {
 			return nil, errors.New("服务器错误")
 		}
 		return &restaurant_rpc.CreateOrEditMaterialResp{
@@ -308,7 +328,7 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 		}
 		var dish = &po.Dish{
 			Name: pbDish.Name,
-			SellStatus: types.SellStatus_SELL_STATUS_SELLING,
+			SellStatus: restaurant_rpc.SellStatus_SELL_STATUS_SELLING,
 			DishTypeID: dishType.ID,
 			DishType: dishType,
 		}
@@ -455,7 +475,7 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 
 		// 4) 更新 Dish
 		dish.Name = pbDish.Name
-		dish.SellStatus = types.SellStatus_SELL_STATUS_SELLING
+		dish.SellStatus = restaurant_rpc.SellStatus_SELL_STATUS_SELLING
 		dish.DishTypeID = dishType.ID
 		if err := tx.Save(&dish).Error; err != nil {
 			tx.Rollback()

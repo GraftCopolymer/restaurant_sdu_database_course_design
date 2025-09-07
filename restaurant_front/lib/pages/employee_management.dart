@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/providers/employee_list_provider.dart';
+import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/employee_service.pb.dart'
     as pb;
 import 'package:restaurant_management/src/generated/employee_service.pbgrpc.dart';
+import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
+import 'package:restaurant_management/widgets/expandable_fab.dart';
 
 @RoutePage()
 class EmployeeManagementPage extends ConsumerStatefulWidget {
@@ -45,10 +48,46 @@ class _EmployeeManagementPageState extends ConsumerState<EmployeeManagementPage>
     return SliverList.builder(
       itemCount: employees.length,
       itemBuilder: (context, index) {
+        final asyncCurrentUserInfo = ref.watch(userInfoModelProvider);
         final employee = employees[index];
-        return ListTile(
-          title: Text(employee.name),
-          subtitle: Text(employee.role.name),
+        return asyncCurrentUserInfo.when(
+          data: (userInfo) {
+            // 隐藏自己
+            if (userInfo.userId == employee.id) {
+              return SizedBox.shrink();
+            }
+            return ListTile(
+              title: Text(employee.name),
+              subtitle: Text(employee.role.name),
+              onTap: () {
+                router.push(
+                  EmployeeDetailRoute(
+                    employeeId: employee.id,
+                    onUpdated: () async {
+                      if (mounted) {
+                        // 刷新数据
+                        await ref
+                            .read(provider.notifier)
+                            .refresh(keywords: _employeeSearchCon.text.trim());
+                      }
+                    },
+                    onDelete: () async {
+                      await ref
+                          .read(provider.notifier)
+                          .refresh(keywords: _employeeSearchCon.text.trim());
+                      // 返回
+                      router.back();
+                    },
+                  ),
+                );
+              },
+            );
+          },
+          error: (error, stackTrace) {
+            Utils.report(error, stackTrace);
+            return Center(child: Text("登录状态加载错误"));
+          },
+          loading: () => Center(child: CircularProgressIndicator()),
         );
       },
     );
@@ -63,7 +102,6 @@ class _EmployeeManagementPageState extends ConsumerState<EmployeeManagementPage>
 
   /// 错误视图
   Widget _buildErrorView(Object? error) {
-    // TODO: 针对错误进行不同的处理
     return SliverFillRemaining(child: Center(child: Text("加载失败")));
   }
 
@@ -74,7 +112,15 @@ class _EmployeeManagementPageState extends ConsumerState<EmployeeManagementPage>
         switch (value) {
           case "add employee":
             // 跳转到员工添加页面
-            router.push(EmployeeAddRoute());
+            router.push(
+              EmployeeAddRoute(
+                onAddEmployee: () {
+                  ref
+                      .read(provider.notifier)
+                      .refresh(keywords: _employeeSearchCon.text.trim());
+                },
+              ),
+            );
             break;
         }
       },
@@ -151,7 +197,11 @@ class _EmployeeManagementPageState extends ConsumerState<EmployeeManagementPage>
   Widget build(BuildContext context) {
     return BackScope(
       child: Scaffold(
-        appBar: AppBar(title: Text("员工管理"), actions: [_buildAdminMenu()], leading: BackButton(),),
+        appBar: AppBar(
+          title: Text("员工管理"),
+          actions: [_buildAdminMenu()],
+          leading: BackButton(),
+        ),
         body: RefreshIndicator(
           onRefresh: () {
             return _refresh();
@@ -224,6 +274,31 @@ class _EmployeeManagementPageState extends ConsumerState<EmployeeManagementPage>
               ),
             ],
           ),
+        ),
+        floatingActionButton: ExpandableFab(
+          icon: Icon(Icons.more_horiz),
+          distance: 100,
+          children: [
+            ActionButton(
+              onPressed: () {
+                // 跳转到员工添加页面
+                router.push(
+                  EmployeeAddRoute(
+                    onAddEmployee: () {
+                      ref
+                          .read(provider.notifier)
+                          .refresh(keywords: _employeeSearchCon.text.trim());
+                    },
+                  ),
+                );
+              },
+              icon: Icon(Icons.add),
+            ),
+            ActionButton(onPressed: () {
+              // 跳转发薪界面
+              router.push(PaySalaryRoute());
+            }, icon: Icon(Icons.attach_money_rounded)),
+          ],
         ),
       ),
     );

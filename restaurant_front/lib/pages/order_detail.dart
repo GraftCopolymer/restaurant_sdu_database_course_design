@@ -6,7 +6,7 @@ import 'package:grpc/grpc.dart';
 import 'package:intl/intl.dart';
 import 'package:restaurant_management/providers/order_info_provider.dart';
 import 'package:restaurant_management/src/generated/dish_service.pbgrpc.dart';
-import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart';
+import 'package:restaurant_management/src/generated/types.pb.dart';
 import 'package:restaurant_management/utils/data_extends.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';

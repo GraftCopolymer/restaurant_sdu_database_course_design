@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.7
 // 	protoc        v5.29.3
-// source: restaurantV2/types.proto
+// source: types.proto
 
-package types
+package restaurant_rpc
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -55,11 +55,11 @@ func (x TableShape) String() string {
 }
 
 func (TableShape) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[0].Descriptor()
+	return file_types_proto_enumTypes[0].Descriptor()
 }
 
 func (TableShape) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[0]
+	return &file_types_proto_enumTypes[0]
 }
 
 func (x TableShape) Number() protoreflect.EnumNumber {
@@ -68,7 +68,7 @@ func (x TableShape) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TableShape.Descriptor instead.
 func (TableShape) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{0}
+	return file_types_proto_rawDescGZIP(), []int{0}
 }
 
 type RoomType int32
@@ -104,11 +104,11 @@ func (x RoomType) String() string {
 }
 
 func (RoomType) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[1].Descriptor()
+	return file_types_proto_enumTypes[1].Descriptor()
 }
 
 func (RoomType) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[1]
+	return &file_types_proto_enumTypes[1]
 }
 
 func (x RoomType) Number() protoreflect.EnumNumber {
@@ -117,7 +117,7 @@ func (x RoomType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RoomType.Descriptor instead.
 func (RoomType) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{1}
+	return file_types_proto_rawDescGZIP(), []int{1}
 }
 
 type SellStatus int32
@@ -156,11 +156,11 @@ func (x SellStatus) String() string {
 }
 
 func (SellStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[2].Descriptor()
+	return file_types_proto_enumTypes[2].Descriptor()
 }
 
 func (SellStatus) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[2]
+	return &file_types_proto_enumTypes[2]
 }
 
 func (x SellStatus) Number() protoreflect.EnumNumber {
@@ -169,27 +169,27 @@ func (x SellStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use SellStatus.Descriptor instead.
 func (SellStatus) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{2}
+	return file_types_proto_rawDescGZIP(), []int{2}
 }
 
-type DishPortion int32
+type PortionType int32
 
 const (
-	DishPortion_DISH_PORTION_UNKNOWN DishPortion = 0
-	DishPortion_DISH_PORTION_SMALL   DishPortion = 1 // 小份
-	DishPortion_DISH_PORTION_MID     DishPortion = 2 // 中份
-	DishPortion_DISH_PORTION_BIG     DishPortion = 3 // 大份
+	PortionType_DISH_PORTION_UNKNOWN PortionType = 0
+	PortionType_DISH_PORTION_SMALL   PortionType = 1 // 小份
+	PortionType_DISH_PORTION_MID     PortionType = 2 // 中份
+	PortionType_DISH_PORTION_BIG     PortionType = 3 // 大份
 )
 
-// Enum value maps for DishPortion.
+// Enum value maps for PortionType.
 var (
-	DishPortion_name = map[int32]string{
+	PortionType_name = map[int32]string{
 		0: "DISH_PORTION_UNKNOWN",
 		1: "DISH_PORTION_SMALL",
 		2: "DISH_PORTION_MID",
 		3: "DISH_PORTION_BIG",
 	}
-	DishPortion_value = map[string]int32{
+	PortionType_value = map[string]int32{
 		"DISH_PORTION_UNKNOWN": 0,
 		"DISH_PORTION_SMALL":   1,
 		"DISH_PORTION_MID":     2,
@@ -197,31 +197,31 @@ var (
 	}
 )
 
-func (x DishPortion) Enum() *DishPortion {
-	p := new(DishPortion)
+func (x PortionType) Enum() *PortionType {
+	p := new(PortionType)
 	*p = x
 	return p
 }
 
-func (x DishPortion) String() string {
+func (x PortionType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (DishPortion) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[3].Descriptor()
+func (PortionType) Descriptor() protoreflect.EnumDescriptor {
+	return file_types_proto_enumTypes[3].Descriptor()
 }
 
-func (DishPortion) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[3]
+func (PortionType) Type() protoreflect.EnumType {
+	return &file_types_proto_enumTypes[3]
 }
 
-func (x DishPortion) Number() protoreflect.EnumNumber {
+func (x PortionType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use DishPortion.Descriptor instead.
-func (DishPortion) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{3}
+// Deprecated: Use PortionType.Descriptor instead.
+func (PortionType) EnumDescriptor() ([]byte, []int) {
+	return file_types_proto_rawDescGZIP(), []int{3}
 }
 
 type UnitType int32
@@ -260,11 +260,11 @@ func (x UnitType) String() string {
 }
 
 func (UnitType) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[4].Descriptor()
+	return file_types_proto_enumTypes[4].Descriptor()
 }
 
 func (UnitType) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[4]
+	return &file_types_proto_enumTypes[4]
 }
 
 func (x UnitType) Number() protoreflect.EnumNumber {
@@ -273,7 +273,7 @@ func (x UnitType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use UnitType.Descriptor instead.
 func (UnitType) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{4}
+	return file_types_proto_rawDescGZIP(), []int{4}
 }
 
 type OrderType int32
@@ -309,11 +309,11 @@ func (x OrderType) String() string {
 }
 
 func (OrderType) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[5].Descriptor()
+	return file_types_proto_enumTypes[5].Descriptor()
 }
 
 func (OrderType) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[5]
+	return &file_types_proto_enumTypes[5]
 }
 
 func (x OrderType) Number() protoreflect.EnumNumber {
@@ -322,7 +322,7 @@ func (x OrderType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use OrderType.Descriptor instead.
 func (OrderType) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{5}
+	return file_types_proto_rawDescGZIP(), []int{5}
 }
 
 type CouponType int32
@@ -358,11 +358,11 @@ func (x CouponType) String() string {
 }
 
 func (CouponType) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[6].Descriptor()
+	return file_types_proto_enumTypes[6].Descriptor()
 }
 
 func (CouponType) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[6]
+	return &file_types_proto_enumTypes[6]
 }
 
 func (x CouponType) Number() protoreflect.EnumNumber {
@@ -371,7 +371,7 @@ func (x CouponType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CouponType.Descriptor instead.
 func (CouponType) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{6}
+	return file_types_proto_rawDescGZIP(), []int{6}
 }
 
 type CouponScope int32
@@ -407,11 +407,11 @@ func (x CouponScope) String() string {
 }
 
 func (CouponScope) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[7].Descriptor()
+	return file_types_proto_enumTypes[7].Descriptor()
 }
 
 func (CouponScope) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[7]
+	return &file_types_proto_enumTypes[7]
 }
 
 func (x CouponScope) Number() protoreflect.EnumNumber {
@@ -420,7 +420,7 @@ func (x CouponScope) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CouponScope.Descriptor instead.
 func (CouponScope) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{7}
+	return file_types_proto_rawDescGZIP(), []int{7}
 }
 
 type CouponTarget int32
@@ -456,11 +456,11 @@ func (x CouponTarget) String() string {
 }
 
 func (CouponTarget) Descriptor() protoreflect.EnumDescriptor {
-	return file_restaurantV2_types_proto_enumTypes[8].Descriptor()
+	return file_types_proto_enumTypes[8].Descriptor()
 }
 
 func (CouponTarget) Type() protoreflect.EnumType {
-	return &file_restaurantV2_types_proto_enumTypes[8]
+	return &file_types_proto_enumTypes[8]
 }
 
 func (x CouponTarget) Number() protoreflect.EnumNumber {
@@ -469,15 +469,86 @@ func (x CouponTarget) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CouponTarget.Descriptor instead.
 func (CouponTarget) EnumDescriptor() ([]byte, []int) {
-	return file_restaurantV2_types_proto_rawDescGZIP(), []int{8}
+	return file_types_proto_rawDescGZIP(), []int{8}
 }
 
-var File_restaurantV2_types_proto protoreflect.FileDescriptor
+// *
+// 成本类型
+type CostType int32
 
-const file_restaurantV2_types_proto_rawDesc = "" +
+const (
+	CostType_COST_TYPE_UNKNOWN     CostType = 0
+	CostType_COST_TYPE_MATERIAL    CostType = 1 // 配料成本
+	CostType_COST_TYPE_LABOR       CostType = 2 // 人工成本
+	CostType_COST_TYPE_ELECTRICITY CostType = 3 // 电费
+	CostType_COST_TYPE_WATER       CostType = 4 // 水费
+	CostType_COST_TYPE_EQUIPMENT   CostType = 5 // 设备成本
+	CostType_COST_TYPE_GAS         CostType = 6 // 天然气
+	CostType_COST_TYPE_CONSUMABLE  CostType = 7 // 消耗品成本
+	CostType_COST_TYPE_MARKETING   CostType = 8 // 营销成本
+	CostType_COST_TYPE_RENT        CostType = 9 // 租金
+)
+
+// Enum value maps for CostType.
+var (
+	CostType_name = map[int32]string{
+		0: "COST_TYPE_UNKNOWN",
+		1: "COST_TYPE_MATERIAL",
+		2: "COST_TYPE_LABOR",
+		3: "COST_TYPE_ELECTRICITY",
+		4: "COST_TYPE_WATER",
+		5: "COST_TYPE_EQUIPMENT",
+		6: "COST_TYPE_GAS",
+		7: "COST_TYPE_CONSUMABLE",
+		8: "COST_TYPE_MARKETING",
+		9: "COST_TYPE_RENT",
+	}
+	CostType_value = map[string]int32{
+		"COST_TYPE_UNKNOWN":     0,
+		"COST_TYPE_MATERIAL":    1,
+		"COST_TYPE_LABOR":       2,
+		"COST_TYPE_ELECTRICITY": 3,
+		"COST_TYPE_WATER":       4,
+		"COST_TYPE_EQUIPMENT":   5,
+		"COST_TYPE_GAS":         6,
+		"COST_TYPE_CONSUMABLE":  7,
+		"COST_TYPE_MARKETING":   8,
+		"COST_TYPE_RENT":        9,
+	}
+)
+
+func (x CostType) Enum() *CostType {
+	p := new(CostType)
+	*p = x
+	return p
+}
+
+func (x CostType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CostType) Descriptor() protoreflect.EnumDescriptor {
+	return file_types_proto_enumTypes[9].Descriptor()
+}
+
+func (CostType) Type() protoreflect.EnumType {
+	return &file_types_proto_enumTypes[9]
+}
+
+func (x CostType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CostType.Descriptor instead.
+func (CostType) EnumDescriptor() ([]byte, []int) {
+	return file_types_proto_rawDescGZIP(), []int{9}
+}
+
+var File_types_proto protoreflect.FileDescriptor
+
+const file_types_proto_rawDesc = "" +
 	"\n" +
-	"\x18restaurantV2/types.proto\x12\n" +
-	"restaurant*P\n" +
+	"\vtypes.proto\x12\x0erestaurant_rpc*P\n" +
 	"\n" +
 	"TableShape\x12\x16\n" +
 	"\x12TABLE_TYPE_UNKNOWN\x10\x00\x12\x15\n" +
@@ -493,7 +564,7 @@ const file_restaurantV2_types_proto_rawDesc = "" +
 	"\x13SELL_STATUS_SELLING\x10\x01\x12\x18\n" +
 	"\x14SELL_STATUS_SOLD_OUT\x10\x02\x12\x16\n" +
 	"\x12SELL_STATUS_REMOVE\x10\x03*k\n" +
-	"\vDishPortion\x12\x18\n" +
+	"\vPortionType\x12\x18\n" +
 	"\x14DISH_PORTION_UNKNOWN\x10\x00\x12\x16\n" +
 	"\x12DISH_PORTION_SMALL\x10\x01\x12\x14\n" +
 	"\x10DISH_PORTION_MID\x10\x02\x12\x14\n" +
@@ -519,33 +590,45 @@ const file_restaurantV2_types_proto_rawDesc = "" +
 	"\fCouponTarget\x12\x19\n" +
 	"\x15COUPON_TARGET_UNKNOWN\x10\x00\x12\x1d\n" +
 	"\x19COUPON_TARGET_DISH_TARGET\x10\x01\x12 \n" +
-	"\x1cCOUPON_TARGET_PORTION_TARGET\x10\x02B\x1aZ\x18restaurant_backend/typesb\x06proto3"
+	"\x1cCOUPON_TARGET_PORTION_TARGET\x10\x02*\xf1\x01\n" +
+	"\bCostType\x12\x15\n" +
+	"\x11COST_TYPE_UNKNOWN\x10\x00\x12\x16\n" +
+	"\x12COST_TYPE_MATERIAL\x10\x01\x12\x13\n" +
+	"\x0fCOST_TYPE_LABOR\x10\x02\x12\x19\n" +
+	"\x15COST_TYPE_ELECTRICITY\x10\x03\x12\x13\n" +
+	"\x0fCOST_TYPE_WATER\x10\x04\x12\x17\n" +
+	"\x13COST_TYPE_EQUIPMENT\x10\x05\x12\x11\n" +
+	"\rCOST_TYPE_GAS\x10\x06\x12\x18\n" +
+	"\x14COST_TYPE_CONSUMABLE\x10\a\x12\x17\n" +
+	"\x13COST_TYPE_MARKETING\x10\b\x12\x12\n" +
+	"\x0eCOST_TYPE_RENT\x10\tB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
 
 var (
-	file_restaurantV2_types_proto_rawDescOnce sync.Once
-	file_restaurantV2_types_proto_rawDescData []byte
+	file_types_proto_rawDescOnce sync.Once
+	file_types_proto_rawDescData []byte
 )
 
-func file_restaurantV2_types_proto_rawDescGZIP() []byte {
-	file_restaurantV2_types_proto_rawDescOnce.Do(func() {
-		file_restaurantV2_types_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_restaurantV2_types_proto_rawDesc), len(file_restaurantV2_types_proto_rawDesc)))
+func file_types_proto_rawDescGZIP() []byte {
+	file_types_proto_rawDescOnce.Do(func() {
+		file_types_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_types_proto_rawDesc), len(file_types_proto_rawDesc)))
 	})
-	return file_restaurantV2_types_proto_rawDescData
+	return file_types_proto_rawDescData
 }
 
-var file_restaurantV2_types_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
-var file_restaurantV2_types_proto_goTypes = []any{
-	(TableShape)(0),   // 0: restaurant.TableShape
-	(RoomType)(0),     // 1: restaurant.RoomType
-	(SellStatus)(0),   // 2: restaurant.SellStatus
-	(DishPortion)(0),  // 3: restaurant.DishPortion
-	(UnitType)(0),     // 4: restaurant.UnitType
-	(OrderType)(0),    // 5: restaurant.OrderType
-	(CouponType)(0),   // 6: restaurant.CouponType
-	(CouponScope)(0),  // 7: restaurant.CouponScope
-	(CouponTarget)(0), // 8: restaurant.CouponTarget
+var file_types_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
+var file_types_proto_goTypes = []any{
+	(TableShape)(0),   // 0: restaurant_rpc.TableShape
+	(RoomType)(0),     // 1: restaurant_rpc.RoomType
+	(SellStatus)(0),   // 2: restaurant_rpc.SellStatus
+	(PortionType)(0),  // 3: restaurant_rpc.PortionType
+	(UnitType)(0),     // 4: restaurant_rpc.UnitType
+	(OrderType)(0),    // 5: restaurant_rpc.OrderType
+	(CouponType)(0),   // 6: restaurant_rpc.CouponType
+	(CouponScope)(0),  // 7: restaurant_rpc.CouponScope
+	(CouponTarget)(0), // 8: restaurant_rpc.CouponTarget
+	(CostType)(0),     // 9: restaurant_rpc.CostType
 }
-var file_restaurantV2_types_proto_depIdxs = []int32{
+var file_types_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -553,26 +636,26 @@ var file_restaurantV2_types_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_restaurantV2_types_proto_init() }
-func file_restaurantV2_types_proto_init() {
-	if File_restaurantV2_types_proto != nil {
+func init() { file_types_proto_init() }
+func file_types_proto_init() {
+	if File_types_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_restaurantV2_types_proto_rawDesc), len(file_restaurantV2_types_proto_rawDesc)),
-			NumEnums:      9,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_types_proto_rawDesc), len(file_types_proto_rawDesc)),
+			NumEnums:      10,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_restaurantV2_types_proto_goTypes,
-		DependencyIndexes: file_restaurantV2_types_proto_depIdxs,
-		EnumInfos:         file_restaurantV2_types_proto_enumTypes,
+		GoTypes:           file_types_proto_goTypes,
+		DependencyIndexes: file_types_proto_depIdxs,
+		EnumInfos:         file_types_proto_enumTypes,
 	}.Build()
-	File_restaurantV2_types_proto = out.File
-	file_restaurantV2_types_proto_goTypes = nil
-	file_restaurantV2_types_proto_depIdxs = nil
+	File_types_proto = out.File
+	file_types_proto_goTypes = nil
+	file_types_proto_depIdxs = nil
 }

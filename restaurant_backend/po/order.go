@@ -3,7 +3,7 @@ package po
 import (
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
-	"restaurant_backend/restaurant_backend/types"
+	restaurant_rpc "restaurant_backend/restaurant_backend/rpc"
 )
 
 //type Coupon struct {
@@ -42,7 +42,7 @@ import (
 type Order struct {
 	gorm.Model
 	Address *string
-	OrderType types.OrderType
+	OrderType restaurant_rpc.OrderType
 
 	TableID *uint
 	SeatID *uint // 为nil时被视为整桌菜单

@@ -59,7 +59,7 @@ const DishPortion$json = {
       '3': 4,
       '4': 1,
       '5': 14,
-      '6': '.restaurant.DishPortion',
+      '6': '.restaurant_rpc.PortionType',
       '10': 'portionType'
     },
     {
@@ -76,9 +76,9 @@ const DishPortion$json = {
 /// Descriptor for `DishPortion`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List dishPortionDescriptor = $convert.base64Decode(
     'CgtEaXNoUG9ydGlvbhIOCgJpZBgBIAEoDVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZRIUCgVwcm'
-    'ljZRgDIAEoCVIFcHJpY2USOQoLcG9ydGlvblR5cGUYBCABKA4yFy5yZXN0YXVyYW50LkRpc2hQ'
-    'b3J0aW9uUgtwb3J0aW9uVHlwZRIuCgZyZWNpcGUYBSABKAsyFi5yZXN0YXVyYW50X3JwYy5SZW'
-    'NpcGVSBnJlY2lwZQ==');
+    'ljZRgDIAEoCVIFcHJpY2USPQoLcG9ydGlvblR5cGUYBCABKA4yGy5yZXN0YXVyYW50X3JwYy5Q'
+    'b3J0aW9uVHlwZVILcG9ydGlvblR5cGUSLgoGcmVjaXBlGAUgASgLMhYucmVzdGF1cmFudF9ycG'
+    'MuUmVjaXBlUgZyZWNpcGU=');
 
 @$core.Deprecated('Use recipeDescriptor instead')
 const Recipe$json = {
@@ -136,7 +136,7 @@ const Material$json = {
       '3': 4,
       '4': 1,
       '5': 14,
-      '6': '.restaurant.UnitType',
+      '6': '.restaurant_rpc.UnitType',
       '10': 'unitType'
     },
     {'1': 'amount', '3': 5, '4': 1, '5': 9, '10': 'amount'},
@@ -146,8 +146,8 @@ const Material$json = {
 /// Descriptor for `Material`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List materialDescriptor = $convert.base64Decode(
     'CghNYXRlcmlhbBIOCgJpZBgBIAEoDVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZRIUCgVwcmljZR'
-    'gDIAEoCVIFcHJpY2USMAoIdW5pdFR5cGUYBCABKA4yFC5yZXN0YXVyYW50LlVuaXRUeXBlUgh1'
-    'bml0VHlwZRIWCgZhbW91bnQYBSABKAlSBmFtb3VudA==');
+    'gDIAEoCVIFcHJpY2USNAoIdW5pdFR5cGUYBCABKA4yGC5yZXN0YXVyYW50X3JwYy5Vbml0VHlw'
+    'ZVIIdW5pdFR5cGUSFgoGYW1vdW50GAUgASgJUgZhbW91bnQ=');
 
 @$core.Deprecated('Use seatDescriptor instead')
 const Seat$json = {
@@ -564,7 +564,7 @@ const PlaceOrderReq$json = {
       '3': 2,
       '4': 1,
       '5': 14,
-      '6': '.restaurant.OrderType',
+      '6': '.restaurant_rpc.OrderType',
       '10': 'orderType'
     },
     {'1': 'address', '3': 3, '4': 1, '5': 9, '10': 'address'},
@@ -582,9 +582,9 @@ const PlaceOrderReq$json = {
 /// Descriptor for `PlaceOrderReq`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List placeOrderReqDescriptor = $convert.base64Decode(
     'Cg1QbGFjZU9yZGVyUmVxEjkKCm9yZGVySXRlbXMYASADKAsyGS5yZXN0YXVyYW50X3JwYy5Pcm'
-    'Rlckl0ZW1SCm9yZGVySXRlbXMSMwoJb3JkZXJUeXBlGAIgASgOMhUucmVzdGF1cmFudC5PcmRl'
-    'clR5cGVSCW9yZGVyVHlwZRIYCgdhZGRyZXNzGAMgASgJUgdhZGRyZXNzEisKBXRhYmxlGAQgAS'
-    'gLMhUucmVzdGF1cmFudF9ycGMuVGFibGVSBXRhYmxl');
+    'Rlckl0ZW1SCm9yZGVySXRlbXMSNwoJb3JkZXJUeXBlGAIgASgOMhkucmVzdGF1cmFudF9ycGMu'
+    'T3JkZXJUeXBlUglvcmRlclR5cGUSGAoHYWRkcmVzcxgDIAEoCVIHYWRkcmVzcxIrCgV0YWJsZR'
+    'gEIAEoCzIVLnJlc3RhdXJhbnRfcnBjLlRhYmxlUgV0YWJsZQ==');
 
 @$core.Deprecated('Use placeOrderRespDescriptor instead')
 const PlaceOrderResp$json = {
@@ -641,7 +641,7 @@ const OrderInfo$json = {
       '3': 2,
       '4': 1,
       '5': 14,
-      '6': '.restaurant.OrderType',
+      '6': '.restaurant_rpc.OrderType',
       '10': 'orderType'
     },
     {
@@ -669,12 +669,12 @@ const OrderInfo$json = {
 
 /// Descriptor for `OrderInfo`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List orderInfoDescriptor = $convert.base64Decode(
-    'CglPcmRlckluZm8SGAoHb3JkZXJJZBgBIAEoDVIHb3JkZXJJZBIzCglvcmRlclR5cGUYAiABKA'
-    '4yFS5yZXN0YXVyYW50Lk9yZGVyVHlwZVIJb3JkZXJUeXBlEisKBXRhYmxlGAMgASgLMhUucmVz'
-    'dGF1cmFudF9ycGMuVGFibGVSBXRhYmxlEhwKCWNyZWF0ZWRBdBgEIAEoA1IJY3JlYXRlZEF0Ek'
-    'UKDm9yZGVySW5mb0l0ZW1zGAUgAygLMh0ucmVzdGF1cmFudF9ycGMuT3JkZXJJbmZvSXRlbVIO'
-    'b3JkZXJJbmZvSXRlbXMSHgoKdG90YWxQcmljZRgGIAEoCVIKdG90YWxQcmljZRIeCgpjdXN0b2'
-    '1lcklkGAcgASgNUgpjdXN0b21lcklkEhgKB2FkZHJlc3MYCCABKAlSB2FkZHJlc3M=');
+    'CglPcmRlckluZm8SGAoHb3JkZXJJZBgBIAEoDVIHb3JkZXJJZBI3CglvcmRlclR5cGUYAiABKA'
+    '4yGS5yZXN0YXVyYW50X3JwYy5PcmRlclR5cGVSCW9yZGVyVHlwZRIrCgV0YWJsZRgDIAEoCzIV'
+    'LnJlc3RhdXJhbnRfcnBjLlRhYmxlUgV0YWJsZRIcCgljcmVhdGVkQXQYBCABKANSCWNyZWF0ZW'
+    'RBdBJFCg5vcmRlckluZm9JdGVtcxgFIAMoCzIdLnJlc3RhdXJhbnRfcnBjLk9yZGVySW5mb0l0'
+    'ZW1SDm9yZGVySW5mb0l0ZW1zEh4KCnRvdGFsUHJpY2UYBiABKAlSCnRvdGFsUHJpY2USHgoKY3'
+    'VzdG9tZXJJZBgHIAEoDVIKY3VzdG9tZXJJZBIYCgdhZGRyZXNzGAggASgJUgdhZGRyZXNz');
 
 @$core.Deprecated('Use getOrderInfoReqDescriptor instead')
 const GetOrderInfoReq$json = {

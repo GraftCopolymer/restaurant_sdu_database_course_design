@@ -13,7 +13,9 @@ import 'package:restaurant_management/widgets/global_dialog.dart';
 /// 添加新员工页面
 @RoutePage()
 class EmployeeAddPage extends StatefulWidget {
-  const EmployeeAddPage({super.key});
+  const EmployeeAddPage({super.key, this.onAddEmployee});
+
+  final VoidCallback? onAddEmployee;
 
   @override
   State<EmployeeAddPage> createState() => _EmployeeAddPageState();
@@ -53,6 +55,7 @@ class _EmployeeAddPageState extends State<EmployeeAddPage> {
         return;
       }
       Fluttertoast.showToast(msg: "添加员工成功");
+      widget.onAddEmployee?.call();
       router.back();
     } on GrpcError catch(e, stack) {
       Utils.report(e, stack);
@@ -68,6 +71,9 @@ class _EmployeeAddPageState extends State<EmployeeAddPage> {
       ),
       DropdownMenuEntry<EmployeeRole>(
         value: EmployeeRole.ROLE_MANAGER, label: "经理"
+      ),
+      DropdownMenuEntry<EmployeeRole>(
+        value: EmployeeRole.ROLE_NORMAL, label: "普通员工"
       )
     ];
   }

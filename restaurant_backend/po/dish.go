@@ -3,13 +3,13 @@ package po
 import (
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
-	"restaurant_backend/restaurant_backend/types"
+	restaurant_rpc "restaurant_backend/restaurant_backend/rpc"
 )
 
 type Dish struct {
 	gorm.Model
 	Name string `gorm:"unique"`
-	SellStatus types.SellStatus
+	SellStatus restaurant_rpc.SellStatus
 	Portions []Portion `gorm:"foreignKey:DishID"`
 
 	DishTypeID uint
@@ -27,7 +27,7 @@ type Portion struct {
 	gorm.Model
 	DishID uint
 	Name string // 根据不同的菜品类型可以有不同的名称, 例如奶茶是小杯, 而非小份
-	PortionType types.DishPortion
+	PortionType restaurant_rpc.PortionType
 	Price decimal.Decimal `gorm:"type:decimal(10,2)"`
 	Dish Dish `gorm:"foreignKey:DishID"`
 
@@ -38,7 +38,7 @@ type Portion struct {
 type Material struct {
 	gorm.Model
 	Name string `gorm:"unique"`
-	UintType types.UnitType // 计量单位
+	UintType restaurant_rpc.UnitType // 计量单位
 	Amount decimal.Decimal `gorm:"type:decimal(10,2)"` // 总量, 其含义取决于计量单位
 	Price decimal.Decimal `gorm:"type:decimal(10,2)"` // 单价
 }

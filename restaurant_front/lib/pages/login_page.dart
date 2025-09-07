@@ -11,9 +11,6 @@ import 'package:restaurant_management/network/auth_service.dart';
 import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/basic_service.pbgrpc.dart';
-import 'package:restaurant_management/utils/secure_storage_utils.dart';
-import 'package:restaurant_management/utils/sp.dart';
-import 'package:restaurant_management/utils/store_keys.dart';
 import 'package:restaurant_management/utils/store_utils.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
@@ -40,14 +37,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   LoginRole _loginRole = LoginRole.LOGIN_ROLE_CUSTOMER;
 
   /// 登录表单使用的Controller
-  TextEditingController _lUsernamePhone = TextEditingController();
-  TextEditingController _lPassword = TextEditingController();
+  final TextEditingController _lUsernamePhone = TextEditingController();
+  final TextEditingController _lPassword = TextEditingController();
 
   /// 注册表单使用的Controller
-  TextEditingController _rUsername = TextEditingController();
-  TextEditingController _rPhone = TextEditingController();
-  TextEditingController _rPassword = TextEditingController();
-  TextEditingController _rRepeatedPassword = TextEditingController();
+  final TextEditingController _rUsername = TextEditingController();
+  final TextEditingController _rPhone = TextEditingController();
+  final TextEditingController _rPassword = TextEditingController();
+  final TextEditingController _rRepeatedPassword = TextEditingController();
 
   Widget _buildTitleBar() {
     late final Widget titleBar;
@@ -128,6 +125,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           width: width * 0.7,
           child: TextField(
             controller: _lPassword,
+            obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("密码"),
@@ -204,6 +202,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           width: width * 0.7,
           child: TextField(
             controller: _rPassword,
+            obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("密码"),
@@ -215,6 +214,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           width: width * 0.7,
           child: TextField(
             controller: _rRepeatedPassword,
+            obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               label: Text("再次输入密码"),

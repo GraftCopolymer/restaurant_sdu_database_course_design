@@ -9,6 +9,7 @@ package restaurant_rpc
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -79,9 +80,10 @@ type EmployeeInfo struct {
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Phone         string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
 	Role          EmployeeRole           `protobuf:"varint,4,opt,name=role,proto3,enum=restaurant_rpc.EmployeeRole" json:"role,omitempty"`
-	Salary        string                 `protobuf:"bytes,5,opt,name=salary,proto3" json:"salary,omitempty"`       // 工资以字符串的形式传递, 防止精度丢失
-	CreatedAt     string                 `protobuf:"bytes,6,opt,name=createdAt,proto3" json:"createdAt,omitempty"` // unix时间戳
-	UpdatedAt     string                 `protobuf:"bytes,7,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"` // unix时间戳
+	Salary        string                 `protobuf:"bytes,5,opt,name=salary,proto3" json:"salary,omitempty"`        // 工资以字符串的形式传递, 防止精度丢失
+	CreatedAt     int64                  `protobuf:"varint,6,opt,name=createdAt,proto3" json:"createdAt,omitempty"` // unix时间戳
+	UpdatedAt     int64                  `protobuf:"varint,7,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"` // unix时间戳
+	Manager       *EmployeeInfo          `protobuf:"bytes,8,opt,name=manager,proto3" json:"manager,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -151,18 +153,25 @@ func (x *EmployeeInfo) GetSalary() string {
 	return ""
 }
 
-func (x *EmployeeInfo) GetCreatedAt() string {
+func (x *EmployeeInfo) GetCreatedAt() int64 {
 	if x != nil {
 		return x.CreatedAt
 	}
-	return ""
+	return 0
 }
 
-func (x *EmployeeInfo) GetUpdatedAt() string {
+func (x *EmployeeInfo) GetUpdatedAt() int64 {
 	if x != nil {
 		return x.UpdatedAt
 	}
-	return ""
+	return 0
+}
+
+func (x *EmployeeInfo) GetManager() *EmployeeInfo {
+	if x != nil {
+		return x.Manager
+	}
+	return nil
 }
 
 type EmployeeListResp struct {
@@ -337,22 +346,495 @@ func (x *AddEmployeeResp) GetMessage() string {
 	return ""
 }
 
+type GetEmployeeInfoReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeId    uint32                 `protobuf:"varint,1,opt,name=employeeId,proto3" json:"employeeId,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetEmployeeInfoReq) Reset() {
+	*x = GetEmployeeInfoReq{}
+	mi := &file_employee_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetEmployeeInfoReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEmployeeInfoReq) ProtoMessage() {}
+
+func (x *GetEmployeeInfoReq) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEmployeeInfoReq.ProtoReflect.Descriptor instead.
+func (*GetEmployeeInfoReq) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetEmployeeInfoReq) GetEmployeeId() uint32 {
+	if x != nil {
+		return x.EmployeeId
+	}
+	return 0
+}
+
+type GetEmployeeInfoResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeInfo  *EmployeeInfo          `protobuf:"bytes,1,opt,name=employeeInfo,proto3" json:"employeeInfo,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetEmployeeInfoResp) Reset() {
+	*x = GetEmployeeInfoResp{}
+	mi := &file_employee_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetEmployeeInfoResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEmployeeInfoResp) ProtoMessage() {}
+
+func (x *GetEmployeeInfoResp) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEmployeeInfoResp.ProtoReflect.Descriptor instead.
+func (*GetEmployeeInfoResp) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetEmployeeInfoResp) GetEmployeeInfo() *EmployeeInfo {
+	if x != nil {
+		return x.EmployeeInfo
+	}
+	return nil
+}
+
+type UpdateEmployeeRoleReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeId    uint32                 `protobuf:"varint,1,opt,name=employeeId,proto3" json:"employeeId,omitempty"`
+	NewRole       EmployeeRole           `protobuf:"varint,2,opt,name=newRole,proto3,enum=restaurant_rpc.EmployeeRole" json:"newRole,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateEmployeeRoleReq) Reset() {
+	*x = UpdateEmployeeRoleReq{}
+	mi := &file_employee_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateEmployeeRoleReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateEmployeeRoleReq) ProtoMessage() {}
+
+func (x *UpdateEmployeeRoleReq) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateEmployeeRoleReq.ProtoReflect.Descriptor instead.
+func (*UpdateEmployeeRoleReq) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateEmployeeRoleReq) GetEmployeeId() uint32 {
+	if x != nil {
+		return x.EmployeeId
+	}
+	return 0
+}
+
+func (x *UpdateEmployeeRoleReq) GetNewRole() EmployeeRole {
+	if x != nil {
+		return x.NewRole
+	}
+	return EmployeeRole_ROLE_UNKNOWN
+}
+
+type UpdateEmployeePhoneReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeId    uint32                 `protobuf:"varint,1,opt,name=employeeId,proto3" json:"employeeId,omitempty"`
+	Phone         string                 `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateEmployeePhoneReq) Reset() {
+	*x = UpdateEmployeePhoneReq{}
+	mi := &file_employee_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateEmployeePhoneReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateEmployeePhoneReq) ProtoMessage() {}
+
+func (x *UpdateEmployeePhoneReq) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateEmployeePhoneReq.ProtoReflect.Descriptor instead.
+func (*UpdateEmployeePhoneReq) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UpdateEmployeePhoneReq) GetEmployeeId() uint32 {
+	if x != nil {
+		return x.EmployeeId
+	}
+	return 0
+}
+
+func (x *UpdateEmployeePhoneReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+type UpdateEmployeeSalaryReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeId    uint32                 `protobuf:"varint,1,opt,name=employeeId,proto3" json:"employeeId,omitempty"`
+	NewSalary     string                 `protobuf:"bytes,2,opt,name=newSalary,proto3" json:"newSalary,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateEmployeeSalaryReq) Reset() {
+	*x = UpdateEmployeeSalaryReq{}
+	mi := &file_employee_service_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateEmployeeSalaryReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateEmployeeSalaryReq) ProtoMessage() {}
+
+func (x *UpdateEmployeeSalaryReq) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateEmployeeSalaryReq.ProtoReflect.Descriptor instead.
+func (*UpdateEmployeeSalaryReq) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateEmployeeSalaryReq) GetEmployeeId() uint32 {
+	if x != nil {
+		return x.EmployeeId
+	}
+	return 0
+}
+
+func (x *UpdateEmployeeSalaryReq) GetNewSalary() string {
+	if x != nil {
+		return x.NewSalary
+	}
+	return ""
+}
+
+type UpdateManagerReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeId    uint32                 `protobuf:"varint,1,opt,name=employeeId,proto3" json:"employeeId,omitempty"`
+	NewManagerId  uint32                 `protobuf:"varint,2,opt,name=newManagerId,proto3" json:"newManagerId,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateManagerReq) Reset() {
+	*x = UpdateManagerReq{}
+	mi := &file_employee_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateManagerReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateManagerReq) ProtoMessage() {}
+
+func (x *UpdateManagerReq) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateManagerReq.ProtoReflect.Descriptor instead.
+func (*UpdateManagerReq) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateManagerReq) GetEmployeeId() uint32 {
+	if x != nil {
+		return x.EmployeeId
+	}
+	return 0
+}
+
+func (x *UpdateManagerReq) GetNewManagerId() uint32 {
+	if x != nil {
+		return x.NewManagerId
+	}
+	return 0
+}
+
+type ClearEmployeeManagerReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeId    uint32                 `protobuf:"varint,1,opt,name=employeeId,proto3" json:"employeeId,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ClearEmployeeManagerReq) Reset() {
+	*x = ClearEmployeeManagerReq{}
+	mi := &file_employee_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ClearEmployeeManagerReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClearEmployeeManagerReq) ProtoMessage() {}
+
+func (x *ClearEmployeeManagerReq) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClearEmployeeManagerReq.ProtoReflect.Descriptor instead.
+func (*ClearEmployeeManagerReq) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ClearEmployeeManagerReq) GetEmployeeId() uint32 {
+	if x != nil {
+		return x.EmployeeId
+	}
+	return 0
+}
+
+type GetAllManagerResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ManagerList   []*EmployeeInfo        `protobuf:"bytes,1,rep,name=managerList,proto3" json:"managerList,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllManagerResp) Reset() {
+	*x = GetAllManagerResp{}
+	mi := &file_employee_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllManagerResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllManagerResp) ProtoMessage() {}
+
+func (x *GetAllManagerResp) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllManagerResp.ProtoReflect.Descriptor instead.
+func (*GetAllManagerResp) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetAllManagerResp) GetManagerList() []*EmployeeInfo {
+	if x != nil {
+		return x.ManagerList
+	}
+	return nil
+}
+
+type DeleteEmployeeReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EmployeeId    uint32                 `protobuf:"varint,1,opt,name=employeeId,proto3" json:"employeeId,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteEmployeeReq) Reset() {
+	*x = DeleteEmployeeReq{}
+	mi := &file_employee_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteEmployeeReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteEmployeeReq) ProtoMessage() {}
+
+func (x *DeleteEmployeeReq) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteEmployeeReq.ProtoReflect.Descriptor instead.
+func (*DeleteEmployeeReq) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DeleteEmployeeReq) GetEmployeeId() uint32 {
+	if x != nil {
+		return x.EmployeeId
+	}
+	return 0
+}
+
+type PaySalaryResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         string                 `protobuf:"bytes,1,opt,name=total,proto3" json:"total,omitempty"` // 发薪总额
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PaySalaryResp) Reset() {
+	*x = PaySalaryResp{}
+	mi := &file_employee_service_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PaySalaryResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PaySalaryResp) ProtoMessage() {}
+
+func (x *PaySalaryResp) ProtoReflect() protoreflect.Message {
+	mi := &file_employee_service_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PaySalaryResp.ProtoReflect.Descriptor instead.
+func (*PaySalaryResp) Descriptor() ([]byte, []int) {
+	return file_employee_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *PaySalaryResp) GetTotal() string {
+	if x != nil {
+		return x.Total
+	}
+	return ""
+}
+
 var File_employee_service_proto protoreflect.FileDescriptor
 
 const file_employee_service_proto_rawDesc = "" +
 	"\n" +
-	"\x16employee_service.proto\x12\x0erestaurant_rpc\x1a\x13basic_service.proto\x1a\fcommon.proto\"c\n" +
+	"\x16employee_service.proto\x12\x0erestaurant_rpc\x1a\x13basic_service.proto\x1a\fcommon.proto\x1a\x1bgoogle/protobuf/empty.proto\"c\n" +
 	"\x0fEmployeeListReq\x124\n" +
 	"\bpageInfo\x18\x01 \x01(\v2\x18.restaurant_rpc.PageInfoR\bpageInfo\x12\x1a\n" +
-	"\bkeywords\x18\x02 \x01(\tR\bkeywords\"\xce\x01\n" +
+	"\bkeywords\x18\x02 \x01(\tR\bkeywords\"\x86\x02\n" +
 	"\fEmployeeInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
 	"\x05phone\x18\x03 \x01(\tR\x05phone\x120\n" +
 	"\x04role\x18\x04 \x01(\x0e2\x1c.restaurant_rpc.EmployeeRoleR\x04role\x12\x16\n" +
 	"\x06salary\x18\x05 \x01(\tR\x06salary\x12\x1c\n" +
-	"\tcreatedAt\x18\x06 \x01(\tR\tcreatedAt\x12\x1c\n" +
-	"\tupdatedAt\x18\a \x01(\tR\tupdatedAt\"\x8a\x01\n" +
+	"\tcreatedAt\x18\x06 \x01(\x03R\tcreatedAt\x12\x1c\n" +
+	"\tupdatedAt\x18\a \x01(\x03R\tupdatedAt\x126\n" +
+	"\amanager\x18\b \x01(\v2\x1c.restaurant_rpc.EmployeeInfoR\amanager\"\x8a\x01\n" +
 	"\x10EmployeeListResp\x12@\n" +
 	"\femployeeList\x18\x01 \x03(\v2\x1c.restaurant_rpc.EmployeeInfoR\femployeeList\x124\n" +
 	"\bpageInfo\x18\x02 \x01(\v2\x18.restaurant_rpc.PageInfoR\bpageInfo\"\x98\x01\n" +
@@ -363,10 +845,57 @@ const file_employee_service_proto_rawDesc = "" +
 	"\x04role\x18\x04 \x01(\x0e2\x1c.restaurant_rpc.EmployeeRoleR\x04role\"?\n" +
 	"\x0fAddEmployeeResp\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2\xb7\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"4\n" +
+	"\x12GetEmployeeInfoReq\x12\x1e\n" +
+	"\n" +
+	"employeeId\x18\x01 \x01(\rR\n" +
+	"employeeId\"W\n" +
+	"\x13GetEmployeeInfoResp\x12@\n" +
+	"\femployeeInfo\x18\x01 \x01(\v2\x1c.restaurant_rpc.EmployeeInfoR\femployeeInfo\"o\n" +
+	"\x15UpdateEmployeeRoleReq\x12\x1e\n" +
+	"\n" +
+	"employeeId\x18\x01 \x01(\rR\n" +
+	"employeeId\x126\n" +
+	"\anewRole\x18\x02 \x01(\x0e2\x1c.restaurant_rpc.EmployeeRoleR\anewRole\"N\n" +
+	"\x16UpdateEmployeePhoneReq\x12\x1e\n" +
+	"\n" +
+	"employeeId\x18\x01 \x01(\rR\n" +
+	"employeeId\x12\x14\n" +
+	"\x05phone\x18\x02 \x01(\tR\x05phone\"W\n" +
+	"\x17UpdateEmployeeSalaryReq\x12\x1e\n" +
+	"\n" +
+	"employeeId\x18\x01 \x01(\rR\n" +
+	"employeeId\x12\x1c\n" +
+	"\tnewSalary\x18\x02 \x01(\tR\tnewSalary\"V\n" +
+	"\x10UpdateManagerReq\x12\x1e\n" +
+	"\n" +
+	"employeeId\x18\x01 \x01(\rR\n" +
+	"employeeId\x12\"\n" +
+	"\fnewManagerId\x18\x02 \x01(\rR\fnewManagerId\"9\n" +
+	"\x17ClearEmployeeManagerReq\x12\x1e\n" +
+	"\n" +
+	"employeeId\x18\x01 \x01(\rR\n" +
+	"employeeId\"S\n" +
+	"\x11GetAllManagerResp\x12>\n" +
+	"\vmanagerList\x18\x01 \x03(\v2\x1c.restaurant_rpc.EmployeeInfoR\vmanagerList\"3\n" +
+	"\x11DeleteEmployeeReq\x12\x1e\n" +
+	"\n" +
+	"employeeId\x18\x01 \x01(\rR\n" +
+	"employeeId\"%\n" +
+	"\rPaySalaryResp\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\tR\x05total2\xa1\a\n" +
 	"\x0fEmployeeService\x12T\n" +
 	"\x0fGetEmployeeList\x12\x1f.restaurant_rpc.EmployeeListReq\x1a .restaurant_rpc.EmployeeListResp\x12N\n" +
-	"\vAddEmployee\x12\x1e.restaurant_rpc.AddEmployeeReq\x1a\x1f.restaurant_rpc.AddEmployeeRespB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
+	"\vAddEmployee\x12\x1e.restaurant_rpc.AddEmployeeReq\x1a\x1f.restaurant_rpc.AddEmployeeResp\x12Z\n" +
+	"\x0fGetEmployeeInfo\x12\".restaurant_rpc.GetEmployeeInfoReq\x1a#.restaurant_rpc.GetEmployeeInfoResp\x12S\n" +
+	"\x12UpdateEmployeeRole\x12%.restaurant_rpc.UpdateEmployeeRoleReq\x1a\x16.google.protobuf.Empty\x12U\n" +
+	"\x13UpdateEmployeePhone\x12&.restaurant_rpc.UpdateEmployeePhoneReq\x1a\x16.google.protobuf.Empty\x12W\n" +
+	"\x14UpdateEmployeeSalary\x12'.restaurant_rpc.UpdateEmployeeSalaryReq\x1a\x16.google.protobuf.Empty\x12Q\n" +
+	"\x15UpdateEmployeeManager\x12 .restaurant_rpc.UpdateManagerReq\x1a\x16.google.protobuf.Empty\x12W\n" +
+	"\x14ClearEmployeeManager\x12'.restaurant_rpc.ClearEmployeeManagerReq\x1a\x16.google.protobuf.Empty\x12J\n" +
+	"\rGetAllManager\x12\x16.google.protobuf.Empty\x1a!.restaurant_rpc.GetAllManagerResp\x12K\n" +
+	"\x0eDeleteEmployee\x12!.restaurant_rpc.DeleteEmployeeReq\x1a\x16.google.protobuf.Empty\x12B\n" +
+	"\tPaySalary\x12\x16.google.protobuf.Empty\x1a\x1d.restaurant_rpc.PaySalaryRespB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
 
 var (
 	file_employee_service_proto_rawDescOnce sync.Once
@@ -380,31 +909,64 @@ func file_employee_service_proto_rawDescGZIP() []byte {
 	return file_employee_service_proto_rawDescData
 }
 
-var file_employee_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_employee_service_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_employee_service_proto_goTypes = []any{
-	(*EmployeeListReq)(nil),  // 0: restaurant_rpc.EmployeeListReq
-	(*EmployeeInfo)(nil),     // 1: restaurant_rpc.EmployeeInfo
-	(*EmployeeListResp)(nil), // 2: restaurant_rpc.EmployeeListResp
-	(*AddEmployeeReq)(nil),   // 3: restaurant_rpc.AddEmployeeReq
-	(*AddEmployeeResp)(nil),  // 4: restaurant_rpc.AddEmployeeResp
-	(*PageInfo)(nil),         // 5: restaurant_rpc.PageInfo
-	(EmployeeRole)(0),        // 6: restaurant_rpc.EmployeeRole
+	(*EmployeeListReq)(nil),         // 0: restaurant_rpc.EmployeeListReq
+	(*EmployeeInfo)(nil),            // 1: restaurant_rpc.EmployeeInfo
+	(*EmployeeListResp)(nil),        // 2: restaurant_rpc.EmployeeListResp
+	(*AddEmployeeReq)(nil),          // 3: restaurant_rpc.AddEmployeeReq
+	(*AddEmployeeResp)(nil),         // 4: restaurant_rpc.AddEmployeeResp
+	(*GetEmployeeInfoReq)(nil),      // 5: restaurant_rpc.GetEmployeeInfoReq
+	(*GetEmployeeInfoResp)(nil),     // 6: restaurant_rpc.GetEmployeeInfoResp
+	(*UpdateEmployeeRoleReq)(nil),   // 7: restaurant_rpc.UpdateEmployeeRoleReq
+	(*UpdateEmployeePhoneReq)(nil),  // 8: restaurant_rpc.UpdateEmployeePhoneReq
+	(*UpdateEmployeeSalaryReq)(nil), // 9: restaurant_rpc.UpdateEmployeeSalaryReq
+	(*UpdateManagerReq)(nil),        // 10: restaurant_rpc.UpdateManagerReq
+	(*ClearEmployeeManagerReq)(nil), // 11: restaurant_rpc.ClearEmployeeManagerReq
+	(*GetAllManagerResp)(nil),       // 12: restaurant_rpc.GetAllManagerResp
+	(*DeleteEmployeeReq)(nil),       // 13: restaurant_rpc.DeleteEmployeeReq
+	(*PaySalaryResp)(nil),           // 14: restaurant_rpc.PaySalaryResp
+	(*PageInfo)(nil),                // 15: restaurant_rpc.PageInfo
+	(EmployeeRole)(0),               // 16: restaurant_rpc.EmployeeRole
+	(*emptypb.Empty)(nil),           // 17: google.protobuf.Empty
 }
 var file_employee_service_proto_depIdxs = []int32{
-	5, // 0: restaurant_rpc.EmployeeListReq.pageInfo:type_name -> restaurant_rpc.PageInfo
-	6, // 1: restaurant_rpc.EmployeeInfo.role:type_name -> restaurant_rpc.EmployeeRole
-	1, // 2: restaurant_rpc.EmployeeListResp.employeeList:type_name -> restaurant_rpc.EmployeeInfo
-	5, // 3: restaurant_rpc.EmployeeListResp.pageInfo:type_name -> restaurant_rpc.PageInfo
-	6, // 4: restaurant_rpc.AddEmployeeReq.role:type_name -> restaurant_rpc.EmployeeRole
-	0, // 5: restaurant_rpc.EmployeeService.GetEmployeeList:input_type -> restaurant_rpc.EmployeeListReq
-	3, // 6: restaurant_rpc.EmployeeService.AddEmployee:input_type -> restaurant_rpc.AddEmployeeReq
-	2, // 7: restaurant_rpc.EmployeeService.GetEmployeeList:output_type -> restaurant_rpc.EmployeeListResp
-	4, // 8: restaurant_rpc.EmployeeService.AddEmployee:output_type -> restaurant_rpc.AddEmployeeResp
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	15, // 0: restaurant_rpc.EmployeeListReq.pageInfo:type_name -> restaurant_rpc.PageInfo
+	16, // 1: restaurant_rpc.EmployeeInfo.role:type_name -> restaurant_rpc.EmployeeRole
+	1,  // 2: restaurant_rpc.EmployeeInfo.manager:type_name -> restaurant_rpc.EmployeeInfo
+	1,  // 3: restaurant_rpc.EmployeeListResp.employeeList:type_name -> restaurant_rpc.EmployeeInfo
+	15, // 4: restaurant_rpc.EmployeeListResp.pageInfo:type_name -> restaurant_rpc.PageInfo
+	16, // 5: restaurant_rpc.AddEmployeeReq.role:type_name -> restaurant_rpc.EmployeeRole
+	1,  // 6: restaurant_rpc.GetEmployeeInfoResp.employeeInfo:type_name -> restaurant_rpc.EmployeeInfo
+	16, // 7: restaurant_rpc.UpdateEmployeeRoleReq.newRole:type_name -> restaurant_rpc.EmployeeRole
+	1,  // 8: restaurant_rpc.GetAllManagerResp.managerList:type_name -> restaurant_rpc.EmployeeInfo
+	0,  // 9: restaurant_rpc.EmployeeService.GetEmployeeList:input_type -> restaurant_rpc.EmployeeListReq
+	3,  // 10: restaurant_rpc.EmployeeService.AddEmployee:input_type -> restaurant_rpc.AddEmployeeReq
+	5,  // 11: restaurant_rpc.EmployeeService.GetEmployeeInfo:input_type -> restaurant_rpc.GetEmployeeInfoReq
+	7,  // 12: restaurant_rpc.EmployeeService.UpdateEmployeeRole:input_type -> restaurant_rpc.UpdateEmployeeRoleReq
+	8,  // 13: restaurant_rpc.EmployeeService.UpdateEmployeePhone:input_type -> restaurant_rpc.UpdateEmployeePhoneReq
+	9,  // 14: restaurant_rpc.EmployeeService.UpdateEmployeeSalary:input_type -> restaurant_rpc.UpdateEmployeeSalaryReq
+	10, // 15: restaurant_rpc.EmployeeService.UpdateEmployeeManager:input_type -> restaurant_rpc.UpdateManagerReq
+	11, // 16: restaurant_rpc.EmployeeService.ClearEmployeeManager:input_type -> restaurant_rpc.ClearEmployeeManagerReq
+	17, // 17: restaurant_rpc.EmployeeService.GetAllManager:input_type -> google.protobuf.Empty
+	13, // 18: restaurant_rpc.EmployeeService.DeleteEmployee:input_type -> restaurant_rpc.DeleteEmployeeReq
+	17, // 19: restaurant_rpc.EmployeeService.PaySalary:input_type -> google.protobuf.Empty
+	2,  // 20: restaurant_rpc.EmployeeService.GetEmployeeList:output_type -> restaurant_rpc.EmployeeListResp
+	4,  // 21: restaurant_rpc.EmployeeService.AddEmployee:output_type -> restaurant_rpc.AddEmployeeResp
+	6,  // 22: restaurant_rpc.EmployeeService.GetEmployeeInfo:output_type -> restaurant_rpc.GetEmployeeInfoResp
+	17, // 23: restaurant_rpc.EmployeeService.UpdateEmployeeRole:output_type -> google.protobuf.Empty
+	17, // 24: restaurant_rpc.EmployeeService.UpdateEmployeePhone:output_type -> google.protobuf.Empty
+	17, // 25: restaurant_rpc.EmployeeService.UpdateEmployeeSalary:output_type -> google.protobuf.Empty
+	17, // 26: restaurant_rpc.EmployeeService.UpdateEmployeeManager:output_type -> google.protobuf.Empty
+	17, // 27: restaurant_rpc.EmployeeService.ClearEmployeeManager:output_type -> google.protobuf.Empty
+	12, // 28: restaurant_rpc.EmployeeService.GetAllManager:output_type -> restaurant_rpc.GetAllManagerResp
+	17, // 29: restaurant_rpc.EmployeeService.DeleteEmployee:output_type -> google.protobuf.Empty
+	14, // 30: restaurant_rpc.EmployeeService.PaySalary:output_type -> restaurant_rpc.PaySalaryResp
+	20, // [20:31] is the sub-list for method output_type
+	9,  // [9:20] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_employee_service_proto_init() }
@@ -420,7 +982,7 @@ func file_employee_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_employee_service_proto_rawDesc), len(file_employee_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

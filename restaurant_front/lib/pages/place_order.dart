@@ -9,7 +9,7 @@ import 'package:restaurant_management/network/dish_service.dart';
 import 'package:restaurant_management/providers/shopping_cart_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/dish_service.pbgrpc.dart';
-import 'package:restaurant_management/src/generated/restaurantV2/types.pbenum.dart';
+import 'package:restaurant_management/src/generated/types.pb.dart';
 import 'package:restaurant_management/src/generated/dish_service.pb.dart' show Table;
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';

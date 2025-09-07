@@ -9,11 +9,13 @@ import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/network/dish_service.dart';
 import 'package:restaurant_management/providers/material_edit_provider.dart';
 import 'package:restaurant_management/src/generated/dish_service.pb.dart' as pb;
-import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart';
+import 'package:restaurant_management/src/generated/types.pb.dart';
+import 'package:restaurant_management/utils/data_extends.dart';
 import 'package:restaurant_management/utils/text_formatter.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/form_section.dart';
+import 'package:restaurant_management/widgets/global_dialog.dart';
 
 @RoutePage()
 class MaterialEditPage extends ConsumerStatefulWidget {
@@ -84,9 +86,43 @@ class _MaterialEditPageState extends ConsumerState<MaterialEditPage> {
     }
     try {
       Decimal.parse(_amountController.text.trim());
+      _priceController.text.trim().d();
     } catch (e) {
       Fluttertoast.showToast(msg: "请输入正确的数字");
       return;
+    }
+    // 检查是否是新增模式
+    if (widget.material == null) {
+      // 计算总成本
+      final totalAmount = _amountController.text.trim().d();
+      final perPrice = _priceController.text.trim().d();
+      final totalPrice = totalAmount * perPrice;
+      final confirm = GlobalDialog.showCustom(builder: (context, controller) {
+        return AlertDialog(
+          title: Text("提示"),
+          content: Text("总计 ${totalPrice.toStringAsFixed(2)} 元, 将被计入成本系统, 确定吗?"),
+          actions: [
+            TextButton(
+              child: Text("取消"),
+              onPressed: () {
+                controller.setResult(DialogResult.cancel);
+                controller.dismiss();
+              },
+            ),
+            TextButton(
+              child: Text("确定"),
+              onPressed: () {
+                controller.setResult(DialogResult.confirm);
+                controller.dismiss();
+              },
+            ),
+
+          ],
+        );
+      });
+      if (await confirm?.getResult() != DialogResult.confirm) {
+        return;
+      }
     }
     final material = widget.material?.deepCopy() ?? pb.Material();
     material.name = _nameController.text.trim();

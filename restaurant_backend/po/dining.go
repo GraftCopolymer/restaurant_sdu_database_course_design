@@ -2,7 +2,7 @@ package po
 
 import (
 	"gorm.io/gorm"
-	"restaurant_backend/restaurant_backend/types"
+	restaurant_rpc "restaurant_backend/restaurant_backend/rpc"
 )
 
 //type PrivateRoom struct {
@@ -17,7 +17,7 @@ import (
 type DiningTable struct {
 	gorm.Model
 	Number string `gorm:"unique"`
-	TableShape types.TableShape
+	TableShape restaurant_rpc.TableShape
 	Seats []Seat `gorm:"foreignKey:TableID"`
 }
 

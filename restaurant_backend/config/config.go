@@ -37,6 +37,7 @@ func InitDatabase() *gorm.DB {
 		&po.Seat{},
 		&po.DishType{},
 		&po.RecipeMaterial{},
+		&po.Cost{},
 	)
 	if err != nil {
 		log.Fatal("failed to migrate database:", err)

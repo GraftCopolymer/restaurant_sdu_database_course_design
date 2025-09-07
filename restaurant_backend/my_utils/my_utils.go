@@ -19,7 +19,7 @@ type Token struct {
 	UserID uint `json:"user_id"`
 	TokenType constants.TokenType `json:"token_type"`
 	Role restaurant_rpc.LoginRole `json:"role"`
-	EmployeeRole restaurant_rpc.EmployeeRole `json:"employee_role"`
+	EmployeeRole restaurant_rpc.EmployeeRole `json:"employee_type"`
 	Exp int64 `json:"exp"`
 	jwt.RegisteredClaims
 }

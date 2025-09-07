@@ -1,6 +1,6 @@
 // This is a generated file - do not edit.
 //
-// Generated from restaurantV2/types.proto.
+// Generated from types.proto.
 
 // @dart = 3.3
 
@@ -84,29 +84,29 @@ class SellStatus extends $pb.ProtobufEnum {
   const SellStatus._(super.value, super.name);
 }
 
-class DishPortion extends $pb.ProtobufEnum {
-  static const DishPortion DISH_PORTION_UNKNOWN =
-      DishPortion._(0, _omitEnumNames ? '' : 'DISH_PORTION_UNKNOWN');
-  static const DishPortion DISH_PORTION_SMALL =
-      DishPortion._(1, _omitEnumNames ? '' : 'DISH_PORTION_SMALL');
-  static const DishPortion DISH_PORTION_MID =
-      DishPortion._(2, _omitEnumNames ? '' : 'DISH_PORTION_MID');
-  static const DishPortion DISH_PORTION_BIG =
-      DishPortion._(3, _omitEnumNames ? '' : 'DISH_PORTION_BIG');
+class PortionType extends $pb.ProtobufEnum {
+  static const PortionType DISH_PORTION_UNKNOWN =
+      PortionType._(0, _omitEnumNames ? '' : 'DISH_PORTION_UNKNOWN');
+  static const PortionType DISH_PORTION_SMALL =
+      PortionType._(1, _omitEnumNames ? '' : 'DISH_PORTION_SMALL');
+  static const PortionType DISH_PORTION_MID =
+      PortionType._(2, _omitEnumNames ? '' : 'DISH_PORTION_MID');
+  static const PortionType DISH_PORTION_BIG =
+      PortionType._(3, _omitEnumNames ? '' : 'DISH_PORTION_BIG');
 
-  static const $core.List<DishPortion> values = <DishPortion>[
+  static const $core.List<PortionType> values = <PortionType>[
     DISH_PORTION_UNKNOWN,
     DISH_PORTION_SMALL,
     DISH_PORTION_MID,
     DISH_PORTION_BIG,
   ];
 
-  static final $core.List<DishPortion?> _byValue =
+  static final $core.List<PortionType?> _byValue =
       $pb.ProtobufEnum.$_initByValueList(values, 3);
-  static DishPortion? valueOf($core.int value) =>
+  static PortionType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const DishPortion._(super.value, super.name);
+  const PortionType._(super.value, super.name);
 }
 
 class UnitType extends $pb.ProtobufEnum {
@@ -220,6 +220,51 @@ class CouponTarget extends $pb.ProtobufEnum {
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const CouponTarget._(super.value, super.name);
+}
+
+/// *
+/// 成本类型
+class CostType extends $pb.ProtobufEnum {
+  static const CostType COST_TYPE_UNKNOWN =
+      CostType._(0, _omitEnumNames ? '' : 'COST_TYPE_UNKNOWN');
+  static const CostType COST_TYPE_MATERIAL =
+      CostType._(1, _omitEnumNames ? '' : 'COST_TYPE_MATERIAL');
+  static const CostType COST_TYPE_LABOR =
+      CostType._(2, _omitEnumNames ? '' : 'COST_TYPE_LABOR');
+  static const CostType COST_TYPE_ELECTRICITY =
+      CostType._(3, _omitEnumNames ? '' : 'COST_TYPE_ELECTRICITY');
+  static const CostType COST_TYPE_WATER =
+      CostType._(4, _omitEnumNames ? '' : 'COST_TYPE_WATER');
+  static const CostType COST_TYPE_EQUIPMENT =
+      CostType._(5, _omitEnumNames ? '' : 'COST_TYPE_EQUIPMENT');
+  static const CostType COST_TYPE_GAS =
+      CostType._(6, _omitEnumNames ? '' : 'COST_TYPE_GAS');
+  static const CostType COST_TYPE_CONSUMABLE =
+      CostType._(7, _omitEnumNames ? '' : 'COST_TYPE_CONSUMABLE');
+  static const CostType COST_TYPE_MARKETING =
+      CostType._(8, _omitEnumNames ? '' : 'COST_TYPE_MARKETING');
+  static const CostType COST_TYPE_RENT =
+      CostType._(9, _omitEnumNames ? '' : 'COST_TYPE_RENT');
+
+  static const $core.List<CostType> values = <CostType>[
+    COST_TYPE_UNKNOWN,
+    COST_TYPE_MATERIAL,
+    COST_TYPE_LABOR,
+    COST_TYPE_ELECTRICITY,
+    COST_TYPE_WATER,
+    COST_TYPE_EQUIPMENT,
+    COST_TYPE_GAS,
+    COST_TYPE_CONSUMABLE,
+    COST_TYPE_MARKETING,
+    COST_TYPE_RENT,
+  ];
+
+  static final $core.List<CostType?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 9);
+  static CostType? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const CostType._(super.value, super.name);
 }
 
 const $core.bool _omitEnumNames =

@@ -36,9 +36,10 @@ enum LoginRole {
 }
 
 enum EmployeeRole {
-    ROLE_UNKNOWN = 0;
-    ROLE_ADMIN = 1;
-    ROLE_MANAGER = 2;
+    ROLE_UNKNOWN = 0; // 未知
+    ROLE_ADMIN = 1; // 管理员
+    ROLE_MANAGER = 2; // 经理
+    ROLE_NORMAL = 3; // 普通员工
 }
 
 message RegisterReq {

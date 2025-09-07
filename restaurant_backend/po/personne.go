@@ -19,6 +19,7 @@ type Employee struct {
 	Salary    decimal.Decimal            `gorm:"type:decimal(10,2)"`
 	RoleType  restaurantrpc.EmployeeRole // 员工角色
 	ManagerID *uint
+	Manager *Employee `gorm:"foreignKey:ManagerID"`
 	Group     []Employee `gorm:"foreignKey:ManagerID"` // 角色Manager该字段才可能不为空
 }
 

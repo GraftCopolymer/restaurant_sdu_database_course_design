@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package restaurant_rpc;
+option go_package = "restaurant_backend/rpc;restaurant_rpc";
+
+import "google/protobuf/empty.proto";
+import "types.proto";
+
+message CostInfo {
+  uint32 costId = 1;
+  string value = 2;
+  CostType costType = 3;
+  string description = 4;
+}
+
+message GetAllCostResp {
+  repeated CostInfo costInfoList = 1;
+}
+
+service CostService {
+  rpc GetAllCost(google.protobuf.Empty) returns (GetAllCostResp);
+}

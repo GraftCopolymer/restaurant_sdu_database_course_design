@@ -5,6 +5,7 @@ option go_package = "restaurant_backend/rpc;restaurant_rpc";
 
 import "basic_service.proto";
 import "common.proto";
+import "google/protobuf/empty.proto";
 
 message EmployeeListReq {
     PageInfo pageInfo = 1;
@@ -17,8 +18,9 @@ message EmployeeInfo {
     string phone = 3;
     EmployeeRole role = 4;
     string salary = 5; // 工资以字符串的形式传递, 防止精度丢失
-    string createdAt = 6; // unix时间戳
-    string updatedAt = 7; // unix时间戳
+    int64 createdAt = 6; // unix时间戳
+    int64 updatedAt = 7; // unix时间戳
+    EmployeeInfo manager = 8;
 }
 
 message EmployeeListResp {
@@ -38,7 +40,60 @@ message AddEmployeeResp {
     string message = 2;
 }
 
+message GetEmployeeInfoReq {
+    uint32 employeeId = 1;
+}
+
+message GetEmployeeInfoResp {
+    EmployeeInfo employeeInfo = 1;
+}
+
+message UpdateEmployeeRoleReq {
+    uint32 employeeId = 1;
+    EmployeeRole newRole = 2;
+}
+
+message UpdateEmployeePhoneReq {
+    uint32 employeeId = 1;
+    string phone = 2;
+}
+
+message UpdateEmployeeSalaryReq {
+    uint32 employeeId = 1;
+    string newSalary = 2;
+}
+
+message UpdateManagerReq {
+    uint32 employeeId = 1;
+    uint32 newManagerId = 2;
+}
+
+message ClearEmployeeManagerReq {
+    uint32 employeeId = 1;
+}
+
+message GetAllManagerResp {
+    repeated EmployeeInfo managerList = 1;
+}
+
+message DeleteEmployeeReq {
+    uint32 employeeId = 1;
+}
+
+message PaySalaryResp {
+    string total = 1; // 发薪总额
+}
+
 service EmployeeService {
     rpc GetEmployeeList(EmployeeListReq) returns (EmployeeListResp);
     rpc AddEmployee(AddEmployeeReq) returns (AddEmployeeResp);
+    rpc GetEmployeeInfo(GetEmployeeInfoReq) returns (GetEmployeeInfoResp);
+    rpc UpdateEmployeeRole(UpdateEmployeeRoleReq) returns (google.protobuf.Empty);
+    rpc UpdateEmployeePhone(UpdateEmployeePhoneReq) returns (google.protobuf.Empty);
+    rpc UpdateEmployeeSalary(UpdateEmployeeSalaryReq) returns (google.protobuf.Empty);
+    rpc UpdateEmployeeManager(UpdateManagerReq) returns (google.protobuf.Empty);
+    rpc ClearEmployeeManager(ClearEmployeeManagerReq) returns (google.protobuf.Empty);
+    rpc GetAllManager(google.protobuf.Empty) returns (GetAllManagerResp);
+    rpc DeleteEmployee(DeleteEmployeeReq) returns (google.protobuf.Empty);
+    rpc PaySalary(google.protobuf.Empty) returns (PaySalaryResp);
 }

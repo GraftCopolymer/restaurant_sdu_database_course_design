@@ -74,9 +74,10 @@ func (LoginRole) EnumDescriptor() ([]byte, []int) {
 type EmployeeRole int32
 
 const (
-	EmployeeRole_ROLE_UNKNOWN EmployeeRole = 0
-	EmployeeRole_ROLE_ADMIN   EmployeeRole = 1
-	EmployeeRole_ROLE_MANAGER EmployeeRole = 2
+	EmployeeRole_ROLE_UNKNOWN EmployeeRole = 0 // 未知
+	EmployeeRole_ROLE_ADMIN   EmployeeRole = 1 // 管理员
+	EmployeeRole_ROLE_MANAGER EmployeeRole = 2 // 经理
+	EmployeeRole_ROLE_NORMAL  EmployeeRole = 3 // 普通员工
 )
 
 // Enum value maps for EmployeeRole.
@@ -85,11 +86,13 @@ var (
 		0: "ROLE_UNKNOWN",
 		1: "ROLE_ADMIN",
 		2: "ROLE_MANAGER",
+		3: "ROLE_NORMAL",
 	}
 	EmployeeRole_value = map[string]int32{
 		"ROLE_UNKNOWN": 0,
 		"ROLE_ADMIN":   1,
 		"ROLE_MANAGER": 2,
+		"ROLE_NORMAL":  3,
 	}
 )
 
@@ -860,12 +863,13 @@ const file_basic_service_proto_rawDesc = "" +
 	"\tLoginRole\x12\x16\n" +
 	"\x12LOGIN_ROLE_UNKNOWN\x10\x00\x12\x17\n" +
 	"\x13LOGIN_ROLE_CUSTOMER\x10\x01\x12\x17\n" +
-	"\x13LOGIN_ROLE_EMPLOYEE\x10\x02*B\n" +
+	"\x13LOGIN_ROLE_EMPLOYEE\x10\x02*S\n" +
 	"\fEmployeeRole\x12\x10\n" +
 	"\fROLE_UNKNOWN\x10\x00\x12\x0e\n" +
 	"\n" +
 	"ROLE_ADMIN\x10\x01\x12\x10\n" +
-	"\fROLE_MANAGER\x10\x022\x97\x03\n" +
+	"\fROLE_MANAGER\x10\x02\x12\x0f\n" +
+	"\vROLE_NORMAL\x10\x032\x97\x03\n" +
 	"\vAuthService\x12>\n" +
 	"\x05Login\x12\x18.restaurant_rpc.LoginReq\x1a\x19.restaurant_rpc.LoginResp\"\x00\x12G\n" +
 	"\bRegister\x12\x1b.restaurant_rpc.RegisterReq\x1a\x1c.restaurant_rpc.RegisterResp\"\x00\x12S\n" +

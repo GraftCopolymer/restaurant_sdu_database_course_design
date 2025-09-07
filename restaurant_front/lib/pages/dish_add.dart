@@ -17,7 +17,7 @@ import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/form_section.dart';
 import 'package:restaurant_management/widgets/global_dialog.dart';
 import 'package:restaurant_management/widgets/image_pick_box.dart';
-import 'package:restaurant_management/src/generated/restaurantV2/types.pbenum.dart'
+import 'package:restaurant_management/src/generated/types.pbenum.dart'
     as en;
 
 @RoutePage()
@@ -634,11 +634,11 @@ class _EditPortionDialogState extends State<EditPortionDialog> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
 
-  en.DishPortion _selectedPortion = en.DishPortion.DISH_PORTION_UNKNOWN;
+  en.PortionType _selectedPortion = en.PortionType.DISH_PORTION_UNKNOWN;
 
   String? _tip;
 
-  void _onSelectPortion(en.DishPortion? p) {
+  void _onSelectPortion(en.PortionType? p) {
     if (p == null) return;
     setState(() {
       _selectedPortion = p;
@@ -654,21 +654,21 @@ class _EditPortionDialogState extends State<EditPortionDialog> {
   Widget _buildRadioBtnList() {
     return Column(
       children: [
-        RadioListTile<en.DishPortion>(
+        RadioListTile<en.PortionType>(
           title: Text("小份量"),
-          value: en.DishPortion.DISH_PORTION_SMALL,
+          value: en.PortionType.DISH_PORTION_SMALL,
           groupValue: _selectedPortion,
           onChanged: _onSelectPortion,
         ),
-        RadioListTile<en.DishPortion>(
+        RadioListTile<en.PortionType>(
           title: Text("中份量"),
-          value: en.DishPortion.DISH_PORTION_MID,
+          value: en.PortionType.DISH_PORTION_MID,
           groupValue: _selectedPortion,
           onChanged: _onSelectPortion,
         ),
-        RadioListTile<en.DishPortion>(
+        RadioListTile<en.PortionType>(
           title: Text("大份量"),
-          value: en.DishPortion.DISH_PORTION_BIG,
+          value: en.PortionType.DISH_PORTION_BIG,
           groupValue: _selectedPortion,
           onChanged: _onSelectPortion,
         ),
@@ -757,7 +757,7 @@ class _EditPortionDialogState extends State<EditPortionDialog> {
                   Fluttertoast.showToast(msg: "请输入价格");
                   return;
                 }
-                if (_selectedPortion == en.DishPortion.DISH_PORTION_UNKNOWN) {
+                if (_selectedPortion == en.PortionType.DISH_PORTION_UNKNOWN) {
                   Fluttertoast.showToast(msg: "请选择份量大小");
                   return;
                 }

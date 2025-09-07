@@ -11,7 +11,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
-	types "restaurant_backend/restaurant_backend/types"
 	sync "sync"
 	unsafe "unsafe"
 )
@@ -103,8 +102,8 @@ type DishPortion struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Price         string                 `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`                                          // 价格, 以字符串传输避免精度丢失
-	PortionType   types.DishPortion      `protobuf:"varint,4,opt,name=portionType,proto3,enum=restaurant.DishPortion" json:"portionType,omitempty"` // 份量
+	Price         string                 `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`                                              // 价格, 以字符串传输避免精度丢失
+	PortionType   PortionType            `protobuf:"varint,4,opt,name=portionType,proto3,enum=restaurant_rpc.PortionType" json:"portionType,omitempty"` // 份量
 	Recipe        *Recipe                `protobuf:"bytes,5,opt,name=recipe,proto3" json:"recipe,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -161,11 +160,11 @@ func (x *DishPortion) GetPrice() string {
 	return ""
 }
 
-func (x *DishPortion) GetPortionType() types.DishPortion {
+func (x *DishPortion) GetPortionType() PortionType {
 	if x != nil {
 		return x.PortionType
 	}
-	return types.DishPortion(0)
+	return PortionType_DISH_PORTION_UNKNOWN
 }
 
 func (x *DishPortion) GetRecipe() *Recipe {
@@ -291,9 +290,9 @@ type Material struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Price         string                 `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`                                 // 配料单价
-	UnitType      types.UnitType         `protobuf:"varint,4,opt,name=unitType,proto3,enum=restaurant.UnitType" json:"unitType,omitempty"` // 配料单位
-	Amount        string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                               // 总量
+	Price         string                 `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`                                     // 配料单价
+	UnitType      UnitType               `protobuf:"varint,4,opt,name=unitType,proto3,enum=restaurant_rpc.UnitType" json:"unitType,omitempty"` // 配料单位
+	Amount        string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                                   // 总量
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -349,11 +348,11 @@ func (x *Material) GetPrice() string {
 	return ""
 }
 
-func (x *Material) GetUnitType() types.UnitType {
+func (x *Material) GetUnitType() UnitType {
 	if x != nil {
 		return x.UnitType
 	}
-	return types.UnitType(0)
+	return UnitType_UINT_TYPE_UNKNOWN
 }
 
 func (x *Material) GetAmount() string {
@@ -1370,9 +1369,9 @@ func (x *OrderItem) GetCount() uint32 {
 type PlaceOrderReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderItems    []*OrderItem           `protobuf:"bytes,1,rep,name=orderItems,proto3" json:"orderItems,omitempty"`
-	OrderType     types.OrderType        `protobuf:"varint,2,opt,name=orderType,proto3,enum=restaurant.OrderType" json:"orderType,omitempty"` // 订单类型
-	Address       string                 `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`                                // 订单地址, 仅外卖订单有该字段
-	Table         *Table                 `protobuf:"bytes,4,opt,name=table,proto3" json:"table,omitempty"`                                    // 桌号, 仅堂食订单有该字段
+	OrderType     OrderType              `protobuf:"varint,2,opt,name=orderType,proto3,enum=restaurant_rpc.OrderType" json:"orderType,omitempty"` // 订单类型
+	Address       string                 `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`                                    // 订单地址, 仅外卖订单有该字段
+	Table         *Table                 `protobuf:"bytes,4,opt,name=table,proto3" json:"table,omitempty"`                                        // 桌号, 仅堂食订单有该字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1414,11 +1413,11 @@ func (x *PlaceOrderReq) GetOrderItems() []*OrderItem {
 	return nil
 }
 
-func (x *PlaceOrderReq) GetOrderType() types.OrderType {
+func (x *PlaceOrderReq) GetOrderType() OrderType {
 	if x != nil {
 		return x.OrderType
 	}
-	return types.OrderType(0)
+	return OrderType_ORDER_TYPE_UNKNOWN
 }
 
 func (x *PlaceOrderReq) GetAddress() string {
@@ -1561,7 +1560,7 @@ func (x *OrderInfoItem) GetPortion() *DishPortion {
 type OrderInfo struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	OrderId        uint32                 `protobuf:"varint,1,opt,name=orderId,proto3" json:"orderId,omitempty"`
-	OrderType      types.OrderType        `protobuf:"varint,2,opt,name=orderType,proto3,enum=restaurant.OrderType" json:"orderType,omitempty"`
+	OrderType      OrderType              `protobuf:"varint,2,opt,name=orderType,proto3,enum=restaurant_rpc.OrderType" json:"orderType,omitempty"`
 	Table          *Table                 `protobuf:"bytes,3,opt,name=table,proto3" json:"table,omitempty"`
 	CreatedAt      int64                  `protobuf:"varint,4,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
 	OrderInfoItems []*OrderInfoItem       `protobuf:"bytes,5,rep,name=orderInfoItems,proto3" json:"orderInfoItems,omitempty"`
@@ -1609,11 +1608,11 @@ func (x *OrderInfo) GetOrderId() uint32 {
 	return 0
 }
 
-func (x *OrderInfo) GetOrderType() types.OrderType {
+func (x *OrderInfo) GetOrderType() OrderType {
 	if x != nil {
 		return x.OrderType
 	}
-	return types.OrderType(0)
+	return OrderType_ORDER_TYPE_UNKNOWN
 }
 
 func (x *OrderInfo) GetTable() *Table {
@@ -1855,18 +1854,18 @@ var File_dish_service_proto protoreflect.FileDescriptor
 
 const file_dish_service_proto_rawDesc = "" +
 	"\n" +
-	"\x12dish_service.proto\x12\x0erestaurant_rpc\x1a\x1bgoogle/protobuf/empty.proto\x1a\fcommon.proto\x1a\x18restaurantV2/types.proto\"\xb5\x01\n" +
+	"\x12dish_service.proto\x12\x0erestaurant_rpc\x1a\x1bgoogle/protobuf/empty.proto\x1a\fcommon.proto\x1a\vtypes.proto\"\xb5\x01\n" +
 	"\x04Dish\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
 	"\bimageUrl\x18\x03 \x01(\tR\bimageUrl\x124\n" +
 	"\bdishType\x18\x04 \x01(\v2\x18.restaurant_rpc.DishTypeR\bdishType\x127\n" +
-	"\bportions\x18\x05 \x03(\v2\x1b.restaurant_rpc.DishPortionR\bportions\"\xb2\x01\n" +
+	"\bportions\x18\x05 \x03(\v2\x1b.restaurant_rpc.DishPortionR\bportions\"\xb6\x01\n" +
 	"\vDishPortion\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05price\x18\x03 \x01(\tR\x05price\x129\n" +
-	"\vportionType\x18\x04 \x01(\x0e2\x17.restaurant.DishPortionR\vportionType\x12.\n" +
+	"\x05price\x18\x03 \x01(\tR\x05price\x12=\n" +
+	"\vportionType\x18\x04 \x01(\x0e2\x1b.restaurant_rpc.PortionTypeR\vportionType\x12.\n" +
 	"\x06recipe\x18\x05 \x01(\v2\x16.restaurant_rpc.RecipeR\x06recipe\"V\n" +
 	"\x06Recipe\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12<\n" +
@@ -1874,12 +1873,12 @@ const file_dish_service_proto_rawDesc = "" +
 	"\x0eRecipeMaterial\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x124\n" +
 	"\bmaterial\x18\x02 \x01(\v2\x18.restaurant_rpc.MaterialR\bmaterial\x12\x1a\n" +
-	"\bquantity\x18\x03 \x01(\tR\bquantity\"\x8e\x01\n" +
+	"\bquantity\x18\x03 \x01(\tR\bquantity\"\x92\x01\n" +
 	"\bMaterial\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05price\x18\x03 \x01(\tR\x05price\x120\n" +
-	"\bunitType\x18\x04 \x01(\x0e2\x14.restaurant.UnitTypeR\bunitType\x12\x16\n" +
+	"\x05price\x18\x03 \x01(\tR\x05price\x124\n" +
+	"\bunitType\x18\x04 \x01(\x0e2\x18.restaurant_rpc.UnitTypeR\bunitType\x12\x16\n" +
 	"\x06amount\x18\x05 \x01(\tR\x06amount\"P\n" +
 	"\x04Seat\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x18\n" +
@@ -1943,12 +1942,12 @@ const file_dish_service_proto_rawDesc = "" +
 	"\tOrderItem\x12\x16\n" +
 	"\x06dishId\x18\x01 \x01(\rR\x06dishId\x12\x1c\n" +
 	"\tportionId\x18\x02 \x01(\rR\tportionId\x12\x14\n" +
-	"\x05count\x18\x03 \x01(\rR\x05count\"\xc6\x01\n" +
+	"\x05count\x18\x03 \x01(\rR\x05count\"\xca\x01\n" +
 	"\rPlaceOrderReq\x129\n" +
 	"\n" +
 	"orderItems\x18\x01 \x03(\v2\x19.restaurant_rpc.OrderItemR\n" +
-	"orderItems\x123\n" +
-	"\torderType\x18\x02 \x01(\x0e2\x15.restaurant.OrderTypeR\torderType\x12\x18\n" +
+	"orderItems\x127\n" +
+	"\torderType\x18\x02 \x01(\x0e2\x19.restaurant_rpc.OrderTypeR\torderType\x12\x18\n" +
 	"\aaddress\x18\x03 \x01(\tR\aaddress\x12+\n" +
 	"\x05table\x18\x04 \x01(\v2\x15.restaurant_rpc.TableR\x05table\"*\n" +
 	"\x0ePlaceOrderResp\x12\x18\n" +
@@ -1958,10 +1957,10 @@ const file_dish_service_proto_rawDesc = "" +
 	"\tportionId\x18\x02 \x01(\rR\tportionId\x12\x14\n" +
 	"\x05count\x18\x03 \x01(\rR\x05count\x12(\n" +
 	"\x04dish\x18\x04 \x01(\v2\x14.restaurant_rpc.DishR\x04dish\x125\n" +
-	"\aportion\x18\x05 \x01(\v2\x1b.restaurant_rpc.DishPortionR\aportion\"\xc6\x02\n" +
+	"\aportion\x18\x05 \x01(\v2\x1b.restaurant_rpc.DishPortionR\aportion\"\xca\x02\n" +
 	"\tOrderInfo\x12\x18\n" +
-	"\aorderId\x18\x01 \x01(\rR\aorderId\x123\n" +
-	"\torderType\x18\x02 \x01(\x0e2\x15.restaurant.OrderTypeR\torderType\x12+\n" +
+	"\aorderId\x18\x01 \x01(\rR\aorderId\x127\n" +
+	"\torderType\x18\x02 \x01(\x0e2\x19.restaurant_rpc.OrderTypeR\torderType\x12+\n" +
 	"\x05table\x18\x03 \x01(\v2\x15.restaurant_rpc.TableR\x05table\x12\x1c\n" +
 	"\tcreatedAt\x18\x04 \x01(\x03R\tcreatedAt\x12E\n" +
 	"\x0eorderInfoItems\x18\x05 \x03(\v2\x1d.restaurant_rpc.OrderInfoItemR\x0eorderInfoItems\x12\x1e\n" +
@@ -2048,20 +2047,20 @@ var file_dish_service_proto_goTypes = []any{
 	(*GetOrderInfoResp)(nil),          // 30: restaurant_rpc.GetOrderInfoResp
 	(*OrderSimpleInfo)(nil),           // 31: restaurant_rpc.OrderSimpleInfo
 	(*GetAllOrdersResp)(nil),          // 32: restaurant_rpc.GetAllOrdersResp
-	(types.DishPortion)(0),            // 33: restaurant.DishPortion
-	(types.UnitType)(0),               // 34: restaurant.UnitType
+	(PortionType)(0),                  // 33: restaurant_rpc.PortionType
+	(UnitType)(0),                     // 34: restaurant_rpc.UnitType
 	(*PageInfo)(nil),                  // 35: restaurant_rpc.PageInfo
-	(types.OrderType)(0),              // 36: restaurant.OrderType
+	(OrderType)(0),                    // 36: restaurant_rpc.OrderType
 	(*emptypb.Empty)(nil),             // 37: google.protobuf.Empty
 }
 var file_dish_service_proto_depIdxs = []int32{
 	9,  // 0: restaurant_rpc.Dish.dishType:type_name -> restaurant_rpc.DishType
 	1,  // 1: restaurant_rpc.Dish.portions:type_name -> restaurant_rpc.DishPortion
-	33, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant.DishPortion
+	33, // 2: restaurant_rpc.DishPortion.portionType:type_name -> restaurant_rpc.PortionType
 	2,  // 3: restaurant_rpc.DishPortion.recipe:type_name -> restaurant_rpc.Recipe
 	3,  // 4: restaurant_rpc.Recipe.materials:type_name -> restaurant_rpc.RecipeMaterial
 	4,  // 5: restaurant_rpc.RecipeMaterial.material:type_name -> restaurant_rpc.Material
-	34, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant.UnitType
+	34, // 6: restaurant_rpc.Material.unitType:type_name -> restaurant_rpc.UnitType
 	5,  // 7: restaurant_rpc.Table.seats:type_name -> restaurant_rpc.Seat
 	35, // 8: restaurant_rpc.GetDishesReq.pageInfo:type_name -> restaurant_rpc.PageInfo
 	0,  // 9: restaurant_rpc.GetDishesResp.dishes:type_name -> restaurant_rpc.Dish
@@ -2080,11 +2079,11 @@ var file_dish_service_proto_depIdxs = []int32{
 	6,  // 22: restaurant_rpc.GetAllTablesResp.tables:type_name -> restaurant_rpc.Table
 	6,  // 23: restaurant_rpc.CreateOrEditTableReq.table:type_name -> restaurant_rpc.Table
 	24, // 24: restaurant_rpc.PlaceOrderReq.orderItems:type_name -> restaurant_rpc.OrderItem
-	36, // 25: restaurant_rpc.PlaceOrderReq.orderType:type_name -> restaurant.OrderType
+	36, // 25: restaurant_rpc.PlaceOrderReq.orderType:type_name -> restaurant_rpc.OrderType
 	6,  // 26: restaurant_rpc.PlaceOrderReq.table:type_name -> restaurant_rpc.Table
 	0,  // 27: restaurant_rpc.OrderInfoItem.dish:type_name -> restaurant_rpc.Dish
 	1,  // 28: restaurant_rpc.OrderInfoItem.portion:type_name -> restaurant_rpc.DishPortion
-	36, // 29: restaurant_rpc.OrderInfo.orderType:type_name -> restaurant.OrderType
+	36, // 29: restaurant_rpc.OrderInfo.orderType:type_name -> restaurant_rpc.OrderType
 	6,  // 30: restaurant_rpc.OrderInfo.table:type_name -> restaurant_rpc.Table
 	27, // 31: restaurant_rpc.OrderInfo.orderInfoItems:type_name -> restaurant_rpc.OrderInfoItem
 	28, // 32: restaurant_rpc.GetOrderInfoResp.orderInfo:type_name -> restaurant_rpc.OrderInfo
@@ -2130,6 +2129,7 @@ func file_dish_service_proto_init() {
 		return
 	}
 	file_common_proto_init()
+	file_types_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -5,7 +5,7 @@ option go_package = "restaurant_backend/rpc;restaurant_rpc";
 
 import "google/protobuf/empty.proto";
 import "common.proto";
-import "restaurantV2/types.proto";
+import "types.proto";
 
 message Dish {
     uint32 id = 1;
@@ -19,7 +19,7 @@ message DishPortion {
     uint32 id = 1;
     string name = 2;
     string price = 3; // 价格, 以字符串传输避免精度丢失
-    restaurant.DishPortion portionType = 4; // 份量
+    PortionType portionType = 4; // 份量
     Recipe recipe = 5;
 }
 
@@ -38,7 +38,7 @@ message Material {
     uint32 id = 1;
     string name = 2;
     string price = 3; // 配料单价
-    restaurant.UnitType unitType = 4; // 配料单位
+    UnitType unitType = 4; // 配料单位
     string amount = 5; // 总量
 }
 
@@ -143,7 +143,7 @@ message OrderItem {
 /// 下订单请求
 message PlaceOrderReq {
     repeated OrderItem orderItems = 1;
-    restaurant.OrderType orderType = 2; // 订单类型
+    OrderType orderType = 2; // 订单类型
     string address = 3; // 订单地址, 仅外卖订单有该字段
     Table table = 4; // 桌号, 仅堂食订单有该字段
 }
@@ -166,7 +166,7 @@ message OrderInfoItem {
  */
 message OrderInfo {
     uint32 orderId = 1;
-    restaurant.OrderType orderType = 2;
+    OrderType orderType = 2;
     Table table = 3;
     int64 createdAt = 4;
     repeated OrderInfoItem orderInfoItems = 5;

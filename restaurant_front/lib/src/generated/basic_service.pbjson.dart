@@ -36,13 +36,14 @@ const EmployeeRole$json = {
     {'1': 'ROLE_UNKNOWN', '2': 0},
     {'1': 'ROLE_ADMIN', '2': 1},
     {'1': 'ROLE_MANAGER', '2': 2},
+    {'1': 'ROLE_NORMAL', '2': 3},
   ],
 };
 
 /// Descriptor for `EmployeeRole`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List employeeRoleDescriptor = $convert.base64Decode(
     'CgxFbXBsb3llZVJvbGUSEAoMUk9MRV9VTktOT1dOEAASDgoKUk9MRV9BRE1JThABEhAKDFJPTE'
-    'VfTUFOQUdFUhAC');
+    'VfTUFOQUdFUhACEg8KC1JPTEVfTk9STUFMEAM=');
 
 @$core.Deprecated('Use respStatusDescriptor instead')
 const RespStatus$json = {

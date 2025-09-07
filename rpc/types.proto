@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package restaurant;
+package restaurant_rpc;
 
-option go_package = "restaurant_backend/restaurant_backend/types";
+option go_package = "restaurant_backend/rpc;restaurant_rpc";
 
 // 桌子类型
 enum TableShape {
@@ -24,7 +24,7 @@ enum SellStatus {
   SELL_STATUS_REMOVE = 3; // 下架
 }
 
-enum DishPortion {
+enum PortionType {
   DISH_PORTION_UNKNOWN = 0;
   DISH_PORTION_SMALL = 1; // 小份
   DISH_PORTION_MID = 2; // 中份
@@ -60,4 +60,20 @@ enum CouponTarget {
   COUPON_TARGET_UNKNOWN = 0;
   COUPON_TARGET_DISH_TARGET = 1; // 针对菜品
   COUPON_TARGET_PORTION_TARGET = 2; // 针对份量
+}
+
+/**
+成本类型
+ */
+enum CostType {
+  COST_TYPE_UNKNOWN = 0;
+  COST_TYPE_MATERIAL = 1; // 配料成本
+  COST_TYPE_LABOR = 2; // 人工成本
+  COST_TYPE_ELECTRICITY = 3; // 电费
+  COST_TYPE_WATER = 4; // 水费
+  COST_TYPE_EQUIPMENT = 5; // 设备成本
+  COST_TYPE_GAS = 6; // 天然气
+  COST_TYPE_CONSUMABLE = 7; // 消耗品成本
+  COST_TYPE_MARKETING = 8; // 营销成本
+  COST_TYPE_RENT = 9; // 租金
 }

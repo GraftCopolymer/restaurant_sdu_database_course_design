@@ -43,15 +43,18 @@ class EmployeeRole extends $pb.ProtobufEnum {
       EmployeeRole._(1, _omitEnumNames ? '' : 'ROLE_ADMIN');
   static const EmployeeRole ROLE_MANAGER =
       EmployeeRole._(2, _omitEnumNames ? '' : 'ROLE_MANAGER');
+  static const EmployeeRole ROLE_NORMAL =
+      EmployeeRole._(3, _omitEnumNames ? '' : 'ROLE_NORMAL');
 
   static const $core.List<EmployeeRole> values = <EmployeeRole>[
     ROLE_UNKNOWN,
     ROLE_ADMIN,
     ROLE_MANAGER,
+    ROLE_NORMAL,
   ];
 
   static final $core.List<EmployeeRole?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 2);
+      $pb.ProtobufEnum.$_initByValueList(values, 3);
   static EmployeeRole? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 

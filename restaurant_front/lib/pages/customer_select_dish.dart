@@ -13,7 +13,7 @@ import 'package:restaurant_management/providers/shopping_cart_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/dish_service.pbgrpc.dart';
 import 'package:restaurant_management/src/generated/google/protobuf/empty.pb.dart';
-import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart' show ORDER_TYPE_DINING_IN, ORDER_TYPE_TAKE_OUT, OrderType;
+import 'package:restaurant_management/src/generated/types.pb.dart' show OrderType;
 import 'package:restaurant_management/utils/data_extends.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';

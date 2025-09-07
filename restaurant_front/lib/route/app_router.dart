@@ -35,5 +35,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: TableEditRoute.page, guards: [AuthGuard(), PermissionGuard()]),
     AutoRoute(page: OrderDetailRoute.page, guards: [AuthGuard()]),
     AutoRoute(page: OrderListRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: EmployeeDetailRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: PaySalaryRoute.page, guards: [AuthGuard(), PermissionGuard()]),
   ];
 }

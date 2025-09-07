@@ -16,7 +16,7 @@ import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'common.pb.dart' as $2;
-import 'restaurantV2/types.pbenum.dart' as $3;
+import 'types.pbenum.dart' as $3;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -125,7 +125,7 @@ class DishPortion extends $pb.GeneratedMessage {
     $core.int? id,
     $core.String? name,
     $core.String? price,
-    $3.DishPortion? portionType,
+    $3.PortionType? portionType,
     Recipe? recipe,
   }) {
     final result = create();
@@ -153,12 +153,12 @@ class DishPortion extends $pb.GeneratedMessage {
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'price')
-    ..e<$3.DishPortion>(
+    ..e<$3.PortionType>(
         4, _omitFieldNames ? '' : 'portionType', $pb.PbFieldType.OE,
         protoName: 'portionType',
-        defaultOrMaker: $3.DishPortion.DISH_PORTION_UNKNOWN,
-        valueOf: $3.DishPortion.valueOf,
-        enumValues: $3.DishPortion.values)
+        defaultOrMaker: $3.PortionType.DISH_PORTION_UNKNOWN,
+        valueOf: $3.PortionType.valueOf,
+        enumValues: $3.PortionType.values)
     ..aOM<Recipe>(5, _omitFieldNames ? '' : 'recipe', subBuilder: Recipe.create)
     ..hasRequiredFields = false;
 
@@ -210,9 +210,9 @@ class DishPortion extends $pb.GeneratedMessage {
   void clearPrice() => $_clearField(3);
 
   @$pb.TagNumber(4)
-  $3.DishPortion get portionType => $_getN(3);
+  $3.PortionType get portionType => $_getN(3);
   @$pb.TagNumber(4)
-  set portionType($3.DishPortion value) => $_setField(4, value);
+  set portionType($3.PortionType value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasPortionType() => $_has(3);
   @$pb.TagNumber(4)

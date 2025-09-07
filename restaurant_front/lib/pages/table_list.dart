@@ -5,7 +5,7 @@ import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/providers/table_list_provider.dart';
 import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
-import 'package:restaurant_management/src/generated/restaurantV2/types.pbenum.dart';
+import 'package:restaurant_management/src/generated/types.pb.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/dashboard_card.dart';

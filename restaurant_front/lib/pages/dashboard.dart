@@ -5,8 +5,8 @@ import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/providers/user_info_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart' as r;
 import 'package:restaurant_management/src/generated/basic_service.pbenum.dart';
-import 'package:restaurant_management/src/generated/restaurantV2/types.pb.dart'
-    show ORDER_TYPE_DINING_IN, OrderType;
+import 'package:restaurant_management/src/generated/types.pb.dart'
+    show OrderType;
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/dashboard_card.dart';
 

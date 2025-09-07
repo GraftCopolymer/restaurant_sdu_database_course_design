@@ -1,6 +1,6 @@
 // This is a generated file - do not edit.
 //
-// Generated from restaurantV2/types.proto.
+// Generated from types.proto.
 
 // @dart = 3.3
 
@@ -61,9 +61,9 @@ final $typed_data.Uint8List sellStatusDescriptor = $convert.base64Decode(
     'xMSU5HEAESGAoUU0VMTF9TVEFUVVNfU09MRF9PVVQQAhIWChJTRUxMX1NUQVRVU19SRU1PVkUQ'
     'Aw==');
 
-@$core.Deprecated('Use dishPortionDescriptor instead')
-const DishPortion$json = {
-  '1': 'DishPortion',
+@$core.Deprecated('Use portionTypeDescriptor instead')
+const PortionType$json = {
+  '1': 'PortionType',
   '2': [
     {'1': 'DISH_PORTION_UNKNOWN', '2': 0},
     {'1': 'DISH_PORTION_SMALL', '2': 1},
@@ -72,9 +72,9 @@ const DishPortion$json = {
   ],
 };
 
-/// Descriptor for `DishPortion`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List dishPortionDescriptor = $convert.base64Decode(
-    'CgtEaXNoUG9ydGlvbhIYChRESVNIX1BPUlRJT05fVU5LTk9XThAAEhYKEkRJU0hfUE9SVElPTl'
+/// Descriptor for `PortionType`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List portionTypeDescriptor = $convert.base64Decode(
+    'CgtQb3J0aW9uVHlwZRIYChRESVNIX1BPUlRJT05fVU5LTk9XThAAEhYKEkRJU0hfUE9SVElPTl'
     '9TTUFMTBABEhQKEERJU0hfUE9SVElPTl9NSUQQAhIUChBESVNIX1BPUlRJT05fQklHEAM=');
 
 @$core.Deprecated('Use unitTypeDescriptor instead')
@@ -152,3 +152,28 @@ const CouponTarget$json = {
 final $typed_data.Uint8List couponTargetDescriptor = $convert.base64Decode(
     'CgxDb3Vwb25UYXJnZXQSGQoVQ09VUE9OX1RBUkdFVF9VTktOT1dOEAASHQoZQ09VUE9OX1RBUk'
     'dFVF9ESVNIX1RBUkdFVBABEiAKHENPVVBPTl9UQVJHRVRfUE9SVElPTl9UQVJHRVQQAg==');
+
+@$core.Deprecated('Use costTypeDescriptor instead')
+const CostType$json = {
+  '1': 'CostType',
+  '2': [
+    {'1': 'COST_TYPE_UNKNOWN', '2': 0},
+    {'1': 'COST_TYPE_MATERIAL', '2': 1},
+    {'1': 'COST_TYPE_LABOR', '2': 2},
+    {'1': 'COST_TYPE_ELECTRICITY', '2': 3},
+    {'1': 'COST_TYPE_WATER', '2': 4},
+    {'1': 'COST_TYPE_EQUIPMENT', '2': 5},
+    {'1': 'COST_TYPE_GAS', '2': 6},
+    {'1': 'COST_TYPE_CONSUMABLE', '2': 7},
+    {'1': 'COST_TYPE_MARKETING', '2': 8},
+    {'1': 'COST_TYPE_RENT', '2': 9},
+  ],
+};
+
+/// Descriptor for `CostType`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List costTypeDescriptor = $convert.base64Decode(
+    'CghDb3N0VHlwZRIVChFDT1NUX1RZUEVfVU5LTk9XThAAEhYKEkNPU1RfVFlQRV9NQVRFUklBTB'
+    'ABEhMKD0NPU1RfVFlQRV9MQUJPUhACEhkKFUNPU1RfVFlQRV9FTEVDVFJJQ0lUWRADEhMKD0NP'
+    'U1RfVFlQRV9XQVRFUhAEEhcKE0NPU1RfVFlQRV9FUVVJUE1FTlQQBRIRCg1DT1NUX1RZUEVfR0'
+    'FTEAYSGAoUQ09TVF9UWVBFX0NPTlNVTUFCTEUQBxIXChNDT1NUX1RZUEVfTUFSS0VUSU5HEAgS'
+    'EgoOQ09TVF9UWVBFX1JFTlQQCQ==');

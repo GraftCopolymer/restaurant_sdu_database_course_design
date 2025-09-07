@@ -7,4 +7,4 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 # 生成数据库模型所需数据
 #protoc -I=./po/proto --go_out=./ ./po/proto/*.proto
 # 生成rpc接口
-protoc -I=./rpc --go_out=./ --go-grpc_out=./ ./rpc/*.proto ./rpc/restaurantV2/*.proto
+protoc -I=./rpc --go_out=./ --go-grpc_out=./ ./rpc/*.proto
