@@ -76,4 +76,5 @@ enum CostType {
   COST_TYPE_CONSUMABLE = 7; // 消耗品成本
   COST_TYPE_MARKETING = 8; // 营销成本
   COST_TYPE_RENT = 9; // 租金
+  COST_TYPE_MANAGEMENT = 10; // 行政管理费
 }

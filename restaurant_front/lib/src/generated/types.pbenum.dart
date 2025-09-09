@@ -245,6 +245,8 @@ class CostType extends $pb.ProtobufEnum {
       CostType._(8, _omitEnumNames ? '' : 'COST_TYPE_MARKETING');
   static const CostType COST_TYPE_RENT =
       CostType._(9, _omitEnumNames ? '' : 'COST_TYPE_RENT');
+  static const CostType COST_TYPE_MANAGEMENT =
+      CostType._(10, _omitEnumNames ? '' : 'COST_TYPE_MANAGEMENT');
 
   static const $core.List<CostType> values = <CostType>[
     COST_TYPE_UNKNOWN,
@@ -257,10 +259,11 @@ class CostType extends $pb.ProtobufEnum {
     COST_TYPE_CONSUMABLE,
     COST_TYPE_MARKETING,
     COST_TYPE_RENT,
+    COST_TYPE_MANAGEMENT,
   ];
 
   static final $core.List<CostType?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 9);
+      $pb.ProtobufEnum.$_initByValueList(values, 10);
   static CostType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 

@@ -36,6 +36,8 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   # 日期格式化
   intl: ^0.20.2
+  # 数据可视化
+  fl_chart: 1.0.0
 
 dev_dependencies:
   flutter_test:

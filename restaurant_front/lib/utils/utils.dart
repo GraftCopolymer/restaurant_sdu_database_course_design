@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:restaurant_management/src/generated/basic_service.pb.dart';
@@ -85,7 +86,7 @@ class Utils {
   }
 
   /// 获取登录角色
-  static Future<LoginRole?> getLoginRole() async { 
+  static Future<LoginRole?> getLoginRole() async {
     final role = SP.pref.getInt(StoreKeys.loginRole);
     if (role == null) return null;
     return LoginRole.valueOf(role);
@@ -143,5 +144,30 @@ class Utils {
       default:
         return "份";
     }
+  }
+
+  /// 生成随机颜色
+  /// [darkMode] 是否生成深色调颜色, 默认为false, 即生成浅色调颜色
+  static Color randomColor({bool darkMode = false}) {
+    final random = Random();
+
+    // 随机生成 RGB
+    int r = random.nextInt(256);
+    int g = random.nextInt(256);
+    int b = random.nextInt(256);
+
+    if (darkMode) {
+      // 黑暗模式 → 偏暗
+      r = (r * 0.4).toInt();
+      g = (g * 0.4).toInt();
+      b = (b * 0.4).toInt();
+    } else {
+      // 亮色模式 → 偏亮
+      r = ((r * 0.6) + 100).clamp(0, 255).toInt();
+      g = ((g * 0.6) + 100).clamp(0, 255).toInt();
+      b = ((b * 0.6) + 100).clamp(0, 255).toInt();
+    }
+
+    return Color.fromARGB(255, r, g, b);
   }
 }

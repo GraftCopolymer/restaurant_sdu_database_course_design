@@ -478,30 +478,32 @@ type CostType int32
 
 const (
 	CostType_COST_TYPE_UNKNOWN     CostType = 0
-	CostType_COST_TYPE_MATERIAL    CostType = 1 // 配料成本
-	CostType_COST_TYPE_LABOR       CostType = 2 // 人工成本
-	CostType_COST_TYPE_ELECTRICITY CostType = 3 // 电费
-	CostType_COST_TYPE_WATER       CostType = 4 // 水费
-	CostType_COST_TYPE_EQUIPMENT   CostType = 5 // 设备成本
-	CostType_COST_TYPE_GAS         CostType = 6 // 天然气
-	CostType_COST_TYPE_CONSUMABLE  CostType = 7 // 消耗品成本
-	CostType_COST_TYPE_MARKETING   CostType = 8 // 营销成本
-	CostType_COST_TYPE_RENT        CostType = 9 // 租金
+	CostType_COST_TYPE_MATERIAL    CostType = 1  // 配料成本
+	CostType_COST_TYPE_LABOR       CostType = 2  // 人工成本
+	CostType_COST_TYPE_ELECTRICITY CostType = 3  // 电费
+	CostType_COST_TYPE_WATER       CostType = 4  // 水费
+	CostType_COST_TYPE_EQUIPMENT   CostType = 5  // 设备成本
+	CostType_COST_TYPE_GAS         CostType = 6  // 天然气
+	CostType_COST_TYPE_CONSUMABLE  CostType = 7  // 消耗品成本
+	CostType_COST_TYPE_MARKETING   CostType = 8  // 营销成本
+	CostType_COST_TYPE_RENT        CostType = 9  // 租金
+	CostType_COST_TYPE_MANAGEMENT  CostType = 10 // 行政管理费
 )
 
 // Enum value maps for CostType.
 var (
 	CostType_name = map[int32]string{
-		0: "COST_TYPE_UNKNOWN",
-		1: "COST_TYPE_MATERIAL",
-		2: "COST_TYPE_LABOR",
-		3: "COST_TYPE_ELECTRICITY",
-		4: "COST_TYPE_WATER",
-		5: "COST_TYPE_EQUIPMENT",
-		6: "COST_TYPE_GAS",
-		7: "COST_TYPE_CONSUMABLE",
-		8: "COST_TYPE_MARKETING",
-		9: "COST_TYPE_RENT",
+		0:  "COST_TYPE_UNKNOWN",
+		1:  "COST_TYPE_MATERIAL",
+		2:  "COST_TYPE_LABOR",
+		3:  "COST_TYPE_ELECTRICITY",
+		4:  "COST_TYPE_WATER",
+		5:  "COST_TYPE_EQUIPMENT",
+		6:  "COST_TYPE_GAS",
+		7:  "COST_TYPE_CONSUMABLE",
+		8:  "COST_TYPE_MARKETING",
+		9:  "COST_TYPE_RENT",
+		10: "COST_TYPE_MANAGEMENT",
 	}
 	CostType_value = map[string]int32{
 		"COST_TYPE_UNKNOWN":     0,
@@ -514,6 +516,7 @@ var (
 		"COST_TYPE_CONSUMABLE":  7,
 		"COST_TYPE_MARKETING":   8,
 		"COST_TYPE_RENT":        9,
+		"COST_TYPE_MANAGEMENT":  10,
 	}
 )
 
@@ -590,7 +593,7 @@ const file_types_proto_rawDesc = "" +
 	"\fCouponTarget\x12\x19\n" +
 	"\x15COUPON_TARGET_UNKNOWN\x10\x00\x12\x1d\n" +
 	"\x19COUPON_TARGET_DISH_TARGET\x10\x01\x12 \n" +
-	"\x1cCOUPON_TARGET_PORTION_TARGET\x10\x02*\xf1\x01\n" +
+	"\x1cCOUPON_TARGET_PORTION_TARGET\x10\x02*\x8b\x02\n" +
 	"\bCostType\x12\x15\n" +
 	"\x11COST_TYPE_UNKNOWN\x10\x00\x12\x16\n" +
 	"\x12COST_TYPE_MATERIAL\x10\x01\x12\x13\n" +
@@ -601,7 +604,9 @@ const file_types_proto_rawDesc = "" +
 	"\rCOST_TYPE_GAS\x10\x06\x12\x18\n" +
 	"\x14COST_TYPE_CONSUMABLE\x10\a\x12\x17\n" +
 	"\x13COST_TYPE_MARKETING\x10\b\x12\x12\n" +
-	"\x0eCOST_TYPE_RENT\x10\tB'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
+	"\x0eCOST_TYPE_RENT\x10\t\x12\x18\n" +
+	"\x14COST_TYPE_MANAGEMENT\x10\n" +
+	"B'Z%restaurant_backend/rpc;restaurant_rpcb\x06proto3"
 
 var (
 	file_types_proto_rawDescOnce sync.Once

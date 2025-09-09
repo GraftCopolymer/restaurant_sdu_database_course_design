@@ -11,12 +11,83 @@ message CostInfo {
   string value = 2;
   CostType costType = 3;
   string description = 4;
+  int64 createdAt = 5;
+}
+
+message CostDistribution {
+  string desc = 1; // 描述
+  string value = 2; // 占比
+  string total = 3; // 总额
+  CostType costType = 4; // 类型
+}
+
+message CostDistributionData {
+  repeated CostDistribution costDistributionList = 1;
+}
+
+/// 薪资排行榜数据
+message SalaryRankData {
+  message SalaryRankItem {
+    string name = 1; // 员工姓名
+    string phone = 2; // 员工电话
+    uint32 employeeId = 3; // 员工ID
+    string salary = 4; // 薪资数额
+  }
+  repeated SalaryRankItem salaryRankList = 1;
+}
+
+/// 可视化数据
+message CostChartData {
+  CostDistributionData costDistribution = 1;
+  SalaryRankData salaryRank = 2;
+}
+
+/// 月成本
+message MonthlyCost {
+  uint32 year = 1; // 年份
+  uint32 month = 2; // 月份
+  string value = 3; // 成本金额
+}
+
+message MonthlyCostList {
+  repeated MonthlyCost monthlyCostList = 1;
+}
+
+message GetAllCostReq {
+  CostType costType = 1; // 小于等于 0 时表示获取所有成本
 }
 
 message GetAllCostResp {
   repeated CostInfo costInfoList = 1;
 }
 
+message DeleteCostsReq {
+  repeated uint32 costIdList = 1;
+}
+
+message GetCostChartDataResp {
+  CostChartData costChartData = 1;
+}
+
+message AddCostItemReq {
+  string desc = 1;
+  string value = 2;
+  CostType costType = 3;
+  int64 createdAt = 4; // 成本发生时间
+}
+
+message GetMonthlyCostTrendReq {
+  uint32 year = 1; // 年份
+}
+
+message GetMonthlyCostTrendResp {
+  MonthlyCostList monthlyCostTrend = 1;
+}
+
 service CostService {
-  rpc GetAllCost(google.protobuf.Empty) returns (GetAllCostResp);
+  rpc GetAllCost(GetAllCostReq) returns (GetAllCostResp);
+  rpc DeleteCosts(DeleteCostsReq) returns (google.protobuf.Empty);
+  rpc GetCostChartData(google.protobuf.Empty) returns (GetCostChartDataResp);
+  rpc AddCostItem(AddCostItemReq) returns (google.protobuf.Empty);
+  rpc GetMonthlyCostTrend(GetMonthlyCostTrendReq) returns (GetMonthlyCostTrendResp);
 }

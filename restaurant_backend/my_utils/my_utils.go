@@ -194,3 +194,25 @@ func SafePageInfo(page uint32, pageSize uint32) (int, int) {
 	}
 	return int(sPage), int(sPageSize)
 }
+
+func GetCostTypeDesc(costType restaurant_rpc.CostType) string {
+	if costType == restaurant_rpc.CostType_COST_TYPE_MATERIAL {
+		return "配料成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_LABOR {
+		return "人工费/薪资"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_ELECTRICITY {
+		return "电费成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_WATER {
+		return "水费成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_EQUIPMENT {
+		return "设备成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_CONSUMABLE {
+		return "消耗品成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_MARKETING {
+		return "营销成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_MANAGEMENT {
+		return "行政管理费"
+	} else {
+		return "其他"
+	}
+}

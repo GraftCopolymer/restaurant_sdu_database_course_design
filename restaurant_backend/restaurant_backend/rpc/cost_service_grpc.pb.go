@@ -20,14 +20,22 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CostService_GetAllCost_FullMethodName = "/restaurant_rpc.CostService/GetAllCost"
+	CostService_GetAllCost_FullMethodName          = "/restaurant_rpc.CostService/GetAllCost"
+	CostService_DeleteCosts_FullMethodName         = "/restaurant_rpc.CostService/DeleteCosts"
+	CostService_GetCostChartData_FullMethodName    = "/restaurant_rpc.CostService/GetCostChartData"
+	CostService_AddCostItem_FullMethodName         = "/restaurant_rpc.CostService/AddCostItem"
+	CostService_GetMonthlyCostTrend_FullMethodName = "/restaurant_rpc.CostService/GetMonthlyCostTrend"
 )
 
 // CostServiceClient is the client API for CostService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CostServiceClient interface {
-	GetAllCost(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllCostResp, error)
+	GetAllCost(ctx context.Context, in *GetAllCostReq, opts ...grpc.CallOption) (*GetAllCostResp, error)
+	DeleteCosts(ctx context.Context, in *DeleteCostsReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetCostChartData(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetCostChartDataResp, error)
+	AddCostItem(ctx context.Context, in *AddCostItemReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetMonthlyCostTrend(ctx context.Context, in *GetMonthlyCostTrendReq, opts ...grpc.CallOption) (*GetMonthlyCostTrendResp, error)
 }
 
 type costServiceClient struct {
@@ -38,10 +46,50 @@ func NewCostServiceClient(cc grpc.ClientConnInterface) CostServiceClient {
 	return &costServiceClient{cc}
 }
 
-func (c *costServiceClient) GetAllCost(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllCostResp, error) {
+func (c *costServiceClient) GetAllCost(ctx context.Context, in *GetAllCostReq, opts ...grpc.CallOption) (*GetAllCostResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetAllCostResp)
 	err := c.cc.Invoke(ctx, CostService_GetAllCost_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *costServiceClient) DeleteCosts(ctx context.Context, in *DeleteCostsReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, CostService_DeleteCosts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *costServiceClient) GetCostChartData(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetCostChartDataResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCostChartDataResp)
+	err := c.cc.Invoke(ctx, CostService_GetCostChartData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *costServiceClient) AddCostItem(ctx context.Context, in *AddCostItemReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, CostService_AddCostItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *costServiceClient) GetMonthlyCostTrend(ctx context.Context, in *GetMonthlyCostTrendReq, opts ...grpc.CallOption) (*GetMonthlyCostTrendResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMonthlyCostTrendResp)
+	err := c.cc.Invoke(ctx, CostService_GetMonthlyCostTrend_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +100,11 @@ func (c *costServiceClient) GetAllCost(ctx context.Context, in *emptypb.Empty, o
 // All implementations must embed UnimplementedCostServiceServer
 // for forward compatibility.
 type CostServiceServer interface {
-	GetAllCost(context.Context, *emptypb.Empty) (*GetAllCostResp, error)
+	GetAllCost(context.Context, *GetAllCostReq) (*GetAllCostResp, error)
+	DeleteCosts(context.Context, *DeleteCostsReq) (*emptypb.Empty, error)
+	GetCostChartData(context.Context, *emptypb.Empty) (*GetCostChartDataResp, error)
+	AddCostItem(context.Context, *AddCostItemReq) (*emptypb.Empty, error)
+	GetMonthlyCostTrend(context.Context, *GetMonthlyCostTrendReq) (*GetMonthlyCostTrendResp, error)
 	mustEmbedUnimplementedCostServiceServer()
 }
 
@@ -63,8 +115,20 @@ type CostServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCostServiceServer struct{}
 
-func (UnimplementedCostServiceServer) GetAllCost(context.Context, *emptypb.Empty) (*GetAllCostResp, error) {
+func (UnimplementedCostServiceServer) GetAllCost(context.Context, *GetAllCostReq) (*GetAllCostResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllCost not implemented")
+}
+func (UnimplementedCostServiceServer) DeleteCosts(context.Context, *DeleteCostsReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCosts not implemented")
+}
+func (UnimplementedCostServiceServer) GetCostChartData(context.Context, *emptypb.Empty) (*GetCostChartDataResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCostChartData not implemented")
+}
+func (UnimplementedCostServiceServer) AddCostItem(context.Context, *AddCostItemReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCostItem not implemented")
+}
+func (UnimplementedCostServiceServer) GetMonthlyCostTrend(context.Context, *GetMonthlyCostTrendReq) (*GetMonthlyCostTrendResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMonthlyCostTrend not implemented")
 }
 func (UnimplementedCostServiceServer) mustEmbedUnimplementedCostServiceServer() {}
 func (UnimplementedCostServiceServer) testEmbeddedByValue()                     {}
@@ -88,7 +152,7 @@ func RegisterCostServiceServer(s grpc.ServiceRegistrar, srv CostServiceServer) {
 }
 
 func _CostService_GetAllCost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(GetAllCostReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -100,7 +164,79 @@ func _CostService_GetAllCost_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: CostService_GetAllCost_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CostServiceServer).GetAllCost(ctx, req.(*emptypb.Empty))
+		return srv.(CostServiceServer).GetAllCost(ctx, req.(*GetAllCostReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CostService_DeleteCosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCostsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CostServiceServer).DeleteCosts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CostService_DeleteCosts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CostServiceServer).DeleteCosts(ctx, req.(*DeleteCostsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CostService_GetCostChartData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CostServiceServer).GetCostChartData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CostService_GetCostChartData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CostServiceServer).GetCostChartData(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CostService_AddCostItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCostItemReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CostServiceServer).AddCostItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CostService_AddCostItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CostServiceServer).AddCostItem(ctx, req.(*AddCostItemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CostService_GetMonthlyCostTrend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMonthlyCostTrendReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CostServiceServer).GetMonthlyCostTrend(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CostService_GetMonthlyCostTrend_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CostServiceServer).GetMonthlyCostTrend(ctx, req.(*GetMonthlyCostTrendReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -115,6 +251,22 @@ var CostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllCost",
 			Handler:    _CostService_GetAllCost_Handler,
+		},
+		{
+			MethodName: "DeleteCosts",
+			Handler:    _CostService_DeleteCosts_Handler,
+		},
+		{
+			MethodName: "GetCostChartData",
+			Handler:    _CostService_GetCostChartData_Handler,
+		},
+		{
+			MethodName: "AddCostItem",
+			Handler:    _CostService_AddCostItem_Handler,
+		},
+		{
+			MethodName: "GetMonthlyCostTrend",
+			Handler:    _CostService_GetMonthlyCostTrend_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
