@@ -54,7 +54,7 @@ cd restaurant_backend
 
 除此之外，还需要配置图床信息 和 JWT key，本项目使用阿里云OSS方案。在 restaurant_backend 中新建 config.yaml 文件，输入：
 
-```shell
+```yaml
 pic_bed:
   accessKeyId: your_oss_access_key_id
   accessKeySecret: your_oss_access_key_secret
