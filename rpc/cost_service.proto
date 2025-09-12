@@ -49,8 +49,16 @@ message MonthlyCost {
   string value = 3; // 成本金额
 }
 
-message MonthlyCostList {
+/// 月营收
+message MonthlyIncome {
+  uint32 year = 1; // 年份
+  uint32 month = 2; // 月份
+  string value = 3; // 营收金额
+}
+
+message MonthlyCostAndIncomeList {
   repeated MonthlyCost monthlyCostList = 1;
+  repeated MonthlyIncome monthlyIncomeList = 2;
 }
 
 message GetAllCostReq {
@@ -81,7 +89,7 @@ message GetMonthlyCostTrendReq {
 }
 
 message GetMonthlyCostTrendResp {
-  MonthlyCostList monthlyCostTrend = 1;
+  MonthlyCostAndIncomeList monthlyCostTrend = 1;
 }
 
 service CostService {

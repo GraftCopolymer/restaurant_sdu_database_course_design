@@ -254,21 +254,29 @@ class TotalCostLineChart extends ConsumerStatefulWidget {
   ConsumerState<TotalCostLineChart> createState() => _TotalCostLineChartState();
 }
 
+enum LineType {
+  cost, income
+}
+
 class _TotalCostLineChartState extends ConsumerState<TotalCostLineChart> {
   int _selectedYear = DateTime.now().year; // 默认使用当前年份
   late int _tempYear = _selectedYear;
 
+  LineType? _selectedLine;
+
   late final family =
-      FutureProvider.family<MonthlyCostList, int>((ref, year) async {
+      FutureProvider.family<MonthlyCostAndIncomeList, int>((ref, year) async {
         final req = GetMonthlyCostTrendReq(year: year);
         return (await CostService.client.getMonthlyCostTrend(
           req,
         )).monthlyCostTrend;
       });
 
-  FutureProvider<MonthlyCostList> get provider => family(_selectedYear);
-
-  List<Color> gradientColors = [Colors.cyan, Colors.blue, Colors.red];
+  FutureProvider<MonthlyCostAndIncomeList> get provider => family(_selectedYear);
+  final Color _costColor = Colors.red;
+  final Color _incomeColor = Colors.green;
+  List<Color> costGradientColors = [Colors.cyan, Colors.blue, Colors.red];
+  List<Color> incomeGradientColors = [Colors.green, Colors.greenAccent, Colors.red];
   Widget _buildYearSelector() {
     return FilledButton(
       onPressed: () {
@@ -322,10 +330,16 @@ class _TotalCostLineChartState extends ConsumerState<TotalCostLineChart> {
     final asyncMonthlyTrendData = ref.watch(provider);
     return asyncMonthlyTrendData.when(
       data: (monthlyTrendData) {
-        List<FlSpot> spotList = [];
+        List<FlSpot> costSpotList = [];
         for (final monthData in monthlyTrendData.monthlyCostList) {
-          spotList.add(
+          costSpotList.add(
             FlSpot(monthData.month.toDouble(), monthData.value.d().toDouble())
+          );
+        }
+        List<FlSpot> incomeSpotList = [];
+        for (final monthIncome in monthlyTrendData.monthlyIncomeList) {
+          incomeSpotList.add(
+            FlSpot(monthIncome.month.toDouble(), monthIncome.value.d().toDouble())
           );
         }
         return LineChart(
@@ -335,18 +349,32 @@ class _TotalCostLineChartState extends ConsumerState<TotalCostLineChart> {
             lineBarsData: [
               LineChartBarData(
                 isCurved: true,
-                gradient: LinearGradient(colors: gradientColors),
-                barWidth: 4,
-                spots: spotList,
+                color: _costColor,
+                barWidth: _selectedLine == LineType.cost ? 6 : 4,
+                spots: costSpotList,
                 belowBarData: BarAreaData(
                   show: true,
                   gradient: LinearGradient(
-                    colors: gradientColors
+                    colors: costGradientColors
                         .map((color) => color.withValues(alpha: 0.3))
                         .toList(),
                   ),
                 ),
               ),
+              LineChartBarData(
+                isCurved: true,
+                color: _incomeColor,
+                barWidth: _selectedLine == LineType.income ? 6 : 4,
+                spots: incomeSpotList,
+                belowBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    colors: incomeGradientColors
+                        .map((color) => color.withValues(alpha: 0.3))
+                        .toList(),
+                  ),
+                ),
+              )
             ],
           ),
         );
@@ -359,16 +387,37 @@ class _TotalCostLineChartState extends ConsumerState<TotalCostLineChart> {
     );
   }
 
+  Widget _buildIndicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ChartIndicator(color: _costColor, text: "成本", isSquare: false, size: _selectedLine == LineType.cost ? 20 : 16, onTap: () {
+          setState(() {
+            _selectedLine = LineType.cost;
+          });
+        },),
+        SizedBox(width: 5,),
+        ChartIndicator(color: _incomeColor, text: "营收", isSquare: false, size: _selectedLine == LineType.income ? 20 : 16, onTap: () {
+          setState(() {
+            _selectedLine = LineType.income;
+          });
+        },),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return FormSection(
-      title: Text("成本趋势"),
+      title: Text("成本和营收"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // 年份选择器
           _buildYearSelector(),
+          // 图例
+          _buildIndicator(),
           SizedBox(width: width, height: 300, child: _buildLineChart()),
         ],
       ),

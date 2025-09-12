@@ -17,7 +17,7 @@ var picBedServiceImpl PicBedService = nil
 var once sync.Once
 
 type PicBedService interface {
-	GetImageUrl(objectKey string) string
+	GetImageUrl(objectKey string) (string, bool)
 	UploadImage(data []byte, imageName string) (string, error)
 }
 
@@ -27,13 +27,13 @@ type PicBed struct {
 	SupportImageExtensions []string
 }
 
-func (bed PicBed) GetImageUrl(objectKey string) string {
+func (bed PicBed) GetImageUrl(objectKey string) (string, bool) {
 	signedUrl, err := bed.bucket.SignURL(objectKey, oss.HTTPGet, bed.urlExpiredTime)
 	if err != nil {
 		logger.Logger().Error("Failed to get signed image url %v", err)
-		return ""
+		return "", false
 	}
-	return signedUrl
+	return signedUrl, true
 }
 
 func (bed PicBed) UploadImage(data []byte, imageName string) (string, error) {
@@ -55,7 +55,6 @@ func (bed PicBed) UploadImage(data []byte, imageName string) (string, error) {
 		oss.ContentType(mime.TypeByExtension(extension)),
 	}
 	err := bed.bucket.PutObject(objectKey, bytes.NewReader(data), uploadOptions...)
-	// 拼接objectKey
 	if err != nil {
 		logger.Logger().Error("Failed to upload image to oss %v", err)
 		return "", err

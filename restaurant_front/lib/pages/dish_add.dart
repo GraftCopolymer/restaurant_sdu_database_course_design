@@ -8,17 +8,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:restaurant_management/main.dart';
 import 'package:restaurant_management/network/dish_service.dart';
+import 'package:restaurant_management/network/file_service.dart';
 import 'package:restaurant_management/providers/dish_info_edit_provider.dart';
 import 'package:restaurant_management/route/app_router.gr.dart';
 import 'package:restaurant_management/src/generated/dish_service.pb.dart';
+import 'package:restaurant_management/src/generated/file_service.pbgrpc.dart';
 import 'package:restaurant_management/src/generated/google/protobuf/empty.pb.dart';
 import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/widgets/form_section.dart';
 import 'package:restaurant_management/widgets/global_dialog.dart';
 import 'package:restaurant_management/widgets/image_pick_box.dart';
-import 'package:restaurant_management/src/generated/types.pbenum.dart'
-    as en;
+import 'package:restaurant_management/src/generated/types.pbenum.dart' as en;
+import 'package:path/path.dart' as p;
 
 @RoutePage()
 class DishAddPage extends ConsumerStatefulWidget {
@@ -45,8 +47,10 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
 
   final _dishNameCon = TextEditingController();
   final _focusNode = FocusNode();
+  // 菜品封面图
+  String? _imageUrl;
   double _lastKeyboardHeight = 0;
-  
+
   void _onUpdatePortionRecipe(Recipe recipe, int index) {
     ref.read(provider(widget.dish).notifier).updateRecipe(recipe, index);
   }
@@ -191,7 +195,9 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
                         portion: portion,
                         index: index,
                         onSuccess: (dishPortion) {
-                          ref.read(provider(widget.dish).notifier).updatePortion(dishPortion, index);
+                          ref
+                              .read(provider(widget.dish).notifier)
+                              .updatePortion(dishPortion, index);
                         },
                       );
                     },
@@ -258,9 +264,7 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
   Widget _buildPortionEditSectionContent() {
     final List<Widget> portionWidgetList = [];
     final temp = provider(widget.dish);
-    final portionList = ref.watch(
-      temp,
-    ).portions;
+    final portionList = ref.watch(temp).portions;
     int index = 0;
     for (final portion in portionList) {
       portionWidgetList.add(_buildPortionEditItem(portion, index));
@@ -382,9 +386,12 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
       // 随时更新provider中的值
       ref.read(provider(widget.dish)).name = (_dishNameCon.text);
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _imageUrl = ref.watch(provider(widget.dish)).imageUrl;
+    });
   }
 
-  Dish? _getNewDish() {
+  Future<Dish?> _getNewDish() async {
     if (_dishNameCon.text.trim().isEmpty) {
       Fluttertoast.showToast(msg: "请输入菜品名称");
       return null;
@@ -392,6 +399,28 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
     if (_selectedType.dishTypeID == 0) {
       Fluttertoast.showToast(msg: "请选择菜品类型");
       return null;
+    }
+    /// 检查是否上传了图片
+    if (_imageUrl == null || _imageUrl!.isEmpty) {
+      final controller = GlobalDialog.showCustom(builder: (context, controller) {
+        return AlertDialog(
+          title: Text("提示"),
+          content: Text("您未上传该菜品的图片, 确定吗"),
+          actions: [
+            TextButton(onPressed: (){
+              controller.setResult(DialogResult.cancel);
+              controller.dismiss();
+            }, child: Text("取消")),
+            TextButton(onPressed: (){
+              controller.setResult(DialogResult.confirm);
+              controller.dismiss();
+            }, child: Text("确定")),
+          ],
+        );
+      });
+      if (await controller?.getResult() != DialogResult.confirm) {
+        return null;
+      }
     }
     final portions = ref.read(provider(widget.dish)).portions;
     if (portions.isEmpty) {
@@ -403,6 +432,7 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
       name: _dishNameCon.text.trim(),
       dishType: _selectedType,
       portions: portions,
+      imageUrl: _imageUrl ?? ""
     );
   }
 
@@ -430,7 +460,7 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
     _dishNameCon.text = dish.name;
     return BackScope(
       child: Scaffold(
-        appBar: AppBar(title: Text("添加新菜品"), leading: BackButton(),),
+        appBar: AppBar(title: Text("添加新菜品"), leading: BackButton()),
         body: Center(
           child: Column(
             children: [
@@ -468,9 +498,65 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               ImagePickBox(
-                                onSuccess: (imageFile) {
+                                initImageUrl: dish.imageUrl,
+                                onSuccess: (imageFile) async {
                                   _imageFile = imageFile;
                                   debugPrint("当前选择的图片路径: $_imageFile");
+                                  if (_imageFile == null) {
+                                    Fluttertoast.showToast(msg: "获取图片数据失败");
+                                    return;
+                                  }
+                                  // 上传图片至图床
+                                  final controller = GlobalDialog.showLoading(canClose: false);
+                                  final chunkSize = 64 * 1024; // 分块传输, 每块 64KB
+                                  final bytes = await _imageFile!.readAsBytes();
+                                  final maxImageSize = 5 * 1024 * 1024;
+                                  // 限制图片大小
+                                  if (bytes.length >= maxImageSize) {
+                                    Fluttertoast.showToast(msg: "图片过大! 不要超过${maxImageSize / 1024 / 1024}MB!");
+                                    controller?.dismiss();
+                                    return;
+                                  }
+                                  Stream<UploadImageRequest> imageStreamGenerator() async* {
+                                    for (
+                                      int uploadedBytes = 0;
+                                      uploadedBytes < bytes.length;
+                                      uploadedBytes += chunkSize
+                                    ) {
+                                      final end =
+                                          (uploadedBytes + chunkSize <
+                                              bytes.length)
+                                          ? uploadedBytes + chunkSize
+                                          : bytes.length;
+                                      yield UploadImageRequest(
+                                        fileName: p.basename(_imageFile!.path),
+                                        chunk: bytes.sublist(
+                                          uploadedBytes,
+                                          end,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                  try {
+                                    final resp = await FileService.client
+                                      .uploadImage(imageStreamGenerator());
+                                    if (!resp.success) {
+                                      Fluttertoast.showToast(msg: "上传失败: ${resp.message}");
+                                      return;
+                                    }
+                                    // 获取图片url
+                                    _imageUrl = resp.url;
+                                    Fluttertoast.showToast(msg: "上传成功");
+                                  } on GrpcError catch(e,s) {
+                                    Utils.report(e,s);
+                                    Fluttertoast.showToast(msg: "上传失败: ${e.message}");
+                                  } finally {
+                                    // 关闭加载对话框
+                                    controller?.dismiss();
+                                  }
+                                },
+                                onCancelSelection: () { // 取消选择图片
+                                  _imageFile = null;
                                 },
                               ),
                             ],
@@ -492,8 +578,8 @@ class _DishAddPageState extends ConsumerState<DishAddPage>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: FilledButton(
-                    onPressed: () {
-                      final newDish = _getNewDish();
+                    onPressed: () async {
+                      final newDish = await _getNewDish();
                       if (newDish == null) return;
                       // 上传后端
                       _uploadDish(newDish);
@@ -630,7 +716,6 @@ class EditPortionDialog extends StatefulWidget {
 }
 
 class _EditPortionDialogState extends State<EditPortionDialog> {
-
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
 
@@ -790,9 +875,7 @@ class _EditPortionDialogState extends State<EditPortionDialog> {
                     recipe: widget.portion!.recipe,
                   );
                   // 编辑模式, 通知外界变化的发生
-                  widget.onSuccess?.call(
-                    newDishPortion
-                  );
+                  widget.onSuccess?.call(newDishPortion);
                 } else {
                   // 不是编辑模式, 通知外界添加了新的条目
                   widget.onSuccess?.call(

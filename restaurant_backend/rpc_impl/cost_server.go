@@ -181,26 +181,45 @@ func (s *CostServer) GetMonthlyCostTrend(ctx context.Context, req *restaurant_rp
 		Month uint32
 		Value decimal.Decimal
 	}
-	var results []Result
+	var costResults []Result
 	// 查询本年份的每月所有成本
 	if err := database.DB().Model(&po.Cost{}).
 		Where("EXTRACT(YEAR FROM created_at) = ?", year).
 		Select("EXTRACT(MONTH FROM created_at)::int as month, SUM(value::numeric) as value").
 		Group("EXTRACT(MONTH FROM created_at)::int").
 		Order("month asc"). // 升序排序
-		Scan(&results).Error; err != nil {
+		Scan(&costResults).Error; err != nil {
 			return nil, errors.New("服务器错误")
 	}
 	var pbMonthlyCostList []*restaurant_rpc.MonthlyCost
-	for _, result := range results {
+	for _, result := range costResults {
 		pbMonthlyCostList = append(pbMonthlyCostList, &restaurant_rpc.MonthlyCost{
 			Year: year,
 			Month: result.Month,
 			Value: result.Value.StringFixed(2),
 		})
 	}
-	trend := &restaurant_rpc.MonthlyCostList{
+	// 查询本年份的每月营收
+	var incomeResults []Result
+	if err := database.DB().Model(&po.Order{}).
+		Where("EXTRACT(YEAR FROM created_at) = ?", year).
+		Select("EXTRACT(MONTH FROM created_at)::int as month, SUM(total::numeric) as value").
+		Group("EXTRACT(MONTH FROM created_at)::int").
+		Order("month asc"). // 升序排序
+		Scan(&incomeResults).Error; err != nil {
+		return nil, errors.New("服务器错误")
+	}
+	var pbMonthlyIncomeList []*restaurant_rpc.MonthlyIncome
+	for _, income := range incomeResults {
+		pbMonthlyIncomeList = append(pbMonthlyIncomeList, &restaurant_rpc.MonthlyIncome{
+			Month: income.Month,
+			Year: year,
+			Value: income.Value.StringFixed(2),
+		})
+	}
+	trend := &restaurant_rpc.MonthlyCostAndIncomeList{
 		MonthlyCostList: pbMonthlyCostList,
+		MonthlyIncomeList: pbMonthlyIncomeList,
 	}
 	return &restaurant_rpc.GetMonthlyCostTrendResp{
 		MonthlyCostTrend: trend,

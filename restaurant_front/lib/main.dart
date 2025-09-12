@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope, ConsumerStatefulWidget, ConsumerState;
+import 'package:restaurant_management/providers/theme_provider.dart';
 import 'package:restaurant_management/route/app_router.dart';
 import 'package:restaurant_management/utils/sp.dart';
 
@@ -14,14 +15,14 @@ Future<void> main() async {
   runApp(ProviderScope(child: const RestaurantApp(),));
 }
 
-class RestaurantApp extends StatefulWidget {
+class RestaurantApp extends ConsumerStatefulWidget {
   const RestaurantApp({super.key});
 
   @override
-  State<RestaurantApp> createState() => _RestaurantAppState();
+  ConsumerState<RestaurantApp> createState() => _RestaurantAppState();
 }
 
-class _RestaurantAppState extends State<RestaurantApp> {
+class _RestaurantAppState extends ConsumerState<RestaurantApp> {
 
   @override
   void initState() {
@@ -32,9 +33,7 @@ class _RestaurantAppState extends State<RestaurantApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router.config(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow)
-      ),
+      theme: ref.watch(themeNotifierProvider)
     );
   }
 }

@@ -11,4 +11,6 @@ class StoreKeys {
   static const employeeRole = "employeeRole";
   static const salary = "salary";
   static const managerId = "managerId";
+  // 主题颜色
+  static const themeColor = "themeColor";
 }

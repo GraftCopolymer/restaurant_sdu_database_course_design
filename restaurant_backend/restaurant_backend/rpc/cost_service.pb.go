@@ -369,27 +369,30 @@ func (x *MonthlyCost) GetValue() string {
 	return ""
 }
 
-type MonthlyCostList struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	MonthlyCostList []*MonthlyCost         `protobuf:"bytes,1,rep,name=monthlyCostList,proto3" json:"monthlyCostList,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+// / 月营收
+type MonthlyIncome struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Year          uint32                 `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`   // 年份
+	Month         uint32                 `protobuf:"varint,2,opt,name=month,proto3" json:"month,omitempty"` // 月份
+	Value         string                 `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`  // 营收金额
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *MonthlyCostList) Reset() {
-	*x = MonthlyCostList{}
+func (x *MonthlyIncome) Reset() {
+	*x = MonthlyIncome{}
 	mi := &file_cost_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *MonthlyCostList) String() string {
+func (x *MonthlyIncome) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MonthlyCostList) ProtoMessage() {}
+func (*MonthlyIncome) ProtoMessage() {}
 
-func (x *MonthlyCostList) ProtoReflect() protoreflect.Message {
+func (x *MonthlyIncome) ProtoReflect() protoreflect.Message {
 	mi := &file_cost_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -401,14 +404,80 @@ func (x *MonthlyCostList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MonthlyCostList.ProtoReflect.Descriptor instead.
-func (*MonthlyCostList) Descriptor() ([]byte, []int) {
+// Deprecated: Use MonthlyIncome.ProtoReflect.Descriptor instead.
+func (*MonthlyIncome) Descriptor() ([]byte, []int) {
 	return file_cost_service_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *MonthlyCostList) GetMonthlyCostList() []*MonthlyCost {
+func (x *MonthlyIncome) GetYear() uint32 {
+	if x != nil {
+		return x.Year
+	}
+	return 0
+}
+
+func (x *MonthlyIncome) GetMonth() uint32 {
+	if x != nil {
+		return x.Month
+	}
+	return 0
+}
+
+func (x *MonthlyIncome) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type MonthlyCostAndIncomeList struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	MonthlyCostList   []*MonthlyCost         `protobuf:"bytes,1,rep,name=monthlyCostList,proto3" json:"monthlyCostList,omitempty"`
+	MonthlyIncomeList []*MonthlyIncome       `protobuf:"bytes,2,rep,name=monthlyIncomeList,proto3" json:"monthlyIncomeList,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *MonthlyCostAndIncomeList) Reset() {
+	*x = MonthlyCostAndIncomeList{}
+	mi := &file_cost_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MonthlyCostAndIncomeList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MonthlyCostAndIncomeList) ProtoMessage() {}
+
+func (x *MonthlyCostAndIncomeList) ProtoReflect() protoreflect.Message {
+	mi := &file_cost_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MonthlyCostAndIncomeList.ProtoReflect.Descriptor instead.
+func (*MonthlyCostAndIncomeList) Descriptor() ([]byte, []int) {
+	return file_cost_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *MonthlyCostAndIncomeList) GetMonthlyCostList() []*MonthlyCost {
 	if x != nil {
 		return x.MonthlyCostList
+	}
+	return nil
+}
+
+func (x *MonthlyCostAndIncomeList) GetMonthlyIncomeList() []*MonthlyIncome {
+	if x != nil {
+		return x.MonthlyIncomeList
 	}
 	return nil
 }
@@ -422,7 +491,7 @@ type GetAllCostReq struct {
 
 func (x *GetAllCostReq) Reset() {
 	*x = GetAllCostReq{}
-	mi := &file_cost_service_proto_msgTypes[7]
+	mi := &file_cost_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -434,7 +503,7 @@ func (x *GetAllCostReq) String() string {
 func (*GetAllCostReq) ProtoMessage() {}
 
 func (x *GetAllCostReq) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[7]
+	mi := &file_cost_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -447,7 +516,7 @@ func (x *GetAllCostReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllCostReq.ProtoReflect.Descriptor instead.
 func (*GetAllCostReq) Descriptor() ([]byte, []int) {
-	return file_cost_service_proto_rawDescGZIP(), []int{7}
+	return file_cost_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetAllCostReq) GetCostType() CostType {
@@ -466,7 +535,7 @@ type GetAllCostResp struct {
 
 func (x *GetAllCostResp) Reset() {
 	*x = GetAllCostResp{}
-	mi := &file_cost_service_proto_msgTypes[8]
+	mi := &file_cost_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -478,7 +547,7 @@ func (x *GetAllCostResp) String() string {
 func (*GetAllCostResp) ProtoMessage() {}
 
 func (x *GetAllCostResp) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[8]
+	mi := &file_cost_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -491,7 +560,7 @@ func (x *GetAllCostResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllCostResp.ProtoReflect.Descriptor instead.
 func (*GetAllCostResp) Descriptor() ([]byte, []int) {
-	return file_cost_service_proto_rawDescGZIP(), []int{8}
+	return file_cost_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetAllCostResp) GetCostInfoList() []*CostInfo {
@@ -510,7 +579,7 @@ type DeleteCostsReq struct {
 
 func (x *DeleteCostsReq) Reset() {
 	*x = DeleteCostsReq{}
-	mi := &file_cost_service_proto_msgTypes[9]
+	mi := &file_cost_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -522,7 +591,7 @@ func (x *DeleteCostsReq) String() string {
 func (*DeleteCostsReq) ProtoMessage() {}
 
 func (x *DeleteCostsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[9]
+	mi := &file_cost_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -535,7 +604,7 @@ func (x *DeleteCostsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCostsReq.ProtoReflect.Descriptor instead.
 func (*DeleteCostsReq) Descriptor() ([]byte, []int) {
-	return file_cost_service_proto_rawDescGZIP(), []int{9}
+	return file_cost_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeleteCostsReq) GetCostIdList() []uint32 {
@@ -554,7 +623,7 @@ type GetCostChartDataResp struct {
 
 func (x *GetCostChartDataResp) Reset() {
 	*x = GetCostChartDataResp{}
-	mi := &file_cost_service_proto_msgTypes[10]
+	mi := &file_cost_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -566,7 +635,7 @@ func (x *GetCostChartDataResp) String() string {
 func (*GetCostChartDataResp) ProtoMessage() {}
 
 func (x *GetCostChartDataResp) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[10]
+	mi := &file_cost_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -579,7 +648,7 @@ func (x *GetCostChartDataResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCostChartDataResp.ProtoReflect.Descriptor instead.
 func (*GetCostChartDataResp) Descriptor() ([]byte, []int) {
-	return file_cost_service_proto_rawDescGZIP(), []int{10}
+	return file_cost_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetCostChartDataResp) GetCostChartData() *CostChartData {
@@ -601,7 +670,7 @@ type AddCostItemReq struct {
 
 func (x *AddCostItemReq) Reset() {
 	*x = AddCostItemReq{}
-	mi := &file_cost_service_proto_msgTypes[11]
+	mi := &file_cost_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -613,7 +682,7 @@ func (x *AddCostItemReq) String() string {
 func (*AddCostItemReq) ProtoMessage() {}
 
 func (x *AddCostItemReq) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[11]
+	mi := &file_cost_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -626,7 +695,7 @@ func (x *AddCostItemReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddCostItemReq.ProtoReflect.Descriptor instead.
 func (*AddCostItemReq) Descriptor() ([]byte, []int) {
-	return file_cost_service_proto_rawDescGZIP(), []int{11}
+	return file_cost_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *AddCostItemReq) GetDesc() string {
@@ -666,7 +735,7 @@ type GetMonthlyCostTrendReq struct {
 
 func (x *GetMonthlyCostTrendReq) Reset() {
 	*x = GetMonthlyCostTrendReq{}
-	mi := &file_cost_service_proto_msgTypes[12]
+	mi := &file_cost_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -678,7 +747,7 @@ func (x *GetMonthlyCostTrendReq) String() string {
 func (*GetMonthlyCostTrendReq) ProtoMessage() {}
 
 func (x *GetMonthlyCostTrendReq) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[12]
+	mi := &file_cost_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -691,7 +760,7 @@ func (x *GetMonthlyCostTrendReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMonthlyCostTrendReq.ProtoReflect.Descriptor instead.
 func (*GetMonthlyCostTrendReq) Descriptor() ([]byte, []int) {
-	return file_cost_service_proto_rawDescGZIP(), []int{12}
+	return file_cost_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetMonthlyCostTrendReq) GetYear() uint32 {
@@ -702,15 +771,15 @@ func (x *GetMonthlyCostTrendReq) GetYear() uint32 {
 }
 
 type GetMonthlyCostTrendResp struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	MonthlyCostTrend *MonthlyCostList       `protobuf:"bytes,1,opt,name=monthlyCostTrend,proto3" json:"monthlyCostTrend,omitempty"`
+	state            protoimpl.MessageState    `protogen:"open.v1"`
+	MonthlyCostTrend *MonthlyCostAndIncomeList `protobuf:"bytes,1,opt,name=monthlyCostTrend,proto3" json:"monthlyCostTrend,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GetMonthlyCostTrendResp) Reset() {
 	*x = GetMonthlyCostTrendResp{}
-	mi := &file_cost_service_proto_msgTypes[13]
+	mi := &file_cost_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -722,7 +791,7 @@ func (x *GetMonthlyCostTrendResp) String() string {
 func (*GetMonthlyCostTrendResp) ProtoMessage() {}
 
 func (x *GetMonthlyCostTrendResp) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[13]
+	mi := &file_cost_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -735,10 +804,10 @@ func (x *GetMonthlyCostTrendResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMonthlyCostTrendResp.ProtoReflect.Descriptor instead.
 func (*GetMonthlyCostTrendResp) Descriptor() ([]byte, []int) {
-	return file_cost_service_proto_rawDescGZIP(), []int{13}
+	return file_cost_service_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *GetMonthlyCostTrendResp) GetMonthlyCostTrend() *MonthlyCostList {
+func (x *GetMonthlyCostTrendResp) GetMonthlyCostTrend() *MonthlyCostAndIncomeList {
 	if x != nil {
 		return x.MonthlyCostTrend
 	}
@@ -757,7 +826,7 @@ type SalaryRankData_SalaryRankItem struct {
 
 func (x *SalaryRankData_SalaryRankItem) Reset() {
 	*x = SalaryRankData_SalaryRankItem{}
-	mi := &file_cost_service_proto_msgTypes[14]
+	mi := &file_cost_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -769,7 +838,7 @@ func (x *SalaryRankData_SalaryRankItem) String() string {
 func (*SalaryRankData_SalaryRankItem) ProtoMessage() {}
 
 func (x *SalaryRankData_SalaryRankItem) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_service_proto_msgTypes[14]
+	mi := &file_cost_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -848,9 +917,14 @@ const file_cost_service_proto_rawDesc = "" +
 	"\vMonthlyCost\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\rR\x04year\x12\x14\n" +
 	"\x05month\x18\x02 \x01(\rR\x05month\x12\x14\n" +
-	"\x05value\x18\x03 \x01(\tR\x05value\"X\n" +
-	"\x0fMonthlyCostList\x12E\n" +
-	"\x0fmonthlyCostList\x18\x01 \x03(\v2\x1b.restaurant_rpc.MonthlyCostR\x0fmonthlyCostList\"E\n" +
+	"\x05value\x18\x03 \x01(\tR\x05value\"O\n" +
+	"\rMonthlyIncome\x12\x12\n" +
+	"\x04year\x18\x01 \x01(\rR\x04year\x12\x14\n" +
+	"\x05month\x18\x02 \x01(\rR\x05month\x12\x14\n" +
+	"\x05value\x18\x03 \x01(\tR\x05value\"\xae\x01\n" +
+	"\x18MonthlyCostAndIncomeList\x12E\n" +
+	"\x0fmonthlyCostList\x18\x01 \x03(\v2\x1b.restaurant_rpc.MonthlyCostR\x0fmonthlyCostList\x12K\n" +
+	"\x11monthlyIncomeList\x18\x02 \x03(\v2\x1d.restaurant_rpc.MonthlyIncomeR\x11monthlyIncomeList\"E\n" +
 	"\rGetAllCostReq\x124\n" +
 	"\bcostType\x18\x01 \x01(\x0e2\x18.restaurant_rpc.CostTypeR\bcostType\"N\n" +
 	"\x0eGetAllCostResp\x12<\n" +
@@ -867,9 +941,9 @@ const file_cost_service_proto_rawDesc = "" +
 	"\bcostType\x18\x03 \x01(\x0e2\x18.restaurant_rpc.CostTypeR\bcostType\x12\x1c\n" +
 	"\tcreatedAt\x18\x04 \x01(\x03R\tcreatedAt\",\n" +
 	"\x16GetMonthlyCostTrendReq\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\rR\x04year\"f\n" +
-	"\x17GetMonthlyCostTrendResp\x12K\n" +
-	"\x10monthlyCostTrend\x18\x01 \x01(\v2\x1f.restaurant_rpc.MonthlyCostListR\x10monthlyCostTrend2\xa2\x03\n" +
+	"\x04year\x18\x01 \x01(\rR\x04year\"o\n" +
+	"\x17GetMonthlyCostTrendResp\x12T\n" +
+	"\x10monthlyCostTrend\x18\x01 \x01(\v2(.restaurant_rpc.MonthlyCostAndIncomeListR\x10monthlyCostTrend2\xa2\x03\n" +
 	"\vCostService\x12K\n" +
 	"\n" +
 	"GetAllCost\x12\x1d.restaurant_rpc.GetAllCostReq\x1a\x1e.restaurant_rpc.GetAllCostResp\x12E\n" +
@@ -890,7 +964,7 @@ func file_cost_service_proto_rawDescGZIP() []byte {
 	return file_cost_service_proto_rawDescData
 }
 
-var file_cost_service_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_cost_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_cost_service_proto_goTypes = []any{
 	(*CostInfo)(nil),                      // 0: restaurant_rpc.CostInfo
 	(*CostDistribution)(nil),              // 1: restaurant_rpc.CostDistribution
@@ -898,46 +972,48 @@ var file_cost_service_proto_goTypes = []any{
 	(*SalaryRankData)(nil),                // 3: restaurant_rpc.SalaryRankData
 	(*CostChartData)(nil),                 // 4: restaurant_rpc.CostChartData
 	(*MonthlyCost)(nil),                   // 5: restaurant_rpc.MonthlyCost
-	(*MonthlyCostList)(nil),               // 6: restaurant_rpc.MonthlyCostList
-	(*GetAllCostReq)(nil),                 // 7: restaurant_rpc.GetAllCostReq
-	(*GetAllCostResp)(nil),                // 8: restaurant_rpc.GetAllCostResp
-	(*DeleteCostsReq)(nil),                // 9: restaurant_rpc.DeleteCostsReq
-	(*GetCostChartDataResp)(nil),          // 10: restaurant_rpc.GetCostChartDataResp
-	(*AddCostItemReq)(nil),                // 11: restaurant_rpc.AddCostItemReq
-	(*GetMonthlyCostTrendReq)(nil),        // 12: restaurant_rpc.GetMonthlyCostTrendReq
-	(*GetMonthlyCostTrendResp)(nil),       // 13: restaurant_rpc.GetMonthlyCostTrendResp
-	(*SalaryRankData_SalaryRankItem)(nil), // 14: restaurant_rpc.SalaryRankData.SalaryRankItem
-	(CostType)(0),                         // 15: restaurant_rpc.CostType
-	(*emptypb.Empty)(nil),                 // 16: google.protobuf.Empty
+	(*MonthlyIncome)(nil),                 // 6: restaurant_rpc.MonthlyIncome
+	(*MonthlyCostAndIncomeList)(nil),      // 7: restaurant_rpc.MonthlyCostAndIncomeList
+	(*GetAllCostReq)(nil),                 // 8: restaurant_rpc.GetAllCostReq
+	(*GetAllCostResp)(nil),                // 9: restaurant_rpc.GetAllCostResp
+	(*DeleteCostsReq)(nil),                // 10: restaurant_rpc.DeleteCostsReq
+	(*GetCostChartDataResp)(nil),          // 11: restaurant_rpc.GetCostChartDataResp
+	(*AddCostItemReq)(nil),                // 12: restaurant_rpc.AddCostItemReq
+	(*GetMonthlyCostTrendReq)(nil),        // 13: restaurant_rpc.GetMonthlyCostTrendReq
+	(*GetMonthlyCostTrendResp)(nil),       // 14: restaurant_rpc.GetMonthlyCostTrendResp
+	(*SalaryRankData_SalaryRankItem)(nil), // 15: restaurant_rpc.SalaryRankData.SalaryRankItem
+	(CostType)(0),                         // 16: restaurant_rpc.CostType
+	(*emptypb.Empty)(nil),                 // 17: google.protobuf.Empty
 }
 var file_cost_service_proto_depIdxs = []int32{
-	15, // 0: restaurant_rpc.CostInfo.costType:type_name -> restaurant_rpc.CostType
-	15, // 1: restaurant_rpc.CostDistribution.costType:type_name -> restaurant_rpc.CostType
+	16, // 0: restaurant_rpc.CostInfo.costType:type_name -> restaurant_rpc.CostType
+	16, // 1: restaurant_rpc.CostDistribution.costType:type_name -> restaurant_rpc.CostType
 	1,  // 2: restaurant_rpc.CostDistributionData.costDistributionList:type_name -> restaurant_rpc.CostDistribution
-	14, // 3: restaurant_rpc.SalaryRankData.salaryRankList:type_name -> restaurant_rpc.SalaryRankData.SalaryRankItem
+	15, // 3: restaurant_rpc.SalaryRankData.salaryRankList:type_name -> restaurant_rpc.SalaryRankData.SalaryRankItem
 	2,  // 4: restaurant_rpc.CostChartData.costDistribution:type_name -> restaurant_rpc.CostDistributionData
 	3,  // 5: restaurant_rpc.CostChartData.salaryRank:type_name -> restaurant_rpc.SalaryRankData
-	5,  // 6: restaurant_rpc.MonthlyCostList.monthlyCostList:type_name -> restaurant_rpc.MonthlyCost
-	15, // 7: restaurant_rpc.GetAllCostReq.costType:type_name -> restaurant_rpc.CostType
-	0,  // 8: restaurant_rpc.GetAllCostResp.costInfoList:type_name -> restaurant_rpc.CostInfo
-	4,  // 9: restaurant_rpc.GetCostChartDataResp.costChartData:type_name -> restaurant_rpc.CostChartData
-	15, // 10: restaurant_rpc.AddCostItemReq.costType:type_name -> restaurant_rpc.CostType
-	6,  // 11: restaurant_rpc.GetMonthlyCostTrendResp.monthlyCostTrend:type_name -> restaurant_rpc.MonthlyCostList
-	7,  // 12: restaurant_rpc.CostService.GetAllCost:input_type -> restaurant_rpc.GetAllCostReq
-	9,  // 13: restaurant_rpc.CostService.DeleteCosts:input_type -> restaurant_rpc.DeleteCostsReq
-	16, // 14: restaurant_rpc.CostService.GetCostChartData:input_type -> google.protobuf.Empty
-	11, // 15: restaurant_rpc.CostService.AddCostItem:input_type -> restaurant_rpc.AddCostItemReq
-	12, // 16: restaurant_rpc.CostService.GetMonthlyCostTrend:input_type -> restaurant_rpc.GetMonthlyCostTrendReq
-	8,  // 17: restaurant_rpc.CostService.GetAllCost:output_type -> restaurant_rpc.GetAllCostResp
-	16, // 18: restaurant_rpc.CostService.DeleteCosts:output_type -> google.protobuf.Empty
-	10, // 19: restaurant_rpc.CostService.GetCostChartData:output_type -> restaurant_rpc.GetCostChartDataResp
-	16, // 20: restaurant_rpc.CostService.AddCostItem:output_type -> google.protobuf.Empty
-	13, // 21: restaurant_rpc.CostService.GetMonthlyCostTrend:output_type -> restaurant_rpc.GetMonthlyCostTrendResp
-	17, // [17:22] is the sub-list for method output_type
-	12, // [12:17] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	5,  // 6: restaurant_rpc.MonthlyCostAndIncomeList.monthlyCostList:type_name -> restaurant_rpc.MonthlyCost
+	6,  // 7: restaurant_rpc.MonthlyCostAndIncomeList.monthlyIncomeList:type_name -> restaurant_rpc.MonthlyIncome
+	16, // 8: restaurant_rpc.GetAllCostReq.costType:type_name -> restaurant_rpc.CostType
+	0,  // 9: restaurant_rpc.GetAllCostResp.costInfoList:type_name -> restaurant_rpc.CostInfo
+	4,  // 10: restaurant_rpc.GetCostChartDataResp.costChartData:type_name -> restaurant_rpc.CostChartData
+	16, // 11: restaurant_rpc.AddCostItemReq.costType:type_name -> restaurant_rpc.CostType
+	7,  // 12: restaurant_rpc.GetMonthlyCostTrendResp.monthlyCostTrend:type_name -> restaurant_rpc.MonthlyCostAndIncomeList
+	8,  // 13: restaurant_rpc.CostService.GetAllCost:input_type -> restaurant_rpc.GetAllCostReq
+	10, // 14: restaurant_rpc.CostService.DeleteCosts:input_type -> restaurant_rpc.DeleteCostsReq
+	17, // 15: restaurant_rpc.CostService.GetCostChartData:input_type -> google.protobuf.Empty
+	12, // 16: restaurant_rpc.CostService.AddCostItem:input_type -> restaurant_rpc.AddCostItemReq
+	13, // 17: restaurant_rpc.CostService.GetMonthlyCostTrend:input_type -> restaurant_rpc.GetMonthlyCostTrendReq
+	9,  // 18: restaurant_rpc.CostService.GetAllCost:output_type -> restaurant_rpc.GetAllCostResp
+	17, // 19: restaurant_rpc.CostService.DeleteCosts:output_type -> google.protobuf.Empty
+	11, // 20: restaurant_rpc.CostService.GetCostChartData:output_type -> restaurant_rpc.GetCostChartDataResp
+	17, // 21: restaurant_rpc.CostService.AddCostItem:output_type -> google.protobuf.Empty
+	14, // 22: restaurant_rpc.CostService.GetMonthlyCostTrend:output_type -> restaurant_rpc.GetMonthlyCostTrendResp
+	18, // [18:23] is the sub-list for method output_type
+	13, // [13:18] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_cost_service_proto_init() }
@@ -952,7 +1028,7 @@ func file_cost_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_cost_service_proto_rawDesc), len(file_cost_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -41,8 +41,9 @@ func (s *DishServer) GetDishes(ctx context.Context, req *restaurant_rpc.GetDishe
 
 	var poDishes []po.Dish
 	err = database.DB().Model(&po.Dish{}).
-		Scopes(database.Paginate(int(page), int(pageSize))).
 		Where("name ILIKE ?", "%"+keyword+"%").
+		Order("name").
+		Scopes(database.Paginate(int(page), int(pageSize))).
 		Preload("DishType").
 		Preload("Portions").
 		Preload("Portions.Recipe").
@@ -86,7 +87,7 @@ func (s *DishServer) GetDishes(ctx context.Context, req *restaurant_rpc.GetDishe
 		dishes = append(dishes, &restaurant_rpc.Dish{
 			Id: uint32(dish.ID),
 			Name: dish.Name,
-			ImageUrl: "",
+			ImageUrl: dish.ImageUrl,
 			DishType: &restaurant_rpc.DishType{
 				DishTypeID: uint32(dish.DishTypeID),
 				Name: dish.DishType.Name,
@@ -331,6 +332,7 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 			SellStatus: restaurant_rpc.SellStatus_SELL_STATUS_SELLING,
 			DishTypeID: dishType.ID,
 			DishType: dishType,
+			ImageUrl: req.Dish.ImageUrl,
 		}
 		err = tx.Create(&dish).Error
 		if err != nil {
@@ -477,6 +479,7 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 		dish.Name = pbDish.Name
 		dish.SellStatus = restaurant_rpc.SellStatus_SELL_STATUS_SELLING
 		dish.DishTypeID = dishType.ID
+		dish.ImageUrl = pbDish.ImageUrl
 		if err := tx.Save(&dish).Error; err != nil {
 			tx.Rollback()
 			return nil, errors.New("服务器错误")
@@ -501,7 +504,7 @@ func (s *DishServer) CreateOrEditDish(ctx context.Context, req *restaurant_rpc.C
 			}
 		}
 
-		// 6) 删除请求中已不存在的 Portion（及其 Recipe/RecipeMaterial）
+		// 删除请求中已不存在的 Portion（及其 Recipe/RecipeMaterial）
 		var toDeletePortionIDs []uint
 		var toDeleteRecipeIDs  []uint
 		for idOld, p := range oldPortionByID {
@@ -1014,15 +1017,43 @@ func (s *DishServer) PlaceOrder(ctx context.Context, req *restaurant_rpc.PlaceOr
 			inComingPortionIDs = append(inComingPortionIDs, orderItem.PortionId)
 		}
 	}
+	tx := database.DB().Begin()
+	defer func() {
+		if err := recover(); err != nil {
+			tx.Rollback()
+		}
+	}()
 	var poPortions []po.Portion
-	if err := database.DB().Model(&po.Portion{}).Where("id IN ?", inComingPortionIDs).Find(&poPortions).Error; err != nil {
+	if err := tx.Model(&po.Portion{}).
+		Where("id IN ?", inComingPortionIDs).
+		Preload("Recipe").
+		Preload("Recipe.Materials").
+		Preload("Recipe.Materials.Material").
+		Find(&poPortions).Error; err != nil {
 		return nil, errors.New("服务器错误")
 	}
+	// 总成本
+	//totalCost := decimal.NewFromInt(0)
 	// 计算总价
 	totalPrice := decimal.NewFromInt(0)
 	for _, orderItem := range orderItems {
 		for _, poPortion := range poPortions {
 			if uint32(poPortion.ID) == orderItem.PortionId {
+				//totalCost = totalCost.Add(myutils.CalcRecipeCost(poPortion.Recipe).Mul(decimal.NewFromInt32(int32(orderItem.Count))))
+				// 减去消耗的材料
+				for _, consumeMaterial := range poPortion.Recipe.Materials {
+					if err := tx.Model(&po.Material{}).
+						Where("id = ?", consumeMaterial.MaterialID).
+						Update(
+							"amount",
+							consumeMaterial.Material.Amount.Sub(
+								consumeMaterial.Quantity.Mul(decimal.NewFromInt32(int32(orderItem.Count))),
+							),
+						).Error; err != nil {
+						tx.Rollback()
+						return nil, errors.New("服务器错误")
+					}
+				}
 				totalPrice = totalPrice.Add(poPortion.Price.Mul(decimal.NewFromInt32(int32(orderItem.Count))))
 				break
 			}
@@ -1033,12 +1064,6 @@ func (s *DishServer) PlaceOrder(ctx context.Context, req *restaurant_rpc.PlaceOr
 		id := uint(req.Table.Id)
 		tableId = &id
 	}
-	tx := database.DB().Begin()
-	defer func() {
-		if err := recover(); err != nil {
-			tx.Rollback()
-		}
-	}()
 	// 创建订单
 	poOrder := po.Order{
 		CustomerID: uint32(token.UserID),

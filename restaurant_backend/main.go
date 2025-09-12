@@ -38,6 +38,7 @@ func main() {
 		restaurant_rpc.RegisterEmployeeServiceServer(grpcServer, &rpc_impl.EmployeeServer{})
 		restaurant_rpc.RegisterDishServiceServer(grpcServer, &rpc_impl.DishServer{})
 		restaurant_rpc.RegisterCostServiceServer(grpcServer, &rpc_impl.CostServer{})
+		restaurant_rpc.RegisterFileServiceServer(grpcServer, &rpc_impl.FileServer{})
 		log.Println("gRPC server running at :50051")
 		if err := grpcServer.Serve(lis); err != nil {
 			log.Fatalf("failed to serve: %v", err)

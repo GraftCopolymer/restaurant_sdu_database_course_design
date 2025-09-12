@@ -162,9 +162,24 @@ final $typed_data.Uint8List monthlyCostDescriptor = $convert.base64Decode(
     'CgtNb250aGx5Q29zdBISCgR5ZWFyGAEgASgNUgR5ZWFyEhQKBW1vbnRoGAIgASgNUgVtb250aB'
     'IUCgV2YWx1ZRgDIAEoCVIFdmFsdWU=');
 
-@$core.Deprecated('Use monthlyCostListDescriptor instead')
-const MonthlyCostList$json = {
-  '1': 'MonthlyCostList',
+@$core.Deprecated('Use monthlyIncomeDescriptor instead')
+const MonthlyIncome$json = {
+  '1': 'MonthlyIncome',
+  '2': [
+    {'1': 'year', '3': 1, '4': 1, '5': 13, '10': 'year'},
+    {'1': 'month', '3': 2, '4': 1, '5': 13, '10': 'month'},
+    {'1': 'value', '3': 3, '4': 1, '5': 9, '10': 'value'},
+  ],
+};
+
+/// Descriptor for `MonthlyIncome`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List monthlyIncomeDescriptor = $convert.base64Decode(
+    'Cg1Nb250aGx5SW5jb21lEhIKBHllYXIYASABKA1SBHllYXISFAoFbW9udGgYAiABKA1SBW1vbn'
+    'RoEhQKBXZhbHVlGAMgASgJUgV2YWx1ZQ==');
+
+@$core.Deprecated('Use monthlyCostAndIncomeListDescriptor instead')
+const MonthlyCostAndIncomeList$json = {
+  '1': 'MonthlyCostAndIncomeList',
   '2': [
     {
       '1': 'monthlyCostList',
@@ -174,13 +189,23 @@ const MonthlyCostList$json = {
       '6': '.restaurant_rpc.MonthlyCost',
       '10': 'monthlyCostList'
     },
+    {
+      '1': 'monthlyIncomeList',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.restaurant_rpc.MonthlyIncome',
+      '10': 'monthlyIncomeList'
+    },
   ],
 };
 
-/// Descriptor for `MonthlyCostList`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List monthlyCostListDescriptor = $convert.base64Decode(
-    'Cg9Nb250aGx5Q29zdExpc3QSRQoPbW9udGhseUNvc3RMaXN0GAEgAygLMhsucmVzdGF1cmFudF'
-    '9ycGMuTW9udGhseUNvc3RSD21vbnRobHlDb3N0TGlzdA==');
+/// Descriptor for `MonthlyCostAndIncomeList`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List monthlyCostAndIncomeListDescriptor = $convert.base64Decode(
+    'ChhNb250aGx5Q29zdEFuZEluY29tZUxpc3QSRQoPbW9udGhseUNvc3RMaXN0GAEgAygLMhsucm'
+    'VzdGF1cmFudF9ycGMuTW9udGhseUNvc3RSD21vbnRobHlDb3N0TGlzdBJLChFtb250aGx5SW5j'
+    'b21lTGlzdBgCIAMoCzIdLnJlc3RhdXJhbnRfcnBjLk1vbnRobHlJbmNvbWVSEW1vbnRobHlJbm'
+    'NvbWVMaXN0');
 
 @$core.Deprecated('Use getAllCostReqDescriptor instead')
 const GetAllCostReq$json = {
@@ -300,14 +325,13 @@ const GetMonthlyCostTrendResp$json = {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.restaurant_rpc.MonthlyCostList',
+      '6': '.restaurant_rpc.MonthlyCostAndIncomeList',
       '10': 'monthlyCostTrend'
     },
   ],
 };
 
 /// Descriptor for `GetMonthlyCostTrendResp`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getMonthlyCostTrendRespDescriptor =
-    $convert.base64Decode(
-        'ChdHZXRNb250aGx5Q29zdFRyZW5kUmVzcBJLChBtb250aGx5Q29zdFRyZW5kGAEgASgLMh8ucm'
-        'VzdGF1cmFudF9ycGMuTW9udGhseUNvc3RMaXN0UhBtb250aGx5Q29zdFRyZW5k');
+final $typed_data.Uint8List getMonthlyCostTrendRespDescriptor = $convert.base64Decode(
+    'ChdHZXRNb250aGx5Q29zdFRyZW5kUmVzcBJUChBtb250aGx5Q29zdFRyZW5kGAEgASgLMigucm'
+    'VzdGF1cmFudF9ycGMuTW9udGhseUNvc3RBbmRJbmNvbWVMaXN0UhBtb250aGx5Q29zdFRyZW5k');

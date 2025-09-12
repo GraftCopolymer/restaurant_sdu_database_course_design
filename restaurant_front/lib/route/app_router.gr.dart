@@ -9,9 +9,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i28;
-import 'package:flutter/foundation.dart' as _i29;
-import 'package:flutter/material.dart' as _i30;
+import 'package:auto_route/auto_route.dart' as _i29;
+import 'package:flutter/foundation.dart' as _i30;
+import 'package:flutter/material.dart' as _i31;
 import 'package:restaurant_management/pages/admin_register.dart' as _i1;
 import 'package:restaurant_management/pages/cost_add.dart' as _i2;
 import 'package:restaurant_management/pages/cost_chart.dart' as _i3;
@@ -37,26 +37,27 @@ import 'package:restaurant_management/pages/permission_denied.dart' as _i22;
 import 'package:restaurant_management/pages/place_order.dart' as _i23;
 import 'package:restaurant_management/pages/recipe_edit_page.dart' as _i24;
 import 'package:restaurant_management/pages/sales_data.dart' as _i25;
-import 'package:restaurant_management/pages/table_edit.dart' as _i26;
-import 'package:restaurant_management/pages/table_list.dart' as _i27;
+import 'package:restaurant_management/pages/settings.dart' as _i26;
+import 'package:restaurant_management/pages/table_edit.dart' as _i27;
+import 'package:restaurant_management/pages/table_list.dart' as _i28;
 import 'package:restaurant_management/providers/shopping_cart_provider.dart'
-    as _i35;
+    as _i36;
 import 'package:restaurant_management/src/generated/dish_service.pb.dart'
-    as _i34;
+    as _i35;
 import 'package:restaurant_management/src/generated/dish_service.pbgrpc.dart'
-    as _i33;
-import 'package:restaurant_management/src/generated/types.pb.dart' as _i32;
-import 'package:restaurant_management/src/generated/types.pbenum.dart' as _i31;
+    as _i34;
+import 'package:restaurant_management/src/generated/types.pb.dart' as _i33;
+import 'package:restaurant_management/src/generated/types.pbenum.dart' as _i32;
 
 /// generated route for
 /// [_i1.AdminRegisterPage]
-class AdminRegisterRoute extends _i28.PageRouteInfo<void> {
-  const AdminRegisterRoute({List<_i28.PageRouteInfo>? children})
+class AdminRegisterRoute extends _i29.PageRouteInfo<void> {
+  const AdminRegisterRoute({List<_i29.PageRouteInfo>? children})
     : super(AdminRegisterRoute.name, initialChildren: children);
 
   static const String name = 'AdminRegisterRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i1.AdminRegisterPage();
@@ -66,11 +67,11 @@ class AdminRegisterRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.CostAddPage]
-class CostAddRoute extends _i28.PageRouteInfo<CostAddRouteArgs> {
+class CostAddRoute extends _i29.PageRouteInfo<CostAddRouteArgs> {
   CostAddRoute({
-    _i29.Key? key,
-    _i29.VoidCallback? onSuccess,
-    List<_i28.PageRouteInfo>? children,
+    _i30.Key? key,
+    _i30.VoidCallback? onSuccess,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          CostAddRoute.name,
          args: CostAddRouteArgs(key: key, onSuccess: onSuccess),
@@ -79,7 +80,7 @@ class CostAddRoute extends _i28.PageRouteInfo<CostAddRouteArgs> {
 
   static const String name = 'CostAddRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<CostAddRouteArgs>(
@@ -93,9 +94,9 @@ class CostAddRoute extends _i28.PageRouteInfo<CostAddRouteArgs> {
 class CostAddRouteArgs {
   const CostAddRouteArgs({this.key, this.onSuccess});
 
-  final _i29.Key? key;
+  final _i30.Key? key;
 
-  final _i29.VoidCallback? onSuccess;
+  final _i30.VoidCallback? onSuccess;
 
   @override
   String toString() {
@@ -115,13 +116,13 @@ class CostAddRouteArgs {
 
 /// generated route for
 /// [_i3.CostChartPage]
-class CostChartRoute extends _i28.PageRouteInfo<void> {
-  const CostChartRoute({List<_i28.PageRouteInfo>? children})
+class CostChartRoute extends _i29.PageRouteInfo<void> {
+  const CostChartRoute({List<_i29.PageRouteInfo>? children})
     : super(CostChartRoute.name, initialChildren: children);
 
   static const String name = 'CostChartRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i3.CostChartPage();
@@ -131,11 +132,11 @@ class CostChartRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.CostListPage]
-class CostListRoute extends _i28.PageRouteInfo<CostListRouteArgs> {
+class CostListRoute extends _i29.PageRouteInfo<CostListRouteArgs> {
   CostListRoute({
-    _i30.Key? key,
-    _i31.CostType? costType,
-    List<_i28.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i32.CostType? costType,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          CostListRoute.name,
          args: CostListRouteArgs(key: key, costType: costType),
@@ -144,7 +145,7 @@ class CostListRoute extends _i28.PageRouteInfo<CostListRouteArgs> {
 
   static const String name = 'CostListRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<CostListRouteArgs>(
@@ -158,9 +159,9 @@ class CostListRoute extends _i28.PageRouteInfo<CostListRouteArgs> {
 class CostListRouteArgs {
   const CostListRouteArgs({this.key, this.costType});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i31.CostType? costType;
+  final _i32.CostType? costType;
 
   @override
   String toString() {
@@ -180,13 +181,13 @@ class CostListRouteArgs {
 
 /// generated route for
 /// [_i5.CostManagementPage]
-class CostManagementRoute extends _i28.PageRouteInfo<void> {
-  const CostManagementRoute({List<_i28.PageRouteInfo>? children})
+class CostManagementRoute extends _i29.PageRouteInfo<void> {
+  const CostManagementRoute({List<_i29.PageRouteInfo>? children})
     : super(CostManagementRoute.name, initialChildren: children);
 
   static const String name = 'CostManagementRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i5.CostManagementPage();
@@ -197,12 +198,12 @@ class CostManagementRoute extends _i28.PageRouteInfo<void> {
 /// generated route for
 /// [_i6.CustomerSelectDishPage]
 class CustomerSelectDishRoute
-    extends _i28.PageRouteInfo<CustomerSelectDishRouteArgs> {
+    extends _i29.PageRouteInfo<CustomerSelectDishRouteArgs> {
   CustomerSelectDishRoute({
-    _i30.Key? key,
-    required _i32.OrderType orderType,
-    _i33.Table? table,
-    List<_i28.PageRouteInfo>? children,
+    _i31.Key? key,
+    required _i33.OrderType orderType,
+    _i34.Table? table,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          CustomerSelectDishRoute.name,
          args: CustomerSelectDishRouteArgs(
@@ -215,7 +216,7 @@ class CustomerSelectDishRoute
 
   static const String name = 'CustomerSelectDishRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<CustomerSelectDishRouteArgs>();
@@ -235,11 +236,11 @@ class CustomerSelectDishRouteArgs {
     this.table,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i32.OrderType orderType;
+  final _i33.OrderType orderType;
 
-  final _i33.Table? table;
+  final _i34.Table? table;
 
   @override
   String toString() {
@@ -261,13 +262,13 @@ class CustomerSelectDishRouteArgs {
 
 /// generated route for
 /// [_i7.DashboardPage]
-class DashboardRoute extends _i28.PageRouteInfo<void> {
-  const DashboardRoute({List<_i28.PageRouteInfo>? children})
+class DashboardRoute extends _i29.PageRouteInfo<void> {
+  const DashboardRoute({List<_i29.PageRouteInfo>? children})
     : super(DashboardRoute.name, initialChildren: children);
 
   static const String name = 'DashboardRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i7.DashboardPage();
@@ -277,12 +278,12 @@ class DashboardRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.DishAddPage]
-class DishAddRoute extends _i28.PageRouteInfo<DishAddRouteArgs> {
+class DishAddRoute extends _i29.PageRouteInfo<DishAddRouteArgs> {
   DishAddRoute({
-    _i30.Key? key,
-    void Function(_i34.Dish)? onSaveDish,
-    _i34.Dish? dish,
-    List<_i28.PageRouteInfo>? children,
+    _i31.Key? key,
+    void Function(_i35.Dish)? onSaveDish,
+    _i35.Dish? dish,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          DishAddRoute.name,
          args: DishAddRouteArgs(key: key, onSaveDish: onSaveDish, dish: dish),
@@ -291,7 +292,7 @@ class DishAddRoute extends _i28.PageRouteInfo<DishAddRouteArgs> {
 
   static const String name = 'DishAddRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<DishAddRouteArgs>(
@@ -309,11 +310,11 @@ class DishAddRoute extends _i28.PageRouteInfo<DishAddRouteArgs> {
 class DishAddRouteArgs {
   const DishAddRouteArgs({this.key, this.onSaveDish, this.dish});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final void Function(_i34.Dish)? onSaveDish;
+  final void Function(_i35.Dish)? onSaveDish;
 
-  final _i34.Dish? dish;
+  final _i35.Dish? dish;
 
   @override
   String toString() {
@@ -333,13 +334,13 @@ class DishAddRouteArgs {
 
 /// generated route for
 /// [_i9.DishManagementPage]
-class DishManagementRoute extends _i28.PageRouteInfo<void> {
-  const DishManagementRoute({List<_i28.PageRouteInfo>? children})
+class DishManagementRoute extends _i29.PageRouteInfo<void> {
+  const DishManagementRoute({List<_i29.PageRouteInfo>? children})
     : super(DishManagementRoute.name, initialChildren: children);
 
   static const String name = 'DishManagementRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i9.DishManagementPage();
@@ -349,11 +350,11 @@ class DishManagementRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.EmployeeAddPage]
-class EmployeeAddRoute extends _i28.PageRouteInfo<EmployeeAddRouteArgs> {
+class EmployeeAddRoute extends _i29.PageRouteInfo<EmployeeAddRouteArgs> {
   EmployeeAddRoute({
-    _i30.Key? key,
-    _i30.VoidCallback? onAddEmployee,
-    List<_i28.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i31.VoidCallback? onAddEmployee,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          EmployeeAddRoute.name,
          args: EmployeeAddRouteArgs(key: key, onAddEmployee: onAddEmployee),
@@ -362,7 +363,7 @@ class EmployeeAddRoute extends _i28.PageRouteInfo<EmployeeAddRouteArgs> {
 
   static const String name = 'EmployeeAddRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<EmployeeAddRouteArgs>(
@@ -379,9 +380,9 @@ class EmployeeAddRoute extends _i28.PageRouteInfo<EmployeeAddRouteArgs> {
 class EmployeeAddRouteArgs {
   const EmployeeAddRouteArgs({this.key, this.onAddEmployee});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i30.VoidCallback? onAddEmployee;
+  final _i31.VoidCallback? onAddEmployee;
 
   @override
   String toString() {
@@ -401,13 +402,13 @@ class EmployeeAddRouteArgs {
 
 /// generated route for
 /// [_i11.EmployeeDetailPage]
-class EmployeeDetailRoute extends _i28.PageRouteInfo<EmployeeDetailRouteArgs> {
+class EmployeeDetailRoute extends _i29.PageRouteInfo<EmployeeDetailRouteArgs> {
   EmployeeDetailRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required int employeeId,
-    _i30.VoidCallback? onUpdated,
-    _i30.VoidCallback? onDelete,
-    List<_i28.PageRouteInfo>? children,
+    _i31.VoidCallback? onUpdated,
+    _i31.VoidCallback? onDelete,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          EmployeeDetailRoute.name,
          args: EmployeeDetailRouteArgs(
@@ -421,7 +422,7 @@ class EmployeeDetailRoute extends _i28.PageRouteInfo<EmployeeDetailRouteArgs> {
 
   static const String name = 'EmployeeDetailRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<EmployeeDetailRouteArgs>();
@@ -443,13 +444,13 @@ class EmployeeDetailRouteArgs {
     this.onDelete,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final int employeeId;
 
-  final _i30.VoidCallback? onUpdated;
+  final _i31.VoidCallback? onUpdated;
 
-  final _i30.VoidCallback? onDelete;
+  final _i31.VoidCallback? onDelete;
 
   @override
   String toString() {
@@ -476,13 +477,13 @@ class EmployeeDetailRouteArgs {
 
 /// generated route for
 /// [_i12.EmployeeManagementPage]
-class EmployeeManagementRoute extends _i28.PageRouteInfo<void> {
-  const EmployeeManagementRoute({List<_i28.PageRouteInfo>? children})
+class EmployeeManagementRoute extends _i29.PageRouteInfo<void> {
+  const EmployeeManagementRoute({List<_i29.PageRouteInfo>? children})
     : super(EmployeeManagementRoute.name, initialChildren: children);
 
   static const String name = 'EmployeeManagementRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i12.EmployeeManagementPage();
@@ -492,12 +493,12 @@ class EmployeeManagementRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i13.LoginPage]
-class LoginRoute extends _i28.PageRouteInfo<LoginRouteArgs> {
+class LoginRoute extends _i29.PageRouteInfo<LoginRouteArgs> {
   LoginRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     void Function(bool)? onLoginResult,
     void Function(bool)? onRegisterResult,
-    List<_i28.PageRouteInfo>? children,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          LoginRoute.name,
          args: LoginRouteArgs(
@@ -510,7 +511,7 @@ class LoginRoute extends _i28.PageRouteInfo<LoginRouteArgs> {
 
   static const String name = 'LoginRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<LoginRouteArgs>(
@@ -528,7 +529,7 @@ class LoginRoute extends _i28.PageRouteInfo<LoginRouteArgs> {
 class LoginRouteArgs {
   const LoginRouteArgs({this.key, this.onLoginResult, this.onRegisterResult});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final void Function(bool)? onLoginResult;
 
@@ -552,13 +553,13 @@ class LoginRouteArgs {
 
 /// generated route for
 /// [_i14.MainPage]
-class MainRoute extends _i28.PageRouteInfo<void> {
-  const MainRoute({List<_i28.PageRouteInfo>? children})
+class MainRoute extends _i29.PageRouteInfo<void> {
+  const MainRoute({List<_i29.PageRouteInfo>? children})
     : super(MainRoute.name, initialChildren: children);
 
   static const String name = 'MainRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i14.MainPage();
@@ -568,12 +569,12 @@ class MainRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.MaterialEditPage]
-class MaterialEditRoute extends _i28.PageRouteInfo<MaterialEditRouteArgs> {
+class MaterialEditRoute extends _i29.PageRouteInfo<MaterialEditRouteArgs> {
   MaterialEditRoute({
-    _i30.Key? key,
-    _i34.Material? material,
-    void Function(_i34.Material)? onSubmit,
-    List<_i28.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i35.Material? material,
+    void Function(_i35.Material)? onSubmit,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          MaterialEditRoute.name,
          args: MaterialEditRouteArgs(
@@ -586,7 +587,7 @@ class MaterialEditRoute extends _i28.PageRouteInfo<MaterialEditRouteArgs> {
 
   static const String name = 'MaterialEditRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<MaterialEditRouteArgs>(
@@ -604,11 +605,11 @@ class MaterialEditRoute extends _i28.PageRouteInfo<MaterialEditRouteArgs> {
 class MaterialEditRouteArgs {
   const MaterialEditRouteArgs({this.key, this.material, this.onSubmit});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i34.Material? material;
+  final _i35.Material? material;
 
-  final void Function(_i34.Material)? onSubmit;
+  final void Function(_i35.Material)? onSubmit;
 
   @override
   String toString() {
@@ -628,12 +629,12 @@ class MaterialEditRouteArgs {
 
 /// generated route for
 /// [_i16.MaterialListPage]
-class MaterialListRoute extends _i28.PageRouteInfo<MaterialListRouteArgs> {
+class MaterialListRoute extends _i29.PageRouteInfo<MaterialListRouteArgs> {
   MaterialListRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     String title = '配料管理',
-    void Function(_i33.Material, String)? onTapMaterialItem,
-    List<_i28.PageRouteInfo>? children,
+    void Function(_i34.Material, String)? onTapMaterialItem,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          MaterialListRoute.name,
          args: MaterialListRouteArgs(
@@ -646,7 +647,7 @@ class MaterialListRoute extends _i28.PageRouteInfo<MaterialListRouteArgs> {
 
   static const String name = 'MaterialListRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<MaterialListRouteArgs>(
@@ -668,11 +669,11 @@ class MaterialListRouteArgs {
     this.onTapMaterialItem,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final String title;
 
-  final void Function(_i33.Material, String)? onTapMaterialItem;
+  final void Function(_i34.Material, String)? onTapMaterialItem;
 
   @override
   String toString() {
@@ -692,13 +693,13 @@ class MaterialListRouteArgs {
 
 /// generated route for
 /// [_i17.MinePage]
-class MineRoute extends _i28.PageRouteInfo<void> {
-  const MineRoute({List<_i28.PageRouteInfo>? children})
+class MineRoute extends _i29.PageRouteInfo<void> {
+  const MineRoute({List<_i29.PageRouteInfo>? children})
     : super(MineRoute.name, initialChildren: children);
 
   static const String name = 'MineRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i17.MinePage();
@@ -708,13 +709,13 @@ class MineRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i18.NotFoundPage]
-class NotFoundRoute extends _i28.PageRouteInfo<void> {
-  const NotFoundRoute({List<_i28.PageRouteInfo>? children})
+class NotFoundRoute extends _i29.PageRouteInfo<void> {
+  const NotFoundRoute({List<_i29.PageRouteInfo>? children})
     : super(NotFoundRoute.name, initialChildren: children);
 
   static const String name = 'NotFoundRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i18.NotFoundPage();
@@ -724,11 +725,11 @@ class NotFoundRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i19.OrderDetailPage]
-class OrderDetailRoute extends _i28.PageRouteInfo<OrderDetailRouteArgs> {
+class OrderDetailRoute extends _i29.PageRouteInfo<OrderDetailRouteArgs> {
   OrderDetailRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required int orderId,
-    List<_i28.PageRouteInfo>? children,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          OrderDetailRoute.name,
          args: OrderDetailRouteArgs(key: key, orderId: orderId),
@@ -737,7 +738,7 @@ class OrderDetailRoute extends _i28.PageRouteInfo<OrderDetailRouteArgs> {
 
   static const String name = 'OrderDetailRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<OrderDetailRouteArgs>();
@@ -749,7 +750,7 @@ class OrderDetailRoute extends _i28.PageRouteInfo<OrderDetailRouteArgs> {
 class OrderDetailRouteArgs {
   const OrderDetailRouteArgs({this.key, required this.orderId});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final int orderId;
 
@@ -771,13 +772,13 @@ class OrderDetailRouteArgs {
 
 /// generated route for
 /// [_i20.OrderListPage]
-class OrderListRoute extends _i28.PageRouteInfo<void> {
-  const OrderListRoute({List<_i28.PageRouteInfo>? children})
+class OrderListRoute extends _i29.PageRouteInfo<void> {
+  const OrderListRoute({List<_i29.PageRouteInfo>? children})
     : super(OrderListRoute.name, initialChildren: children);
 
   static const String name = 'OrderListRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i20.OrderListPage();
@@ -787,13 +788,13 @@ class OrderListRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i21.PaySalaryPage]
-class PaySalaryRoute extends _i28.PageRouteInfo<void> {
-  const PaySalaryRoute({List<_i28.PageRouteInfo>? children})
+class PaySalaryRoute extends _i29.PageRouteInfo<void> {
+  const PaySalaryRoute({List<_i29.PageRouteInfo>? children})
     : super(PaySalaryRoute.name, initialChildren: children);
 
   static const String name = 'PaySalaryRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i21.PaySalaryPage();
@@ -803,13 +804,13 @@ class PaySalaryRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i22.PermissionDeniedPage]
-class PermissionDeniedRoute extends _i28.PageRouteInfo<void> {
-  const PermissionDeniedRoute({List<_i28.PageRouteInfo>? children})
+class PermissionDeniedRoute extends _i29.PageRouteInfo<void> {
+  const PermissionDeniedRoute({List<_i29.PageRouteInfo>? children})
     : super(PermissionDeniedRoute.name, initialChildren: children);
 
   static const String name = 'PermissionDeniedRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i22.PermissionDeniedPage();
@@ -819,13 +820,13 @@ class PermissionDeniedRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i23.PlaceOrderPage]
-class PlaceOrderRoute extends _i28.PageRouteInfo<PlaceOrderRouteArgs> {
+class PlaceOrderRoute extends _i29.PageRouteInfo<PlaceOrderRouteArgs> {
   PlaceOrderRoute({
-    _i30.Key? key,
-    required _i32.OrderType orderType,
-    required _i35.ShoppingCartModelProvider provider,
-    _i33.Table? table,
-    List<_i28.PageRouteInfo>? children,
+    _i31.Key? key,
+    required _i33.OrderType orderType,
+    required _i36.ShoppingCartModelProvider provider,
+    _i34.Table? table,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          PlaceOrderRoute.name,
          args: PlaceOrderRouteArgs(
@@ -839,7 +840,7 @@ class PlaceOrderRoute extends _i28.PageRouteInfo<PlaceOrderRouteArgs> {
 
   static const String name = 'PlaceOrderRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<PlaceOrderRouteArgs>();
@@ -861,13 +862,13 @@ class PlaceOrderRouteArgs {
     this.table,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i32.OrderType orderType;
+  final _i33.OrderType orderType;
 
-  final _i35.ShoppingCartModelProvider provider;
+  final _i36.ShoppingCartModelProvider provider;
 
-  final _i33.Table? table;
+  final _i34.Table? table;
 
   @override
   String toString() {
@@ -891,12 +892,12 @@ class PlaceOrderRouteArgs {
 
 /// generated route for
 /// [_i24.RecipeEditPage]
-class RecipeEditRoute extends _i28.PageRouteInfo<RecipeEditRouteArgs> {
+class RecipeEditRoute extends _i29.PageRouteInfo<RecipeEditRouteArgs> {
   RecipeEditRoute({
-    _i30.Key? key,
-    _i34.Recipe? recipe,
-    void Function(_i34.Recipe)? onSave,
-    List<_i28.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i35.Recipe? recipe,
+    void Function(_i35.Recipe)? onSave,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          RecipeEditRoute.name,
          args: RecipeEditRouteArgs(key: key, recipe: recipe, onSave: onSave),
@@ -905,7 +906,7 @@ class RecipeEditRoute extends _i28.PageRouteInfo<RecipeEditRouteArgs> {
 
   static const String name = 'RecipeEditRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<RecipeEditRouteArgs>(
@@ -923,11 +924,11 @@ class RecipeEditRoute extends _i28.PageRouteInfo<RecipeEditRouteArgs> {
 class RecipeEditRouteArgs {
   const RecipeEditRouteArgs({this.key, this.recipe, this.onSave});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i34.Recipe? recipe;
+  final _i35.Recipe? recipe;
 
-  final void Function(_i34.Recipe)? onSave;
+  final void Function(_i35.Recipe)? onSave;
 
   @override
   String toString() {
@@ -947,13 +948,13 @@ class RecipeEditRouteArgs {
 
 /// generated route for
 /// [_i25.SalesDataPage]
-class SalesDataRoute extends _i28.PageRouteInfo<void> {
-  const SalesDataRoute({List<_i28.PageRouteInfo>? children})
+class SalesDataRoute extends _i29.PageRouteInfo<void> {
+  const SalesDataRoute({List<_i29.PageRouteInfo>? children})
     : super(SalesDataRoute.name, initialChildren: children);
 
   static const String name = 'SalesDataRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       return const _i25.SalesDataPage();
@@ -962,14 +963,30 @@ class SalesDataRoute extends _i28.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i26.TableEditPage]
-class TableEditRoute extends _i28.PageRouteInfo<TableEditRouteArgs> {
+/// [_i26.SettingsPage]
+class SettingsRoute extends _i29.PageRouteInfo<void> {
+  const SettingsRoute({List<_i29.PageRouteInfo>? children})
+    : super(SettingsRoute.name, initialChildren: children);
+
+  static const String name = 'SettingsRoute';
+
+  static _i29.PageInfo page = _i29.PageInfo(
+    name,
+    builder: (data) {
+      return const _i26.SettingsPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i27.TableEditPage]
+class TableEditRoute extends _i29.PageRouteInfo<TableEditRouteArgs> {
   TableEditRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     String? title,
-    _i33.Table? table,
-    _i30.VoidCallback? onSaveSuccess,
-    List<_i28.PageRouteInfo>? children,
+    _i34.Table? table,
+    _i31.VoidCallback? onSaveSuccess,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          TableEditRoute.name,
          args: TableEditRouteArgs(
@@ -983,13 +1000,13 @@ class TableEditRoute extends _i28.PageRouteInfo<TableEditRouteArgs> {
 
   static const String name = 'TableEditRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<TableEditRouteArgs>(
         orElse: () => const TableEditRouteArgs(),
       );
-      return _i26.TableEditPage(
+      return _i27.TableEditPage(
         key: args.key,
         title: args.title,
         table: args.table,
@@ -1007,13 +1024,13 @@ class TableEditRouteArgs {
     this.onSaveSuccess,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final String? title;
 
-  final _i33.Table? table;
+  final _i34.Table? table;
 
-  final _i30.VoidCallback? onSaveSuccess;
+  final _i31.VoidCallback? onSaveSuccess;
 
   @override
   String toString() {
@@ -1036,13 +1053,13 @@ class TableEditRouteArgs {
 }
 
 /// generated route for
-/// [_i27.TableListPage]
-class TableListRoute extends _i28.PageRouteInfo<TableListRouteArgs> {
+/// [_i28.TableListPage]
+class TableListRoute extends _i29.PageRouteInfo<TableListRouteArgs> {
   TableListRoute({
-    _i30.Key? key,
-    void Function(_i34.Table)? onTableTap,
+    _i31.Key? key,
+    void Function(_i35.Table)? onTableTap,
     String? title,
-    List<_i28.PageRouteInfo>? children,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          TableListRoute.name,
          args: TableListRouteArgs(
@@ -1055,13 +1072,13 @@ class TableListRoute extends _i28.PageRouteInfo<TableListRouteArgs> {
 
   static const String name = 'TableListRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<TableListRouteArgs>(
         orElse: () => const TableListRouteArgs(),
       );
-      return _i27.TableListPage(
+      return _i28.TableListPage(
         key: args.key,
         onTableTap: args.onTableTap,
         title: args.title,
@@ -1073,9 +1090,9 @@ class TableListRoute extends _i28.PageRouteInfo<TableListRouteArgs> {
 class TableListRouteArgs {
   const TableListRouteArgs({this.key, this.onTableTap, this.title});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final void Function(_i34.Table)? onTableTap;
+  final void Function(_i35.Table)? onTableTap;
 
   final String? title;
 
@@ -1097,11 +1114,11 @@ class TableListRouteArgs {
 
 /// generated route for
 /// [_i7.TestPage]
-class TestRoute extends _i28.PageRouteInfo<TestRouteArgs> {
+class TestRoute extends _i29.PageRouteInfo<TestRouteArgs> {
   TestRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required String fuck,
-    List<_i28.PageRouteInfo>? children,
+    List<_i29.PageRouteInfo>? children,
   }) : super(
          TestRoute.name,
          args: TestRouteArgs(key: key, fuck: fuck),
@@ -1110,7 +1127,7 @@ class TestRoute extends _i28.PageRouteInfo<TestRouteArgs> {
 
   static const String name = 'TestRoute';
 
-  static _i28.PageInfo page = _i28.PageInfo(
+  static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<TestRouteArgs>();
@@ -1122,7 +1139,7 @@ class TestRoute extends _i28.PageRouteInfo<TestRouteArgs> {
 class TestRouteArgs {
   const TestRouteArgs({this.key, required this.fuck});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final String fuck;
 

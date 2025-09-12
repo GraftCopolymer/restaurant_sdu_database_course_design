@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
     return AutoTabsRouter(
       routes: const [
         DashboardRoute(),
-        MineRoute()
+        SettingsRoute()
       ],
       transitionBuilder: (context, child, animation) => FadeTransition(
         opacity: animation,
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
             },
             destinations: const [
               NavigationDestination(icon: Icon(Icons.dashboard), label: "仪表盘"),
-              NavigationDestination(icon: Icon(Icons.text_snippet), label: "我"),
+              NavigationDestination(icon: Icon(Icons.settings), label: "设置"),
             ]
           ),
         );

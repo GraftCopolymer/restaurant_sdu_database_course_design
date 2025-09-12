@@ -6,10 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/shopspring/decimal"
 	"golang.org/x/crypto/bcrypt"
 	metadata2 "google.golang.org/grpc/metadata"
 	config2 "restaurant_backend/config"
 	"restaurant_backend/constants"
+	"restaurant_backend/po"
 	"restaurant_backend/restaurant_backend/rpc"
 	"strings"
 	"time"
@@ -204,15 +206,28 @@ func GetCostTypeDesc(costType restaurant_rpc.CostType) string {
 		return "电费成本"
 	} else if costType == restaurant_rpc.CostType_COST_TYPE_WATER {
 		return "水费成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_GAS {
+		return "天然气成本"
 	} else if costType == restaurant_rpc.CostType_COST_TYPE_EQUIPMENT {
 		return "设备成本"
 	} else if costType == restaurant_rpc.CostType_COST_TYPE_CONSUMABLE {
 		return "消耗品成本"
 	} else if costType == restaurant_rpc.CostType_COST_TYPE_MARKETING {
 		return "营销成本"
+	} else if costType == restaurant_rpc.CostType_COST_TYPE_RENT {
+		return "租金"
 	} else if costType == restaurant_rpc.CostType_COST_TYPE_MANAGEMENT {
 		return "行政管理费"
 	} else {
 		return "其他"
 	}
+}
+
+func CalcRecipeCost(recipe po.Recipe) decimal.Decimal {
+	// 计算配方成本
+	total := decimal.NewFromInt(0)
+	for _, material := range recipe.Materials {
+		total = total.Add(material.Material.Price.Mul(material.Quantity))
+	}
+	return total
 }

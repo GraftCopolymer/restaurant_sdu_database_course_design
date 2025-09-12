@@ -19,6 +19,7 @@ import 'package:restaurant_management/utils/utils.dart';
 import 'package:restaurant_management/widgets/back_scope.dart';
 import 'package:restaurant_management/src/generated/common.pb.dart' as pb;
 import 'package:fixnum/src/int64.dart';
+import 'package:restaurant_management/widgets/food_tile.dart';
 import 'package:restaurant_management/widgets/global_dialog.dart';
 import 'package:restaurant_management/widgets/load_more_widget.dart';
 import 'package:restaurant_management/widgets/red_point.dart';
@@ -272,9 +273,15 @@ class _CustomerSelectDishPageState
                                     );
                                   }
                                   final dish = dishList[index];
-                                  return ListTile(
-                                    enabled: _hasPortion(dish),
-                                    onTap: _hasPortion(dish)
+                                  return FoodTile(
+                                    name: dish.name,
+                                    enable: _hasPortion(dish),
+                                    subtitle: Text(
+                                      _getDishTileTrailingText(dish),
+                                    ),
+                                    trailing: _buildDishTileTrailing(dish),
+                                    imageUrl: dish.imageUrl,
+                                    onTap: _hasPortion(dish) && dish.portions.length > 1
                                         ? () {
                                             if (dish.portions.length > 1) {
                                               // 打开选规格对话框
@@ -290,11 +297,6 @@ class _CustomerSelectDishPageState
                                             }
                                           }
                                         : null,
-                                    subtitle: Text(
-                                      _getDishTileTrailingText(dish),
-                                    ),
-                                    trailing: _buildDishTileTrailing(dish),
-                                    title: Text(dish.name),
                                   );
                                 },
                               ),

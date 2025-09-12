@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package restaurant_rpc;
+option go_package = "restaurant_backend/rpc;restaurant_rpc";
+
+import "google/protobuf/empty.proto";
+import "types.proto";
+
+message UploadImageRequest {
+  bytes chunk = 1;        // 文件二进制块
+  string file_name = 2;   // 只在第一个消息中传递文件名
+}
+
+message UploadImageResponse {
+  bool success = 1;
+  string message = 2;
+  string url = 3; // 图片存储后的访问地址
+}
+
+service FileService {
+  rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+}

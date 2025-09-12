@@ -7,6 +7,7 @@ class ImagePickBox extends StatefulWidget {
     super.key,
     this.width,
     this.height,
+    this.initImageUrl,
     this.onSuccess,
     this.onCancelSelection,
     this.onOpenPicker,
@@ -15,6 +16,9 @@ class ImagePickBox extends StatefulWidget {
 
   final double? width;
   final double? height;
+
+  /// 初始图片URL
+  final String? initImageUrl;
 
   /// 图片选择成功时调用
   final void Function(File imageFile)? onSuccess;
@@ -34,6 +38,7 @@ class ImagePickBox extends StatefulWidget {
 
 class _ImagePickBoxState extends State<ImagePickBox> {
   File? _imageFile;
+  late String? _initImageUrl = widget.initImageUrl;
 
   /// 构建还未选择图片时的视图
   Widget _buildNoImageView() {
@@ -48,12 +53,37 @@ class _ImagePickBoxState extends State<ImagePickBox> {
 
   /// 构建已经选择了图片时的视图
   Widget _buildImageView() {
-    assert(_imageFile != null);
+    if (_initImageUrl != null && _initImageUrl!.isNotEmpty) { // 尝试加载初始化图片
+      return Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            debugPrint("当前约束: $constraints");
+            return Image.network(
+              _initImageUrl!,
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.warning_amber_rounded,),
+                      Text("图片加载失败"),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      );
+    }
     return Container(
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
       child: LayoutBuilder(
         builder: (context, constraints) {
           debugPrint("当前约束: $constraints");
@@ -70,7 +100,7 @@ class _ImagePickBoxState extends State<ImagePickBox> {
 
   /// 构建主体视图
   Widget _buildContent() {
-    if (_imageFile == null) {
+    if (_imageFile == null && (_initImageUrl == null || _initImageUrl!.isEmpty)) {
       return _buildNoImageView();
     } else {
       return _buildImageView();
@@ -108,102 +138,103 @@ class _ImagePickBoxState extends State<ImagePickBox> {
               children: [
                 _buildContent(),
                 if (_imageFile == null)
-                Material(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                  clipBehavior: Clip.antiAlias,
-                  child: InkWell(
-                    onTap: () async {
-                      final imageSource =
-                          await showModalBottomSheet<ImageSource?>(
-                            clipBehavior: Clip.antiAlias,
-                            context: context,
-                            builder: (context) {
-                              // 手机底部小白条高度
-                              final littleWhiteBarHeight = MediaQuery.of(
-                                context,
-                              ).padding.bottom;
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    title: Align(
-                                      alignment: Alignment.center,
-                                      child: Text("拍照"),
-                                    ),
-                                    onTap: () {
-                                      Navigator.of(
-                                        context,
-                                      ).pop(ImageSource.camera);
-                                    },
-                                  ),
-                                  ListTile(
-                                    title: Align(
-                                      alignment: Alignment.center,
-                                      child: Text("从相册选择"),
-                                    ),
-                                    onTap: () {
-                                      Navigator.of(
-                                        context,
-                                      ).pop(ImageSource.gallery);
-                                    },
-                                  ),
-                                  ListTile(
-                                    title: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "取消",
-                                        style: TextStyle(color: Colors.grey),
+                  Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: _imageFile == null && (_initImageUrl == null || _initImageUrl!.isEmpty) ? () async {
+                        final imageSource =
+                            await showModalBottomSheet<ImageSource?>(
+                              clipBehavior: Clip.antiAlias,
+                              context: context,
+                              builder: (context) {
+                                // 手机底部小白条高度
+                                final littleWhiteBarHeight = MediaQuery.of(
+                                  context,
+                                ).padding.bottom;
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ListTile(
+                                      title: Align(
+                                        alignment: Alignment.center,
+                                        child: Text("拍照"),
                                       ),
+                                      onTap: () {
+                                        Navigator.of(
+                                          context,
+                                        ).pop(ImageSource.camera);
+                                      },
                                     ),
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  SizedBox(height: littleWhiteBarHeight),
-                                ],
-                              );
-                            },
-                          );
-                      if (imageSource == null) {
-                        return;
-                      }
-                      // 打开图片选择器
-                      final picker = ImagePicker();
-                      widget.onOpenPicker?.call();
-                      final XFile? xImage = await picker.pickImage(
-                        source: imageSource,
-                      );
-                      // TODO: 压缩图片
-                      if (xImage != null) {
-                        final imageFile = File(xImage.path);
+                                    ListTile(
+                                      title: Align(
+                                        alignment: Alignment.center,
+                                        child: Text("从相册选择"),
+                                      ),
+                                      onTap: () {
+                                        Navigator.of(
+                                          context,
+                                        ).pop(ImageSource.gallery);
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "取消",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    SizedBox(height: littleWhiteBarHeight),
+                                  ],
+                                );
+                              },
+                            );
+                        if (imageSource == null) {
+                          return;
+                        }
+                        // 打开图片选择器
+                        final picker = ImagePicker();
+                        widget.onOpenPicker?.call();
+                        final XFile? xImage = await picker.pickImage(
+                          source: imageSource,
+                        );
+                        // TODO: 压缩图片
+                        if (xImage != null) {
+                          final imageFile = File(xImage.path);
+                          setState(() {
+                            _imageFile = imageFile;
+                          });
+                          widget.onSuccess?.call(imageFile);
+                        } else {
+                          widget.onFailed?.call();
+                        }
+                      } : null,
+                    ),
+                  ),
+                if (_imageFile != null || (_initImageUrl != null && _initImageUrl!.isNotEmpty))
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: ActionChip(
+                      side: BorderSide(color: Colors.transparent),
+                      padding: EdgeInsets.all(0),
+                      shape: CircleBorder(),
+                      onPressed: () {
+                        widget.onCancelSelection?.call();
                         setState(() {
-                          _imageFile = imageFile;
+                          _imageFile = null;
+                          _initImageUrl = null;
                         });
-                        widget.onSuccess?.call(imageFile);
-                      } else {
-                        widget.onFailed?.call();
-                      }
-                    },
+                      },
+                      label: Icon(Icons.close),
+                    ),
                   ),
-                ),
-                if (_imageFile != null)
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: ActionChip(
-                    side: BorderSide(color: Colors.transparent),
-                    padding: EdgeInsets.all(0),
-                    shape: CircleBorder(),
-                    onPressed: () {
-                      widget.onCancelSelection?.call();
-                      setState(() {
-                        _imageFile = null;
-                      });
-                    },
-                    label: Icon(Icons.close)
-                  ),
-                ),
               ],
             ),
           );

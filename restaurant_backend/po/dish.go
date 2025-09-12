@@ -11,6 +11,7 @@ type Dish struct {
 	Name string `gorm:"unique"`
 	SellStatus restaurant_rpc.SellStatus
 	Portions []Portion `gorm:"foreignKey:DishID"`
+	ImageUrl string // 图片URL
 
 	DishTypeID uint
 	DishType DishType `gorm:"foreignKey:DishTypeID"`

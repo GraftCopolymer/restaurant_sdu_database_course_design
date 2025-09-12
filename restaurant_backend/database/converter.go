@@ -38,7 +38,7 @@ func PODish2PBDish(poDish po.Dish) *restaurant_rpc.Dish {
 	pbDish := &restaurant_rpc.Dish{
 		Id: uint32(poDish.ID),
 		Name: poDish.Name,
-		ImageUrl: "",
+		ImageUrl: poDish.ImageUrl,
 		DishType: &restaurant_rpc.DishType{
 			DishTypeID: uint32(poDish.DishTypeID),
 			Name: poDish.DishType.Name,

@@ -14,6 +14,7 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(page: MainRoute.page, initial: true, children: [
       AutoRoute(page: DashboardRoute.page, initial: true),
+      AutoRoute(page: SettingsRoute.page),
       AutoRoute(path: "mine", page: MineRoute.page),
     ]),
     AutoRoute(page: CostManagementRoute.page, guards: [AuthGuard(), PermissionGuard()]),

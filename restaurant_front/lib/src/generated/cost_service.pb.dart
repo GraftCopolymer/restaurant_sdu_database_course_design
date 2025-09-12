@@ -582,56 +582,148 @@ class MonthlyCost extends $pb.GeneratedMessage {
   void clearValue() => $_clearField(3);
 }
 
-class MonthlyCostList extends $pb.GeneratedMessage {
-  factory MonthlyCostList({
-    $core.Iterable<MonthlyCost>? monthlyCostList,
+/// / 月营收
+class MonthlyIncome extends $pb.GeneratedMessage {
+  factory MonthlyIncome({
+    $core.int? year,
+    $core.int? month,
+    $core.String? value,
   }) {
     final result = create();
-    if (monthlyCostList != null) result.monthlyCostList.addAll(monthlyCostList);
+    if (year != null) result.year = year;
+    if (month != null) result.month = month;
+    if (value != null) result.value = value;
     return result;
   }
 
-  MonthlyCostList._();
+  MonthlyIncome._();
 
-  factory MonthlyCostList.fromBuffer($core.List<$core.int> data,
+  factory MonthlyIncome.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory MonthlyCostList.fromJson($core.String json,
+  factory MonthlyIncome.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MonthlyCostList',
+      _omitMessageNames ? '' : 'MonthlyIncome',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
       createEmptyInstance: create)
-    ..pc<MonthlyCost>(
-        1, _omitFieldNames ? '' : 'monthlyCostList', $pb.PbFieldType.PM,
-        protoName: 'monthlyCostList', subBuilder: MonthlyCost.create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'month', $pb.PbFieldType.OU3)
+    ..aOS(3, _omitFieldNames ? '' : 'value')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MonthlyCostList clone() => MonthlyCostList()..mergeFromMessage(this);
+  MonthlyIncome clone() => MonthlyIncome()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MonthlyCostList copyWith(void Function(MonthlyCostList) updates) =>
-      super.copyWith((message) => updates(message as MonthlyCostList))
-          as MonthlyCostList;
+  MonthlyIncome copyWith(void Function(MonthlyIncome) updates) =>
+      super.copyWith((message) => updates(message as MonthlyIncome))
+          as MonthlyIncome;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static MonthlyCostList create() => MonthlyCostList._();
+  static MonthlyIncome create() => MonthlyIncome._();
   @$core.override
-  MonthlyCostList createEmptyInstance() => create();
-  static $pb.PbList<MonthlyCostList> createRepeated() =>
-      $pb.PbList<MonthlyCostList>();
+  MonthlyIncome createEmptyInstance() => create();
+  static $pb.PbList<MonthlyIncome> createRepeated() =>
+      $pb.PbList<MonthlyIncome>();
   @$core.pragma('dart2js:noInline')
-  static MonthlyCostList getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MonthlyCostList>(create);
-  static MonthlyCostList? _defaultInstance;
+  static MonthlyIncome getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MonthlyIncome>(create);
+  static MonthlyIncome? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get year => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set year($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasYear() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearYear() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get month => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set month($core.int value) => $_setUnsignedInt32(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasMonth() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMonth() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get value => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set value($core.String value) => $_setString(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasValue() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearValue() => $_clearField(3);
+}
+
+class MonthlyCostAndIncomeList extends $pb.GeneratedMessage {
+  factory MonthlyCostAndIncomeList({
+    $core.Iterable<MonthlyCost>? monthlyCostList,
+    $core.Iterable<MonthlyIncome>? monthlyIncomeList,
+  }) {
+    final result = create();
+    if (monthlyCostList != null) result.monthlyCostList.addAll(monthlyCostList);
+    if (monthlyIncomeList != null)
+      result.monthlyIncomeList.addAll(monthlyIncomeList);
+    return result;
+  }
+
+  MonthlyCostAndIncomeList._();
+
+  factory MonthlyCostAndIncomeList.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory MonthlyCostAndIncomeList.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'MonthlyCostAndIncomeList',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
+      createEmptyInstance: create)
+    ..pc<MonthlyCost>(
+        1, _omitFieldNames ? '' : 'monthlyCostList', $pb.PbFieldType.PM,
+        protoName: 'monthlyCostList', subBuilder: MonthlyCost.create)
+    ..pc<MonthlyIncome>(
+        2, _omitFieldNames ? '' : 'monthlyIncomeList', $pb.PbFieldType.PM,
+        protoName: 'monthlyIncomeList', subBuilder: MonthlyIncome.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  MonthlyCostAndIncomeList clone() =>
+      MonthlyCostAndIncomeList()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  MonthlyCostAndIncomeList copyWith(
+          void Function(MonthlyCostAndIncomeList) updates) =>
+      super.copyWith((message) => updates(message as MonthlyCostAndIncomeList))
+          as MonthlyCostAndIncomeList;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static MonthlyCostAndIncomeList create() => MonthlyCostAndIncomeList._();
+  @$core.override
+  MonthlyCostAndIncomeList createEmptyInstance() => create();
+  static $pb.PbList<MonthlyCostAndIncomeList> createRepeated() =>
+      $pb.PbList<MonthlyCostAndIncomeList>();
+  @$core.pragma('dart2js:noInline')
+  static MonthlyCostAndIncomeList getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MonthlyCostAndIncomeList>(create);
+  static MonthlyCostAndIncomeList? _defaultInstance;
 
   @$pb.TagNumber(1)
   $pb.PbList<MonthlyCost> get monthlyCostList => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $pb.PbList<MonthlyIncome> get monthlyIncomeList => $_getList(1);
 }
 
 class GetAllCostReq extends $pb.GeneratedMessage {
@@ -1012,7 +1104,7 @@ class GetMonthlyCostTrendReq extends $pb.GeneratedMessage {
 
 class GetMonthlyCostTrendResp extends $pb.GeneratedMessage {
   factory GetMonthlyCostTrendResp({
-    MonthlyCostList? monthlyCostTrend,
+    MonthlyCostAndIncomeList? monthlyCostTrend,
   }) {
     final result = create();
     if (monthlyCostTrend != null) result.monthlyCostTrend = monthlyCostTrend;
@@ -1032,8 +1124,10 @@ class GetMonthlyCostTrendResp extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'GetMonthlyCostTrendResp',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'restaurant_rpc'),
       createEmptyInstance: create)
-    ..aOM<MonthlyCostList>(1, _omitFieldNames ? '' : 'monthlyCostTrend',
-        protoName: 'monthlyCostTrend', subBuilder: MonthlyCostList.create)
+    ..aOM<MonthlyCostAndIncomeList>(
+        1, _omitFieldNames ? '' : 'monthlyCostTrend',
+        protoName: 'monthlyCostTrend',
+        subBuilder: MonthlyCostAndIncomeList.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -1060,15 +1154,15 @@ class GetMonthlyCostTrendResp extends $pb.GeneratedMessage {
   static GetMonthlyCostTrendResp? _defaultInstance;
 
   @$pb.TagNumber(1)
-  MonthlyCostList get monthlyCostTrend => $_getN(0);
+  MonthlyCostAndIncomeList get monthlyCostTrend => $_getN(0);
   @$pb.TagNumber(1)
-  set monthlyCostTrend(MonthlyCostList value) => $_setField(1, value);
+  set monthlyCostTrend(MonthlyCostAndIncomeList value) => $_setField(1, value);
   @$pb.TagNumber(1)
   $core.bool hasMonthlyCostTrend() => $_has(0);
   @$pb.TagNumber(1)
   void clearMonthlyCostTrend() => $_clearField(1);
   @$pb.TagNumber(1)
-  MonthlyCostList ensureMonthlyCostTrend() => $_ensure(0);
+  MonthlyCostAndIncomeList ensureMonthlyCostTrend() => $_ensure(0);
 }
 
 const $core.bool _omitFieldNames =
