@@ -46,14 +46,14 @@ cd restaurant_backend
 Additionally, configure image hosting service and JWT key. This project uses Alibaba Cloud OSS solution. Create a config.yaml file in restaurant_backend with:
 ```yaml
 pic_bed:
-	accessKeyId: your_oss_access_key_id
-	accessKeySecret: your_oss_access_key_secret
-	bucketName: your_oss_bucket_name
-	endpoint: your_oss_endpoint_url
-	region: your_oss_region
-	urlExpiredTime: 86400 # you can edit it by yourself
+  accessKeyId: your_oss_access_key_id
+  accessKeySecret: your_oss_access_key_secret
+  bucketName: your_oss_bucket_name
+  endpoint: your_oss_endpoint_url
+  region: your_oss_region
+  urlExpiredTime: 86400 # you can edit it by yourself
 
 auth:
-	jwtSecretKey: your_jwt_key
+  jwtSecretKey: your_jwt_key
 ```
 Finally, open the restaurant_backend directory using Goland or your preferred IDE, and run the project.
