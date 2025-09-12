@@ -2,7 +2,7 @@
 
 # 介绍
 
-山东大学2023级数据库课程设计项目：小型餐馆运营系统，使用客户端使用 Flutter + Riverpod 实现，后端采用 Go + gorm + PostgreSQL 实现，网络通信使用 Protocol Buffers 和 gRPC
+山东大学2023级数据库课程设计项目：小型餐馆运营系统，客户端使用 Flutter + Riverpod 实现，后端采用 Go + gorm + PostgreSQL 实现，网络通信使用 Protocol Buffers 和 gRPC
 
 # 运行
 
